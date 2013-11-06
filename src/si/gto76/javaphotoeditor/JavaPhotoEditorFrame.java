@@ -657,24 +657,24 @@ public class JavaPhotoEditorFrame extends JFrame
 
 
                 	//in jo poslje dialogu v katerem uporabnik doloci levo in desno mejo
-                	//HistogramStretchingDialog dialog = new HistogramStretchingDialog(img);
-                	//int userInput[] = dialog.getValues();
+                	HistogramStretchingDialog dialog = new HistogramStretchingDialog(hisImg);
+                	int userInput[] = dialog.getValues();
                 	
                 	//tedve meji se nato posljeta skupej z sliko filtru,
                 	//ki naredi sliko z raztegnjenim histogramom
-                	//if (!dialog.wasCanceled()) {
-                	//	list.add(Filtri.histogramStretching(getSelectedBufferedImage(), userInput));
-	                //    createFrame((BufferedImage) list.get(list.size()-1));
-                    //}
+                	if (!dialog.wasCanceled()) {
+                		list.add(Filtri.histogramStretching(getSelectedBufferedImage(), userInput));
+	                    createFrame((BufferedImage) list.get(list.size()-1));
+                    }
 
 
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
+                	//MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
                 	//ThresholdingDialog dialog = new ThresholdingDialog(frameIn);
 					
                 	//OLD:
-                	//HistogramStretchingDialog dialog = new HistogramStretchingDialog(frameIn, hisImg);
+                	//HistogramStretchingDialog dialog = new HistogramStretchingDialog(/*frameIn,*/ hisImg);
                 	//NEW:
-                	HistogramStretchingDialog dialog = new HistogramStretchingDialog(getSelectedOriginalBufferedImage());
+                	//HistogramStretchingDialog dialog = new HistogramStretchingDialog(getSelectedOriginalBufferedImage());
                 	
                 	
                 	//TODO:

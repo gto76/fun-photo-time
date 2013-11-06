@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>si.gto76.javaphotoeditor</groupId>
+  <artifactId>java-photo-editor</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+    
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+	      <archive>
+		    <manifest>
+		      <addClasspath>true</addClasspath>
+		      <classpathPrefix>lib/</classpathPrefix>
+		    </manifest>
+	      </archive>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <addMavenDescriptor>false</addMavenDescriptor>
+            <compress>true</compress>
+            <manifest>
+              <mainClass>si.gto76.javaphotoeditor.JavaPhotoEditor</mainClass>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>../lib/</classpathPrefix>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      
+    </plugins>
+  </build>
+</project>
