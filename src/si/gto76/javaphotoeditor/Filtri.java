@@ -193,11 +193,15 @@ public class Filtri {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				rgb = img.getRGB(j, i);
+				//OLD zdaj premaknjeno spodaj
+				/*
 				rgbOut = 0;
-				
 				rgbOut = mappingArray[getRed(rgb)] << 16;
 				rgbOut = rgbOut | mappingArray[getGreen(rgb)] << 8;
 				rgbOut = rgbOut | mappingArray[getBlue(rgb)];
+				*/
+				//NEW:
+				rgbOut = getHistogramStretching(rgb, mappingArray);
 				
 				imgOut.setRGB(j, i, rgbOut);
 			
@@ -205,7 +209,14 @@ public class Filtri {
 		}
 		return imgOut;	
 	}
-	private static int[] calculateMappingArrayForStretching(int leftEdge, int rightEdge) {
+    public static int getHistogramStretching(int rgb, int[] mappingArray) {
+    	int rgbOut = 0;
+		rgbOut = mappingArray[getRed(rgb)] << 16;
+		rgbOut = rgbOut | mappingArray[getGreen(rgb)] << 8;
+		rgbOut = rgbOut | mappingArray[getBlue(rgb)];
+		return rgbOut;
+    }	
+	public static int[] calculateMappingArrayForStretching(int leftEdge, int rightEdge) {
 		//vrne array, v katerem vsako polje pomeni v kero svetlost naj
 		//se preslika piksel s svetlostjo enako oznaki polja
 		int[] hm = new int[256]; //Histogram Mapping array

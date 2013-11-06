@@ -50,6 +50,7 @@ import si.gto76.javaphotoeditor.filterthreads2.GammaThread2;
 import si.gto76.javaphotoeditor.filterthreads2.Greyscale1Thread2;
 import si.gto76.javaphotoeditor.filterthreads2.Greyscale2Thread2;
 import si.gto76.javaphotoeditor.filterthreads2.HistogramEqualizationThread2;
+import si.gto76.javaphotoeditor.filterthreads2.HistogramStretchingThread2;
 import si.gto76.javaphotoeditor.filterthreads2.NegativeThread2;
 import si.gto76.javaphotoeditor.filterthreads2.SaturationThread2;
 import si.gto76.javaphotoeditor.filterthreads2.ThresholdingThread2;
@@ -74,7 +75,7 @@ public class JavaPhotoEditorFrame extends JFrame
     
     final private boolean TEST_IMAGE = true; //da avtomatsko odpre testno sliko
 	private ArrayList list = new ArrayList();
-    private JDesktopPane desktop;
+    JDesktopPane desktop;
     private int noOfFrames = 0;
     private Meni meni;
     private String lastPath = "C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\Bergel.jpg";
@@ -84,8 +85,8 @@ public class JavaPhotoEditorFrame extends JFrame
      * The constructor.
      */  
      
-     public JavaPhotoEditorFrame() {
-     	super("Glavno okno grafike");
+    public JavaPhotoEditorFrame() {
+    	super("Glavno okno grafike");
         
         /*inicializacije****************************************/
         
@@ -649,13 +650,11 @@ public class JavaPhotoEditorFrame extends JFrame
                 public void actionPerformed(ActionEvent e) {
                 	//dobi array, ki predstavlja histogram
                 	double[] histogram = Utility.getHistogram(getSelectedOriginalBufferedImage());
-                	
-                	//Utility.izpisiHistogram(histogram);
-                	
                 	//naredi sliko tega histograma
                 	BufferedImage hisImg = Utility.getHistogramImage(histogram);
 
-
+                	/***************OLD*********************/
+                	/*
                 	//in jo poslje dialogu v katerem uporabnik doloci levo in desno mejo
                 	HistogramStretchingDialog dialog = new HistogramStretchingDialog(hisImg);
                 	int userInput[] = dialog.getValues();
@@ -666,31 +665,21 @@ public class JavaPhotoEditorFrame extends JFrame
                 		list.add(Filtri.histogramStretching(getSelectedBufferedImage(), userInput));
 	                    createFrame((BufferedImage) list.get(list.size()-1));
                     }
-
-
-                	//MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	//ThresholdingDialog dialog = new ThresholdingDialog(frameIn);
-					
-                	//OLD:
-                	//HistogramStretchingDialog dialog = new HistogramStretchingDialog(/*frameIn,*/ hisImg);
-                	//NEW:
-                	//HistogramStretchingDialog dialog = new HistogramStretchingDialog(getSelectedOriginalBufferedImage());
+                	*/
+                	/***************NEW**TODO*******************/
                 	
+                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
+                	//in jo poslje dialogu v katerem uporabnik doloci levo in desno mejo
+                	HistogramStretchingDialog dialog = new HistogramStretchingDialog(frameIn, hisImg); //TODO
                 	
-                	//TODO:
-                	//OLD:
-                	/*
                 	if (!dialog.wasCanceled()) {
                 		int values[] = dialog.getValues();
                 		//System.out.println(values);
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new HistogramStretchingThread2(frameIn.getOriginalImg(), values , frameOut);
+                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn); //TODO
+                		FilterThread2 filterThread = new HistogramStretchingThread2(frameIn.getOriginalImg(), values ,frameOut); //TODO
                 	}
-                    
                 	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();
-					*/
-
+                	dialog.resetOriginalImage();                	
 
                 }
             }
@@ -909,7 +898,7 @@ public class JavaPhotoEditorFrame extends JFrame
 		//Create a new internal frame with image.
     	MyInternalFrame frame = new MyInternalFrame(img);
         
-        frame.setVisible(true); 
+        frame.setVisible(true);
         desktop.add(frame);
         try {
             frame.setSelected(true);
@@ -931,7 +920,7 @@ public class JavaPhotoEditorFrame extends JFrame
     }
     */
     
-    private MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
+    MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
 		//Create a new internal frame with zoomed image. Add original image later.
 		//also it inherits the titel
     	MyInternalFrame frameOut = new MyInternalFrame(img, frameIn);
@@ -986,4 +975,5 @@ public class JavaPhotoEditorFrame extends JFrame
         // Exit application.
         System.exit(0);
     }
+    
 }

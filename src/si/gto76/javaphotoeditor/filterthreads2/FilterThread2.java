@@ -28,7 +28,6 @@ public abstract class FilterThread2 implements Runnable {
 		int width = imgIn.getWidth();
 		int rgb;
 		
-		
 		try {
 			for (int i = 0; i < height; i++) {
 				for (int j = 0; j < width; j++) {
@@ -41,9 +40,7 @@ public abstract class FilterThread2 implements Runnable {
 					}
 				}
 			}
-			
 			selectedFrame.setOriginalImg(imgOut);
-			
 		}
 		catch ( InterruptedException e ) {
 			return;
@@ -51,5 +48,4 @@ public abstract class FilterThread2 implements Runnable {
 	}
 	
 	abstract int filtriraj(int rgb);
-
 }

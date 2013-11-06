@@ -5,7 +5,7 @@ import javax.swing.JSlider;
 import si.gto76.javaphotoeditor.MyInternalFrame;
 
 
-abstract class FilterDialogWithSlider extends FilterDialog  {
+public abstract class FilterDialogWithSlider extends FilterDialog  {
 	
 	protected JSlider sld;
 	
