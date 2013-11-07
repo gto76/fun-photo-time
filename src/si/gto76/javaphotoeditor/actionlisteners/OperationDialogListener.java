@@ -1,8 +1,11 @@
-package si.gto76.javaphotoeditor;
+package si.gto76.javaphotoeditor.actionlisteners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import si.gto76.javaphotoeditor.JavaPhotoEditorFrame;
+import si.gto76.javaphotoeditor.MyInternalFrame;
+import si.gto76.javaphotoeditor.Operation;
 import si.gto76.javaphotoeditor.dialogs.OperationDialog;
 
 public class OperationDialogListener implements ActionListener {

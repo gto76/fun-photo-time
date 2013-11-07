@@ -3,7 +3,7 @@ package si.gto76.javaphotoeditor.filterthreads3;
 import java.awt.image.BufferedImage;
 
 import si.gto76.javaphotoeditor.MyInternalFrame;
-import si.gto76.javaphotoeditor.SpatialFilters;
+import si.gto76.javaphotoeditor.enums.SpatialFilters;
 
 
 public class MedianThread3 extends FilterThread3 {

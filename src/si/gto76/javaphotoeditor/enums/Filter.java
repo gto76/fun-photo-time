@@ -1,7 +1,8 @@
-package si.gto76.javaphotoeditor;
+package si.gto76.javaphotoeditor.enums;
 
 import java.awt.image.BufferedImage;
 
+import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.dialogs.Brightness1Dialog;
 import si.gto76.javaphotoeditor.dialogs.ContrastDialog;
 import si.gto76.javaphotoeditor.dialogs.FilterDialogWithSliderDouble;

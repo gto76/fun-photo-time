@@ -9,8 +9,7 @@ import si.gto76.javaphotoeditor.filterthreads.Brightness1Thread;
 public class Brightness1Dialog extends FilterDialogWithSliderDouble  {
 	
 	public Brightness1Dialog( MyInternalFrame selectedFrame ) {
-		super(selectedFrame, "Brightness1");
-		
+		super(selectedFrame, "Brightness");
 	}
 	
 	public void stateChanged(ChangeEvent e)  {
@@ -27,11 +26,9 @@ public class Brightness1Dialog extends FilterDialogWithSliderDouble  {
 		filterThread = new Brightness1Thread(imgIn, imgOut, getValues(), selectedFrame);
 	}
 
-
     public double getValues() {
     	//from 0 to 2.0
     	return (double) sld.getValue() / 100.0 + 1.0;
     }
-    
 }
 

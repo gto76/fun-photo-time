@@ -1,10 +1,13 @@
-package si.gto76.javaphotoeditor;
+package si.gto76.javaphotoeditor.actionlisteners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import si.gto76.javaphotoeditor.JavaPhotoEditorFrame;
+import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.dialogs.FilterDialogWithSliderDouble;
 import si.gto76.javaphotoeditor.dialogs.GammaDialog;
+import si.gto76.javaphotoeditor.enums.Filter;
 import si.gto76.javaphotoeditor.filterthreads2.GammaThread2;
 
 public class FilterDialogWithSliderDoubleListener implements ActionListener{

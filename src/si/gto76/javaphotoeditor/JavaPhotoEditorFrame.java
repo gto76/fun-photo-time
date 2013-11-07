@@ -14,7 +14,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -24,44 +23,26 @@ import javax.swing.MenuElement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import si.gto76.javaphotoeditor.dialogs.AdditionDialog;
-import si.gto76.javaphotoeditor.dialogs.AndDialog;
+import si.gto76.javaphotoeditor.actionlisteners.FilterDialogWithSliderDoubleListener;
+import si.gto76.javaphotoeditor.actionlisteners.FilterWithouthDialogListener;
+import si.gto76.javaphotoeditor.actionlisteners.OperationDialogListener;
+import si.gto76.javaphotoeditor.actionlisteners.ZoomListener;
 import si.gto76.javaphotoeditor.dialogs.BitPlaneDialog;
-import si.gto76.javaphotoeditor.dialogs.Brightness1Dialog;
 import si.gto76.javaphotoeditor.dialogs.ColorsDialog;
-import si.gto76.javaphotoeditor.dialogs.ContrastDialog;
-import si.gto76.javaphotoeditor.dialogs.DivisionDialog;
-import si.gto76.javaphotoeditor.dialogs.FilterDialogWithSliderDouble;
-import si.gto76.javaphotoeditor.dialogs.GammaDialog;
 import si.gto76.javaphotoeditor.dialogs.HistogramStretchingDialog;
-import si.gto76.javaphotoeditor.dialogs.MultiplicationDialog;
 import si.gto76.javaphotoeditor.dialogs.MyMenuInterface;
-import si.gto76.javaphotoeditor.dialogs.OperationDialog;
-import si.gto76.javaphotoeditor.dialogs.SubtractionDialog;
-//import si.gto76.javaphotoeditor.dialogs.OperationDialog;
-import si.gto76.javaphotoeditor.dialogs.OrDialog;
-import si.gto76.javaphotoeditor.dialogs.SaturationDialog;
 import si.gto76.javaphotoeditor.dialogs.ThresholdingDialog;
-import si.gto76.javaphotoeditor.dialogs.XorDialog;
+import si.gto76.javaphotoeditor.enums.Filter;
+import si.gto76.javaphotoeditor.enums.NoDialogFilter;
+import si.gto76.javaphotoeditor.enums.SpatialFilters;
+import si.gto76.javaphotoeditor.enums.ZoomOperation;
 import si.gto76.javaphotoeditor.filterthreads2.BitPlaneThread2;
-import si.gto76.javaphotoeditor.filterthreads2.Brightness1Thread2;
 import si.gto76.javaphotoeditor.filterthreads2.ColorsThread2;
-import si.gto76.javaphotoeditor.filterthreads2.ContrastThread2;
 import si.gto76.javaphotoeditor.filterthreads2.FilterThread2;
-import si.gto76.javaphotoeditor.filterthreads2.GammaThread2;
-import si.gto76.javaphotoeditor.filterthreads2.Greyscale1Thread2;
 import si.gto76.javaphotoeditor.filterthreads2.HistogramEqualizationThread2;
 import si.gto76.javaphotoeditor.filterthreads2.HistogramStretchingThread2;
-import si.gto76.javaphotoeditor.filterthreads2.NegativeThread2;
 import si.gto76.javaphotoeditor.filterthreads2.NotThread2;
-import si.gto76.javaphotoeditor.filterthreads2.SaturationThread2;
 import si.gto76.javaphotoeditor.filterthreads2.ThresholdingThread2;
-import si.gto76.javaphotoeditor.filterthreads3.BlurThread3;
-import si.gto76.javaphotoeditor.filterthreads3.EdgeDetectionThread3;
-import si.gto76.javaphotoeditor.filterthreads3.FilterThread3;
-import si.gto76.javaphotoeditor.filterthreads3.MedianThread3;
-import si.gto76.javaphotoeditor.filterthreads3.ReliefThread3;
-import si.gto76.javaphotoeditor.filterthreads3.SharpenThread3;
 
 /*
  * @(#)Grafika2.java
@@ -77,11 +58,10 @@ public class JavaPhotoEditorFrame extends JFrame
     
     final private boolean TEST_IMAGE = true; //da avtomatsko odpre testno sliko
 	final private String TEST_IMAGE_FILE_NAME = "/home/minerva/131060885.jpg";
-    JDesktopPane desktop;
+    public JDesktopPane desktop;
     private int noOfFrames = 0;
     private Meni meni;
     private String lastPath = "C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\Bergel.jpg";
-    
     
     /**
      * The constructor.
@@ -151,7 +131,6 @@ public class JavaPhotoEditorFrame extends JFrame
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	JFileChooser fc = new JFileChooser();
-                	//fc.setSelectedFile(new File("C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\color_spectrum.jpg"));
                 	int returnVal = fc.showOpenDialog(JavaPhotoEditorFrame.this);
                 	if (returnVal == JFileChooser.APPROVE_OPTION) {
                 		try {
@@ -198,239 +177,87 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         );
         
+        /*
+         * ZOOM
+         */
+        
         //ZOOM OUT
-        meni.menuZoomOut.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.zoomOut(10);
-                }
-            }
+        meni.menuZoomOut.addActionListener (
+       		new ZoomListener(ZoomOperation.ZOOM_OUT, desktop)
         );
-        
         //ZOOM IN
-        meni.menuZoomIn.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.zoomIn(10);
-                }
-            }
+        meni.menuZoomIn.addActionListener (
+           	new ZoomListener(ZoomOperation.ZOOM_IN, desktop)
         );
-        
-        //ZOOM
-        meni.menuZoomMagnificationSix.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.zoom(6);
-                }
-            }
+        //ZOOM 6%
+        meni.menuZoomMagnificationSix.addActionListener (
+           	new ZoomListener(ZoomOperation.ZOOM_6, desktop)
         );
-        
-        //ZOOM
-        meni.menuZoomMagnificationTwelve.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.zoom(12);
-                }
-            }
+        //ZOOM 12%
+        meni.menuZoomMagnificationTwelve.addActionListener (
+           		new ZoomListener(ZoomOperation.ZOOM_12, desktop)
         );
-        
-        //ZOOM
-        meni.menuZoomMagnificationTwentyfive.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.zoom(25);
-                }
-            }
+        //ZOOM 25%
+        meni.menuZoomMagnificationTwentyfive.addActionListener (
+           		new ZoomListener(ZoomOperation.ZOOM_25, desktop)
         );
-        
-        //ZOOM
-        meni.menuZoomMagnificationFifty.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.zoom(50);
-                }
-            }
+        //ZOOM 50%
+        meni.menuZoomMagnificationFifty.addActionListener (
+           		new ZoomListener(ZoomOperation.ZOOM_50, desktop)
         );
-        
-        //ZOOM
-        meni.menuZoomMagnificationSixtysix.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.zoom(66);
-                }
-            }
+        //ZOOM 66%
+        meni.menuZoomMagnificationSixtysix.addActionListener (
+           		new ZoomListener(ZoomOperation.ZOOM_66, desktop)
         );
-        
-        //ZOOM
-        meni.menuZoomMagnificationHoundred.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.actualSize();
-                }
-            }
+        //ZOOM 100%
+        meni.menuZoomMagnificationHoundred.addActionListener (
+       		new ZoomListener(ZoomOperation.ZOOM_ACTUAL, desktop)
         );
-        
         //ZOOM ACTUAL SIZE
-        meni.menuZoomActualsize.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-					frame.actualSize();
-                }
-            }
+        meni.menuZoomActualsize.addActionListener (
+       		new ZoomListener(ZoomOperation.ZOOM_ACTUAL, desktop)
         );
-        
-        
-		/*
-		FILTRI BREZ DIALOGA
-		*/
 
+        /*
+         * FILTERS WITHOUTH PARAMETERS
+         */
 
         //FILTER NEGATIV
-        meni.menuFiltersNegativ.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	//naredi nov frame ki zaenkrat vsebuje samo zumirano obdelano sliko brez originala
-                	MyInternalFrame frameOut = createZoomedFrame(Filtri.negativ(getSelectedBufferedImage()), frameIn);
-                	
-                	if ( frameIn.getZoom() != 100 ) {
-	                	//novemu frejmu doloci originalno sliko, ki je za enkrat prazna in istih dimenzij
-	                	//kot originalna slika pri prejsnjem frejmu
-	                	
-						//frameOut.setOriginalImg(Utility.declareNewBufferedImage(frameIn.getOriginalImg()));
-	                	//naredi nit, ki bo filtrirala originalmno sliko
-	                	FilterThread2 filterThread = new NegativeThread2(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
+        meni.menuFiltersNegativ.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.NEGATIV, this)
         );
-        
         //FILTER GREYSCALE
-        meni.menuFiltersGreyscale.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(Filtri.greyScale(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-	                	FilterThread2 filterThread = new Greyscale1Thread2(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
+        meni.menuFiltersGreyscale.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.GREYSCALE, this)
         );  
         
-        //FILTER GREYSCALE 2
         /*
-        meni.menuFiltersGreyscale2.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(Filtri.greyScale(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-	                	FilterThread2 filterThread = new Greyscale2Thread2(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
-        );
-		*/
-        
-        /*
-         * BREZ DIALOGA Z MESKOM
+         * FILTERS WITHOUTH PARAMETERS, WITH MASKS
          */
 
 		//FILTER BLUR
-        meni.menuFiltersBlur.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(SpatialFilters.blur(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-	                	FilterThread3 filterThread = new BlurThread3(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
+        meni.menuFiltersBlur.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.BLUR, this)
         );
-        
         //FILTER RELIEF
-        meni.menuFiltersRelief.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(SpatialFilters.relief(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-	                	FilterThread3 filterThread = new ReliefThread3(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
+        meni.menuFiltersRelief.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.RELIEF, this)
         );
-        
         //FILTER SHARPEN
-        meni.menuFiltersSharpen.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(SpatialFilters.sharpen(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-	                	FilterThread3 filterThread = new SharpenThread3(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
+        meni.menuFiltersSharpen.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.SHARPEN, this) 
         );
-
 		//FILTER EDGE DETECTION
-        meni.menuFiltersEdgedetection.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(SpatialFilters.edgeDetection(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-	                	FilterThread3 filterThread = new EdgeDetectionThread3(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
+        meni.menuFiltersEdgedetection.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.EDGE, this)
         );
-        
         //FILTER MEDIAN
-        meni.menuFiltersMedian.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(SpatialFilters.median(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-	                	FilterThread3 filterThread = new MedianThread3(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
+        meni.menuFiltersMedian.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.MEDIAN, this)
         );
         
         /*
-         * BREZ DIALOGA SMART
+         * FILTERS WITHOUTH PARAMETERS, SMART
          */
 
 		//FILTER HISTOGRAM EQUALIZATION
@@ -451,8 +278,7 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         );
 
-		//FILTER Smart Binarize
-        // TODO adopt to new way	
+		//FILTER SMART BINARIZE
         meni.menuFiltersSmartbin.addActionListener
         (
             new ActionListener() {
@@ -473,40 +299,32 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         );
 
-
-		/*
-		FILTRI Z DIALOGOM Z ENIM SLAJDERJEM ===================================
-		*/
+        /*
+         * FILTERS WITH ONE PARAMETER, DOUBLE
+         */
         
         //FILTER CONTRAST
-        meni.menuFiltersContrast.addActionListener
-        (
+        meni.menuFiltersContrast.addActionListener (
         	new FilterDialogWithSliderDoubleListener(Filter.CONTRAST, this)
         );
-        
         //FILTER GAMMA
-        meni.menuFiltersGamma.addActionListener
-        (
+        meni.menuFiltersGamma.addActionListener (
        		new FilterDialogWithSliderDoubleListener(Filter.GAMMA, this)
         );
-        
-        //FILTER Saturation
-        meni.menuFiltersSaturation.addActionListener
-        (
+        //FILTER SATURATIOM
+        meni.menuFiltersSaturation.addActionListener (
        		new FilterDialogWithSliderDoubleListener(Filter.SATURATION, this)
         );  
-        
-        //FILTER Brightness1
-        meni.menuFiltersBrightness1.addActionListener
-        (
+        //FILTER BRIGHTNESS
+        meni.menuFiltersBrightness1.addActionListener (
        		new FilterDialogWithSliderDoubleListener(Filter.BRIGHTNESS, this)
         ); 
         
-       /*
-        * ========================================
-        */
+        /*
+         * FILTERS WITH ONE PARAMETER, INT
+         */
         
-        //FILTER Thresholding
+        //FILTER THRESHOLDING
         meni.menuFiltersThresholding.addActionListener
         (
 			new ActionListener() {
@@ -527,7 +345,7 @@ public class JavaPhotoEditorFrame extends JFrame
         );
 
         /*
-         * DIALOG Z DRUGACNIM INPUTOM
+         * FILTERS WITH DIFFERENT INPUT
          */
         
         //FILTER BIT-PLANE
@@ -575,7 +393,6 @@ public class JavaPhotoEditorFrame extends JFrame
                 	}
                 	//da prekopira nazaj prvotno sliko v izbrani frame
                 	dialog.resetOriginalImage();                	
-
                 }
             }
         ); 
@@ -602,11 +419,10 @@ public class JavaPhotoEditorFrame extends JFrame
                 }
             }
         );
-
         
-		/*
-		LOGIC AND ARITHMETIC
-		*/
+        /*
+         * LOGIC AND ARITHMETIC OPERATIONS
+         */
 
         //LOGICOP NOT
         meni.menuLogicopNot.addActionListener
@@ -621,50 +437,34 @@ public class JavaPhotoEditorFrame extends JFrame
                 }
             }
         ); 
-        
         //LOGICOP AND
-        meni.menuLogicopAnd.addActionListener
-        (
+        meni.menuLogicopAnd.addActionListener (
         		new OperationDialogListener(Operation.AND, this)
         ); 
-        
         //LOGICOP OR 
-        meni.menuLogicopOr.addActionListener
-        (
+        meni.menuLogicopOr.addActionListener (
         		new OperationDialogListener(Operation.OR, this)
         );
-        
         //LOGICOP XOR
-        meni.menuLogicopXor.addActionListener
-        (
+        meni.menuLogicopXor.addActionListener (
         		new OperationDialogListener(Operation.XOR, this)
         );
-        
         //ARITHMETICOP ADDITION
-        meni.menuArithmeticopAddition.addActionListener
-        (      
+        meni.menuArithmeticopAddition.addActionListener (      
         	new OperationDialogListener(Operation.ADDITION, this)
         );
-     
         //ARITHMETICOP SUBTRACTION
-        meni.menuArithmeticopSubtraction.addActionListener
-        (
+        meni.menuArithmeticopSubtraction.addActionListener (
         	new OperationDialogListener(Operation.SUBTRACTION, this)
         );
-        
         //ARITHMETICOP MULTIPLICATION
-        meni.menuArithmeticopMultiplication.addActionListener
-        (
+        meni.menuArithmeticopMultiplication.addActionListener (
         		new OperationDialogListener(Operation.MULTIPLICATION, this)
         );
-        
         //ARITHMETICOP DIVISION
-        meni.menuArithmeticopDivision.addActionListener
-        (
+        meni.menuArithmeticopDivision.addActionListener (
         		new OperationDialogListener(Operation.DIVISION, this)
         );
-        
-        
         
         // Add window listener.
         this.addWindowListener
@@ -678,20 +478,15 @@ public class JavaPhotoEditorFrame extends JFrame
         
     }
     
-    /**
-     * The constructor.
-     */ 
+    /*
+     * CONSTRUCTORS END.
+     */
     
+    /* ***************************************************************/
+    /* ***************************************************************/
     
-    
-    /****************************************************************/
-    /****************************************************************/
-    /****************************************************************/
-    
-    
-    
-    /**
-     * Metode in Funkcije
+    /*
+     * ROUTINES & FUNCTIONS:
      */
 
     //metoda, ki se sprozi ko container listener
@@ -715,8 +510,6 @@ public class JavaPhotoEditorFrame extends JFrame
        		frame.zoomOut(10);
         }
     }
-
-	
 	
 	
     private void disableOrEnableMenuItems() {
@@ -744,7 +537,7 @@ public class JavaPhotoEditorFrame extends JFrame
 		}
 	}
     
-    MyInternalFrame createFrame(BufferedImage img) {
+    public MyInternalFrame createFrame(BufferedImage img) {
 		//Create a new internal frame with image.
     	MyInternalFrame frame = new MyInternalFrame(img);
         
@@ -770,7 +563,7 @@ public class JavaPhotoEditorFrame extends JFrame
     }
     */
     
-    MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
+    public MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
 		//Create a new internal frame with zoomed image. Add original image later.
 		//also it inherits the titel
     	MyInternalFrame frameOut = new MyInternalFrame(img, frameIn);
@@ -795,7 +588,7 @@ public class JavaPhotoEditorFrame extends JFrame
         return frame;
     }
     
-    private BufferedImage getSelectedBufferedImage() {
+    public BufferedImage getSelectedBufferedImage() {
     	//Vrne sliko, ki se nahaja v izbranem oknu
     	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
 		return frame.getImg();
@@ -823,8 +616,6 @@ public class JavaPhotoEditorFrame extends JFrame
 	
     protected void windowClosed() {
     	// TODO: Check if it is safe to close the application
-    	
-        // Exit application.
         System.exit(0);
     }
     

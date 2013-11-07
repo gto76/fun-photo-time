@@ -2,6 +2,8 @@ package si.gto76.javaphotoeditor;
 
 import java.awt.image.BufferedImage;
 
+import si.gto76.javaphotoeditor.enums.SpatialFilters;
+
 
 public class Filtri {
 	
