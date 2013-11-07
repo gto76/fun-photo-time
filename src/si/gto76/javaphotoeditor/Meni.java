@@ -46,7 +46,7 @@ class Meni {
     MyMenuItem menuFiltersSmartbin = new MyMenuItem(1);
     MyMenuItem menuFiltersEdgedetection = new MyMenuItem(1);
     MyMenuItem menuFiltersMedian = new MyMenuItem(1);
-    MyMenuItem menuFiltersColors = new MyMenuItem("Color Adjustment",1);
+    MyMenuItem menuFiltersColors = new MyMenuItem(1);
     //MyMenuItem menuFilters = new MyMenuItem(1);
     MyMenu menuLogicop = new MyMenu(1);
     MyMenuItem menuLogicopNot = new MyMenuItem(1);
@@ -91,6 +91,7 @@ class Meni {
         menuFiltersSmartbin.setText("Smart Binarize");
         menuFiltersEdgedetection.setText("Edge Detection");
         menuFiltersMedian.setText("Median Noise Reduction");
+        menuFiltersColors.setText("Color Adjustment...");
         //menuFilters.setText("");
         menuLogicop.setText("Logic");
         menuLogicopNot.setText("NOT");

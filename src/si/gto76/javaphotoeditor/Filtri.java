@@ -482,7 +482,6 @@ public class Filtri {
     	return rgb;
     }
     
-    
     public static int poisciSedlo(double[] histogram) {
 		double sumL = 0;
 		double sumR = 0;
@@ -517,6 +516,28 @@ public class Filtri {
 		//System.out.println(iMin);
 		return iMin;
 	}
+
+    public static BufferedImage colors(BufferedImage img, int[] val) {
+    	BufferedImage imgOut = Utility.declareNewBufferedImage(img);
+    	int width = img.getWidth();
+    	int height = img.getHeight();
+		int rgb;
+    	
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				rgb = img.getRGB(j, i);
+				rgb = getColors(rgb, val);
+				imgOut.setRGB(j, i, rgb);
+			}
+		}
+    	return imgOut;
+    }
+    public static int getColors(int rgb, int[] val) {
+		rgb = setRed(rgb, (int) (getRed(rgb) + val[0]));
+		rgb = setGreen(rgb, (int) (getGreen(rgb) + val[1]));
+    	rgb = setBlue(rgb, (int) (getBlue(rgb) + val[2]));	
+    	return rgb;
+    }
     
 	/**
      * Logicne Funkcije 

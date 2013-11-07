@@ -38,7 +38,7 @@ public class JavaPhotoEditor {
     	JFrame.setDefaultLookAndFeelDecorated(true);
         JavaPhotoEditorFrame frame = new JavaPhotoEditorFrame();
         // Show frame.
-        //frame.setSize(800, 550);
+        frame.setSize(800, 550);
         //frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         //frame.setUndecorated(true);
         //frame.setBackground(Color.BLACK);

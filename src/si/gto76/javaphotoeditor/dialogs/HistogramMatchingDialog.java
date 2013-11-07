@@ -2,6 +2,7 @@ package si.gto76.javaphotoeditor.dialogs;
 
 import java.awt.image.BufferedImage;
 
+import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
@@ -21,7 +22,7 @@ public class HistogramMatchingDialog extends MyDialog {
 	private MyInternalFrame selectedFrame;
 	
 	public HistogramMatchingDialog( JDesktopPane desktop, MyInternalFrame selectedFrame  ) {
-		super("Histogram Matching", false);
+		super("Histogram Matching", BoxLayout.Y_AXIS);
 		
 		this.selectedFrame = selectedFrame;
 		imgIn = selectedFrame.getImg();

@@ -28,6 +28,7 @@ import si.gto76.javaphotoeditor.dialogs.AdditionDialog;
 import si.gto76.javaphotoeditor.dialogs.AndDialog;
 import si.gto76.javaphotoeditor.dialogs.BitPlaneDialog;
 import si.gto76.javaphotoeditor.dialogs.Brightness1Dialog;
+import si.gto76.javaphotoeditor.dialogs.ColorsDialog;
 import si.gto76.javaphotoeditor.dialogs.ContrastDialog;
 import si.gto76.javaphotoeditor.dialogs.DivisionDialog;
 import si.gto76.javaphotoeditor.dialogs.GammaDialog;
@@ -42,6 +43,7 @@ import si.gto76.javaphotoeditor.dialogs.ThresholdingDialog;
 import si.gto76.javaphotoeditor.dialogs.XorDialog;
 import si.gto76.javaphotoeditor.filterthreads2.BitPlaneThread2;
 import si.gto76.javaphotoeditor.filterthreads2.Brightness1Thread2;
+import si.gto76.javaphotoeditor.filterthreads2.ColorsThread2;
 import si.gto76.javaphotoeditor.filterthreads2.ContrastThread2;
 import si.gto76.javaphotoeditor.filterthreads2.FilterThread2;
 import si.gto76.javaphotoeditor.filterthreads2.GammaThread2;
@@ -71,7 +73,8 @@ import si.gto76.javaphotoeditor.filterthreads3.SharpenThread3;
 public class JavaPhotoEditorFrame extends JFrame 
 							implements ContainerListener, MouseWheelListener {
     
-    final private boolean TEST_IMAGE = false; //da avtomatsko odpre testno sliko
+    final private boolean TEST_IMAGE = true; //da avtomatsko odpre testno sliko
+	final private String TEST_IMAGE_FILE_NAME = "/home/minerva/131060885.jpg";
     JDesktopPane desktop;
     private int noOfFrames = 0;
     private Meni meni;
@@ -97,7 +100,7 @@ public class JavaPhotoEditorFrame extends JFrame
         //createFrame();
         setContentPane(desktop);
         
-        //if (TEST_IMAGE) openTestImage();
+        if (TEST_IMAGE) openTestImage();
         
         //da obvesca o na novo odprtih in zaprtih internal frejmih
         desktop.addContainerListener(this);
@@ -107,8 +110,6 @@ public class JavaPhotoEditorFrame extends JFrame
         //Meniji
         meni = new Meni();
         setJMenuBar(meni.getMenuBar());
-
-
         
         
         /*Action*Listenerji***************************************/ 
@@ -125,7 +126,7 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         };
         
-        //FILE
+        //TOP MENU STRUCTURE
         meni.menuFile.addMenuListener(menuListener);
         meni.menuZoom.addMenuListener(menuListener);
         meni.menuFilters.addMenuListener(menuListener);
@@ -582,8 +583,6 @@ public class JavaPhotoEditorFrame extends JFrame
         //FILTER Brightness1
         meni.menuFiltersBrightness1.addActionListener
         (
-          
-
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	
@@ -669,6 +668,29 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         ); 
         
+        //FILTER Color balance
+        meni.menuFiltersColors.addActionListener
+        (
+			new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	
+                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
+                	ColorsDialog dialog = new ColorsDialog(frameIn);
+                	
+                	if (!dialog.wasCanceled()) {
+                		int values[] = dialog.getValues();
+                		//System.out.println(values);
+                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
+                		FilterThread2 filterThread = new ColorsThread2(frameIn.getOriginalImg(), values , frameOut);
+                	}
+                    
+                	//da prekopira nazaj prvotno sliko v izbrani frame
+                	dialog.resetOriginalImage();
+                	
+                }
+            }
+        );
+
         
 		/*
 		LOGICNI OPERATORJI
@@ -936,19 +958,19 @@ public class JavaPhotoEditorFrame extends JFrame
 		return frame.getOriginalImg();
 	}
     
-	/* TODO fix
 	private void openTestImage() {
 		//Odpre testno sliko
 		JFileChooser fc = new JFileChooser();
-        fc.setSelectedFile(new File(
-        	"C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\Bergell.jpg"));
+        fc.setSelectedFile(new File(TEST_IMAGE_FILE_NAME));
     	try {
-		    list.add(ImageIO.read(fc.getSelectedFile()  ));
-		    createFrame((BufferedImage) list.get(list.size()-1));
+    		BufferedImage img = ImageIO.read(fc.getSelectedFile());
+		    MyInternalFrame frame1 = createFrame(img);
+            frame1.setSelected(true);
 		} catch (IOException f) {
 		}
+    	catch (java.beans.PropertyVetoException e) {
+    	}
 	}
-	*/
 	
     protected void windowClosed() {
     	// TODO: Check if it is safe to close the application

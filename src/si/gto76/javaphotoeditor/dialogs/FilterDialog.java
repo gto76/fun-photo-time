@@ -16,13 +16,22 @@ abstract class FilterDialog extends MyDialog
 	
 	public FilterDialog( MyInternalFrame selectedFrame, String title ) {
 		super(title);
-		
+		init(selectedFrame);
+	}
+	public FilterDialog( MyInternalFrame selectedFrame, String title, int orientation ) {
+		super(title, orientation);
+		init(selectedFrame);
+	}
+	// constructor with size
+	public FilterDialog( MyInternalFrame selectedFrame, String title, int orientation, int x, int y) {
+		super(title, orientation, x, y);
+		init(selectedFrame);
+	}
+	private void init(MyInternalFrame selectedFrame) {
 		this.selectedFrame = selectedFrame;
 		imgIn = selectedFrame.getImg();
 		imgOut = Utility.declareNewBufferedImageAndCopy(imgIn); //naredi kopijo
 		selectedFrame.setImg(imgOut); //na kero usmeri kazalec od frejma
-		
-	
 	}
     
     public void resetOriginalImage() {
@@ -36,7 +45,6 @@ abstract class FilterDialog extends MyDialog
 	    		if ( wasCanceled() ) 
 					filterThread.t.interrupt();
 				filterThread.t.join();
-			
 			} 
 			catch ( InterruptedException e ) {}
 		}
