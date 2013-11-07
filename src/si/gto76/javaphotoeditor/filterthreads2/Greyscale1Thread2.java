@@ -16,6 +16,4 @@ public class Greyscale1Thread2 extends FilterThread2 {
 		return Filtri.assignLevelToAllColors(Filtri.getGrayLevel(rgb));
 	}
 	
-
-	
 }

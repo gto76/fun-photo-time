@@ -425,6 +425,15 @@ public class Filtri {
     	return rgb;
     }
     
+    public static BufferedImage smartBinarize(BufferedImage img) {
+    	// find the threshold
+    	BufferedImage imgTmp = SpatialFilters.blur(img);
+    	double[] histogram = Utility.getHistogram(imgTmp);
+    	int sedlo = Filtri.poisciSedlo(histogram);
+    	// call thresholding
+    	return thresholding1(img, sedlo);
+    }
+    
     public static BufferedImage thresholding(BufferedImage img, int val) {
     	BufferedImage imgOut = Utility.declareNewBufferedImage(img);
     	int width = img.getWidth();

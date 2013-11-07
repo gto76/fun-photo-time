@@ -12,7 +12,7 @@ public class HistogramStretchingThread extends FilterThread {
 	public HistogramStretchingThread( BufferedImage imgIn, BufferedImage imgOut, int[] bounds, MyInternalFrame selectedFrame ) {
 		super(imgIn, imgOut, selectedFrame);
 		this.bounds = bounds;
-		System.out.println("Bounds: " + bounds[0] + " " + bounds[1]);
+		//System.out.println("Bounds: " + bounds[0] + " " + bounds[1]);
 		//mappingArray = Filtri.calculateMappingArrayForStretching(bounds[0], bounds[1]);
 	}
 		

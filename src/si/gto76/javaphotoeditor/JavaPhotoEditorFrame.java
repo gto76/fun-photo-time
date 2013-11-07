@@ -73,7 +73,7 @@ import si.gto76.javaphotoeditor.filterthreads3.SharpenThread3;
 public class JavaPhotoEditorFrame extends JFrame 
 							implements ContainerListener, MouseWheelListener {
     
-    final private boolean TEST_IMAGE = true; //da avtomatsko odpre testno sliko
+    final private boolean TEST_IMAGE = false; //da avtomatsko odpre testno sliko
 	private ArrayList list = new ArrayList();
     JDesktopPane desktop;
     private int noOfFrames = 0;
@@ -151,7 +151,7 @@ public class JavaPhotoEditorFrame extends JFrame
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	JFileChooser fc = new JFileChooser();
-                	fc.setSelectedFile(new File("C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\color_spectrum.jpg"));
+                	//fc.setSelectedFile(new File("C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\color_spectrum.jpg"));
                 	int returnVal = fc.showOpenDialog(JavaPhotoEditorFrame.this);
                 	if (returnVal == JFileChooser.APPROVE_OPTION) {
             			try {
@@ -161,12 +161,14 @@ public class JavaPhotoEditorFrame extends JFrame
 						createFrame((BufferedImage) list.get(list.size()-1), 
 													fc.getSelectedFile().getName());
 						//shrani path za naslednjic ko odpremo open ali save
-						lastPath = fc.getSelectedFile().getAbsolutePath(); 
-						//regex ki izloci filename iz patha
+						//lastPath = fc.getSelectedFile().getAbsolutePath(); 
+						//regex ki izloci filename iz patha - not universal
+						/*
 						Pattern pat = Pattern.compile("^(.+\\\\)[^\\\\]+$");
 				        Matcher mat = pat.matcher(lastPath);
 				        mat.find();
 				        lastPath = mat.group(1);
+				        */
 				    }
 				}
             }
@@ -441,21 +443,24 @@ public class JavaPhotoEditorFrame extends JFrame
         );
 
 		//FILTER Smart Binarize
+        // TODO adopt to new way	
         meni.menuFiltersSmartbin.addActionListener
         (
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	
+                	// find the threshold
                 	BufferedImage img = SpatialFilters.blur(getSelectedBufferedImage());
-                	
                 	double[] histogram = Utility.getHistogram(img);
-                	
                 	int sedlo = Filtri.poisciSedlo(histogram);
-                	img = Filtri.thresholding1(getSelectedBufferedImage(), sedlo);
                 	
-                	list.add(img);
-                	createFrame((BufferedImage) list.get(list.size()-1));
+                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
+                	MyInternalFrame frameOut = createZoomedFrame(Filtri.thresholding1(getSelectedBufferedImage(), sedlo), frameIn);
+                	if ( frameIn.getZoom() != 100 ) {
+                		//System.out.println("Sedlo: " + sedlo);
+	                	FilterThread2 filterThread = new ThresholdingThread2(frameIn.getOriginalImg(), sedlo, frameOut);
+	                }
                 }
+                
             }
         );
 
@@ -652,31 +657,16 @@ public class JavaPhotoEditorFrame extends JFrame
                 	double[] histogram = Utility.getHistogram(getSelectedOriginalBufferedImage());
                 	//naredi sliko tega histograma
                 	BufferedImage hisImg = Utility.getHistogramImage(histogram);
-
-                	/***************OLD*********************/
-                	/*
-                	//in jo poslje dialogu v katerem uporabnik doloci levo in desno mejo
-                	HistogramStretchingDialog dialog = new HistogramStretchingDialog(hisImg);
-                	int userInput[] = dialog.getValues();
-                	
-                	//tedve meji se nato posljeta skupej z sliko filtru,
-                	//ki naredi sliko z raztegnjenim histogramom
-                	if (!dialog.wasCanceled()) {
-                		list.add(Filtri.histogramStretching(getSelectedBufferedImage(), userInput));
-	                    createFrame((BufferedImage) list.get(list.size()-1));
-                    }
-                	*/
-                	/***************NEW**TODO*******************/
                 	
                 	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
                 	//in jo poslje dialogu v katerem uporabnik doloci levo in desno mejo
-                	HistogramStretchingDialog dialog = new HistogramStretchingDialog(frameIn, hisImg); //TODO
+                	HistogramStretchingDialog dialog = new HistogramStretchingDialog(frameIn, hisImg);
                 	
                 	if (!dialog.wasCanceled()) {
                 		int values[] = dialog.getValues();
                 		//System.out.println(values);
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn); //TODO
-                		FilterThread2 filterThread = new HistogramStretchingThread2(frameIn.getOriginalImg(), values ,frameOut); //TODO
+                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
+                		FilterThread2 filterThread = new HistogramStretchingThread2(frameIn.getOriginalImg(), values ,frameOut);
                 	}
                 	//da prekopira nazaj prvotno sliko v izbrani frame
                 	dialog.resetOriginalImage();                	

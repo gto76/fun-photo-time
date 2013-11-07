@@ -16,8 +16,7 @@ public class ThresholdingThread2 extends FilterThread2 {
 	}
 		
 	protected int filtriraj(int rgb) {
-		return Filtri.getThresholding(rgb, value);
+		return Filtri.getThresholding1(rgb, value);
 	}
-	
 
 }
