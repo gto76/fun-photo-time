@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import si.gto76.javaphotoeditor.MyInternalFrame;
 
 
-abstract class OperationDialog extends MyDialog 
+public abstract class OperationDialog extends MyDialog 
 									implements ActionListener{
 	
 	protected BufferedImage imgIn1, imgIn2, imgOut;
@@ -78,8 +78,19 @@ abstract class OperationDialog extends MyDialog
 		imgIn1 = ((MyInternalFrame) combo1.getSelectedItem()).getImg();
 		imgIn2 = ((MyInternalFrame) combo2.getSelectedItem()).getImg();
 		imgOut = operation(imgIn1, imgIn2);
-		return imgOut;
-    	
+		return imgOut;  	
+    }
+    
+    //TODO spedenat da obstaja origImage tudi ce je zoom 100% (če bo treba)
+    public BufferedImage getProcessedOrigImage() {
+		imgIn1 = ((MyInternalFrame) combo1.getSelectedItem()).getOriginalImg();
+		imgIn2 = ((MyInternalFrame) combo2.getSelectedItem()).getOriginalImg();
+		imgOut = operation(imgIn1, imgIn2);
+		return imgOut;  	
+    }
+    
+    public int getZoom() {
+    	return ((MyInternalFrame) combo1.getSelectedItem()).getZoom();
     }
     
     abstract protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgOn2);

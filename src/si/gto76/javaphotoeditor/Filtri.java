@@ -537,6 +537,9 @@ public class Filtri {
 		}
     	return imgOut;
     }
+	public static int getNot(int rgb) {
+		return ~rgb;
+	}
 	
 	public static BufferedImage logicOperation(BufferedImage img1, BufferedImage img2, int operation) {
     	//nad vsakim parom bitov se izvede: ce je operation 1 - AND, 2 - OR, 3 - XOR
