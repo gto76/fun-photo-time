@@ -1,6 +1,7 @@
 package si.gto76.javaphotoeditor.dialogs;
 
 import java.awt.Component;
+import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 
 import javax.swing.BoxLayout;
@@ -13,7 +14,7 @@ import javax.swing.JPanel;
 import si.gto76.javaphotoeditor.Filtri;
 
 
-abstract class MyDialog extends JFrame {
+public abstract class MyDialog extends JFrame {
 	protected JPanel p;
 	protected JDialog dlg;
 	protected JOptionPane op;
@@ -65,5 +66,7 @@ abstract class MyDialog extends JFrame {
 		if (option == JOptionPane.CANCEL_OPTION) return true;
 		else return false;
     }
+    
+    abstract public BufferedImage getProcessedImage(); //NEW
 
 }

@@ -6,7 +6,7 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.filterthreads.ContrastThread;
 
 
-public class ContrastDialog extends FilterDialogWithSlider  {
+public class ContrastDialog extends FilterDialogWithSliderDouble  {
 	
 	public ContrastDialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Contrast");

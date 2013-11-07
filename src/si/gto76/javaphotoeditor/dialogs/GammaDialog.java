@@ -6,7 +6,7 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.filterthreads.GammaThread;
 
 
-public class GammaDialog extends FilterDialogWithSlider  {
+public class GammaDialog extends FilterDialogWithSliderDouble  {
 	
 	public GammaDialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Gamma");

@@ -81,7 +81,6 @@ public abstract class OperationDialog extends MyDialog
 		return imgOut;  	
     }
     
-    //TODO spedenat da obstaja origImage tudi ce je zoom 100% (če bo treba)
     public BufferedImage getProcessedOrigImage() {
 		imgIn1 = ((MyInternalFrame) combo1.getSelectedItem()).getOriginalImg();
 		imgIn2 = ((MyInternalFrame) combo2.getSelectedItem()).getOriginalImg();

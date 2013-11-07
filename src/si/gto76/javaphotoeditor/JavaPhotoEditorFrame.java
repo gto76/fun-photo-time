@@ -31,6 +31,7 @@ import si.gto76.javaphotoeditor.dialogs.Brightness1Dialog;
 import si.gto76.javaphotoeditor.dialogs.ColorsDialog;
 import si.gto76.javaphotoeditor.dialogs.ContrastDialog;
 import si.gto76.javaphotoeditor.dialogs.DivisionDialog;
+import si.gto76.javaphotoeditor.dialogs.FilterDialogWithSliderDouble;
 import si.gto76.javaphotoeditor.dialogs.GammaDialog;
 import si.gto76.javaphotoeditor.dialogs.HistogramStretchingDialog;
 import si.gto76.javaphotoeditor.dialogs.MultiplicationDialog;
@@ -353,6 +354,10 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         );
 		*/
+        
+        /*
+         * BREZ DIALOGA Z MESKOM
+         */
 
 		//FILTER BLUR
         meni.menuFiltersBlur.addActionListener
@@ -423,6 +428,10 @@ public class JavaPhotoEditorFrame extends JFrame
                 }
             }
         );
+        
+        /*
+         * BREZ DIALOGA SMART
+         */
 
 		//FILTER HISTOGRAM EQUALIZATION
         meni.menuFiltersHistogrameq.addActionListener
@@ -466,73 +475,60 @@ public class JavaPhotoEditorFrame extends JFrame
 
 
 		/*
-		FILTRI Z DIALOGOM
+		FILTRI Z DIALOGOM Z ENIM SLAJDERJEM ===================================
 		*/
-
         
         //FILTER CONTRAST
         meni.menuFiltersContrast.addActionListener
         (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	ContrastDialog dialog = new ContrastDialog(frameIn);
-                	
-                	if (!dialog.wasCanceled()) {
-                		double values = dialog.getValues();
-                		//System.out.println(values);
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new ContrastThread2(frameIn.getOriginalImg(), values , frameOut);
-                	}
-                    
-                	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();
-                	
-                }
-            }
+        	new FilterDialogWithSliderDoubleListener(Filter.CONTRAST, this)
         );
-        
         
         //FILTER GAMMA
         meni.menuFiltersGamma.addActionListener
+        (
+       		new FilterDialogWithSliderDoubleListener(Filter.GAMMA, this)
+        );
+        
+        //FILTER Saturation
+        meni.menuFiltersSaturation.addActionListener
+        (
+       		new FilterDialogWithSliderDoubleListener(Filter.SATURATION, this)
+        );  
+        
+        //FILTER Brightness1
+        meni.menuFiltersBrightness1.addActionListener
+        (
+       		new FilterDialogWithSliderDoubleListener(Filter.BRIGHTNESS, this)
+        ); 
+        
+       /*
+        * ========================================
+        */
+        
+        //FILTER Thresholding
+        meni.menuFiltersThresholding.addActionListener
         (
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	
                 	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	GammaDialog dialog = new GammaDialog(frameIn);
+                	ThresholdingDialog dialog = new ThresholdingDialog(frameIn);
                 	
                 	if (!dialog.wasCanceled()) {
-                		double values = dialog.getValues();
-                		//System.out.println(values);
+                		int values = dialog.getValues();
                 		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new GammaThread2(frameIn.getOriginalImg(), values , frameOut);
+                		new ThresholdingThread2(frameIn.getOriginalImg(), values , frameOut);
                 	}
-                    
                 	//da prekopira nazaj prvotno sliko v izbrani frame
                 	dialog.resetOriginalImage();
-                	
                 }
             }
         );
-        
-        
-        //FILTER HISTOGRAM MATCHING
-/*
-        meni.menuFiltersHistogramma.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	HistogramMatchingDialog dialog = new HistogramMatchingDialog(desktop, (MyInternalFrame)desktop.getSelectedFrame());
-                	if (!dialog.wasCanceled()) {
-                		list.add(dialog.getProcessedImage());
-	                    createFrame((BufferedImage) list.get(list.size()-1));
-                    }
-                }
-            }
-        );
-*/
+
+        /*
+         * DIALOG Z DRUGACNIM INPUTOM
+         */
         
         //FILTER BIT-PLANE
         meni.menuFiltersBitplane.addActionListener
@@ -556,93 +552,8 @@ public class JavaPhotoEditorFrame extends JFrame
                 }
             }
 			
-        );     
-        
-        //FILTER Saturation
-        meni.menuFiltersSaturation.addActionListener
-        (
-			new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	SaturationDialog dialog = new SaturationDialog(frameIn);
-                	
-                	if (!dialog.wasCanceled()) {
-                		double values = dialog.getValues();
-                		//System.out.println(values);
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new SaturationThread2(frameIn.getOriginalImg(), values , frameOut);
-                	}
-                    
-                	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();
-                	
-                }
-            }
-        );  
-        
-        //FILTER Brightness1
-        meni.menuFiltersBrightness1.addActionListener
-        (
-			new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	Brightness1Dialog dialog = new Brightness1Dialog(frameIn);
-                	
-                	if (!dialog.wasCanceled()) {
-                		double values = dialog.getValues();
-                		//System.out.println(values);
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new Brightness1Thread2(frameIn.getOriginalImg(), values , frameOut);
-                	}
-                    
-                	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();
-                	
-                }
-            }
         ); 
         
-        //FILTER Brightness2
-        /*
-        meni.menuFiltersBrightness2.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	
-                	Brightness2Dialog dialog = new Brightness2Dialog((MyInternalFrame)desktop.getSelectedFrame());
-                	if (!dialog.wasCanceled()) {
-                		list.add(dialog.getProcessedImage());
-	                    createFrame((BufferedImage) list.get(list.size()-1));
-                    }
-                    dialog.resetOriginalImage();
-                    
-                }
-            }
-        );
- 		*/
-        
-        //FILTER Thresholding
-        meni.menuFiltersThresholding.addActionListener
-        (
-			new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	ThresholdingDialog dialog = new ThresholdingDialog(frameIn);
-                	
-                	if (!dialog.wasCanceled()) {
-                		int values = dialog.getValues();
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		new ThresholdingThread2(frameIn.getOriginalImg(), values , frameOut);
-                	}
-                	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();
-                }
-            }
-        );
-
 		//FILTER HISTOGRAM STRETCHING
         meni.menuFiltersHistogramst.addActionListener
         (

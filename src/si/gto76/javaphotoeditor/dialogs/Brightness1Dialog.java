@@ -6,7 +6,7 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.filterthreads.Brightness1Thread;
 
 
-public class Brightness1Dialog extends FilterDialogWithSlider  {
+public class Brightness1Dialog extends FilterDialogWithSliderDouble  {
 	
 	public Brightness1Dialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Brightness1");
