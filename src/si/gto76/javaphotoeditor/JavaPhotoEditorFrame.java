@@ -36,6 +36,7 @@ import si.gto76.javaphotoeditor.dialogs.HistogramStretchingDialog;
 import si.gto76.javaphotoeditor.dialogs.MultiplicationDialog;
 import si.gto76.javaphotoeditor.dialogs.MyMenuInterface;
 import si.gto76.javaphotoeditor.dialogs.OperationDialog;
+import si.gto76.javaphotoeditor.dialogs.SubtractionDialog;
 //import si.gto76.javaphotoeditor.dialogs.OperationDialog;
 import si.gto76.javaphotoeditor.dialogs.OrDialog;
 import si.gto76.javaphotoeditor.dialogs.SaturationDialog;
@@ -693,9 +694,8 @@ public class JavaPhotoEditorFrame extends JFrame
 
         
 		/*
-		LOGICNI OPERATORJI
+		LOGIC AND ARITHMETIC
 		*/
-        
 
         //LOGICOP NOT
         meni.menuLogicopNot.addActionListener
@@ -714,105 +714,43 @@ public class JavaPhotoEditorFrame extends JFrame
         //LOGICOP AND
         meni.menuLogicopAnd.addActionListener
         (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	OperationDialog dialog = new AndDialog(desktop);
-                	if (!dialog.wasCanceled()) {
-                		MyInternalFrame frame = createFrame(dialog.getProcessedOrigImage());
-                		frame.zoom(dialog.getZoom());
-	                }
-                }
-            }
+        		new OperationDialogListener(Operation.AND, this)
         ); 
         
-        //LOGICOP OR TODO od tle naprej...
+        //LOGICOP OR 
         meni.menuLogicopOr.addActionListener
         (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	OperationDialog dialog = new OrDialog(desktop);
-                	if (!dialog.wasCanceled()) {
-                		MyInternalFrame frame = createFrame(dialog.getProcessedOrigImage());
-                		frame.zoom(dialog.getZoom());
-	                }
-                }
-            }
+        		new OperationDialogListener(Operation.OR, this)
         );
         
         //LOGICOP XOR
         meni.menuLogicopXor.addActionListener
         (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	OperationDialog dialog = new XorDialog(desktop);
-                	if (!dialog.wasCanceled()) {
-                		MyInternalFrame frame = createFrame(dialog.getProcessedOrigImage());
-                		frame.zoom(dialog.getZoom());
-	                }
-                }
-            }
+        		new OperationDialogListener(Operation.XOR, this)
         );
-
-		
-		/*
-		ARITMETICNI OPERATORJI
-		*/
-
         
         //ARITHMETICOP ADDITION
         meni.menuArithmeticopAddition.addActionListener
-        (
-    		new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	OperationDialog dialog = new AdditionDialog(desktop);
-                	if (!dialog.wasCanceled()) {
-                		MyInternalFrame frame = createFrame(dialog.getProcessedOrigImage());
-                		frame.zoom(dialog.getZoom());
-	                }
-                }
-            }
+        (      
+        	new OperationDialogListener(Operation.ADDITION, this)
         );
-        
+     
         //ARITHMETICOP SUBTRACTION
         meni.menuArithmeticopSubtraction.addActionListener
         (
-    		new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	OperationDialog dialog = new AdditionDialog(desktop);
-                	if (!dialog.wasCanceled()) {
-                		MyInternalFrame frame = createFrame(dialog.getProcessedOrigImage());
-                		frame.zoom(dialog.getZoom());
-	                }
-                }
-            }
+        	new OperationDialogListener(Operation.SUBTRACTION, this)
         );
         
         //ARITHMETICOP MULTIPLICATION
         meni.menuArithmeticopMultiplication.addActionListener
         (
-    		new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	OperationDialog dialog = new MultiplicationDialog(desktop);
-                	if (!dialog.wasCanceled()) {
-                		MyInternalFrame frame = createFrame(dialog.getProcessedOrigImage());
-                		frame.zoom(dialog.getZoom());
-	                }
-                }
-            }
+        		new OperationDialogListener(Operation.MULTIPLICATION, this)
         );
         
         //ARITHMETICOP DIVISION
         meni.menuArithmeticopDivision.addActionListener
         (
-    		new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	OperationDialog dialog = new DivisionDialog(desktop);
-                	if (!dialog.wasCanceled()) {
-                		MyInternalFrame frame = createFrame(dialog.getProcessedOrigImage());
-                		frame.zoom(dialog.getZoom());
-	                }
-                }
-            }
+        		new OperationDialogListener(Operation.DIVISION, this)
         );
         
         
@@ -895,7 +833,7 @@ public class JavaPhotoEditorFrame extends JFrame
 		}
 	}
     
-    private MyInternalFrame createFrame(BufferedImage img) {
+    MyInternalFrame createFrame(BufferedImage img) {
 		//Create a new internal frame with image.
     	MyInternalFrame frame = new MyInternalFrame(img);
         
