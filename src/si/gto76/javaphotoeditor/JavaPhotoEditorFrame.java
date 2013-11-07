@@ -15,9 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -41,7 +38,6 @@ import si.gto76.javaphotoeditor.dialogs.OperationDialog;
 //import si.gto76.javaphotoeditor.dialogs.OperationDialog;
 import si.gto76.javaphotoeditor.dialogs.OrDialog;
 import si.gto76.javaphotoeditor.dialogs.SaturationDialog;
-import si.gto76.javaphotoeditor.dialogs.SubtractionDialog;
 import si.gto76.javaphotoeditor.dialogs.ThresholdingDialog;
 import si.gto76.javaphotoeditor.dialogs.XorDialog;
 import si.gto76.javaphotoeditor.filterthreads2.BitPlaneThread2;
@@ -50,7 +46,6 @@ import si.gto76.javaphotoeditor.filterthreads2.ContrastThread2;
 import si.gto76.javaphotoeditor.filterthreads2.FilterThread2;
 import si.gto76.javaphotoeditor.filterthreads2.GammaThread2;
 import si.gto76.javaphotoeditor.filterthreads2.Greyscale1Thread2;
-import si.gto76.javaphotoeditor.filterthreads2.Greyscale2Thread2;
 import si.gto76.javaphotoeditor.filterthreads2.HistogramEqualizationThread2;
 import si.gto76.javaphotoeditor.filterthreads2.HistogramStretchingThread2;
 import si.gto76.javaphotoeditor.filterthreads2.NegativeThread2;
@@ -77,7 +72,6 @@ public class JavaPhotoEditorFrame extends JFrame
 							implements ContainerListener, MouseWheelListener {
     
     final private boolean TEST_IMAGE = false; //da avtomatsko odpre testno sliko
-	private ArrayList list = new ArrayList();
     JDesktopPane desktop;
     private int noOfFrames = 0;
     private Meni meni;
@@ -89,7 +83,7 @@ public class JavaPhotoEditorFrame extends JFrame
      */  
      
     public JavaPhotoEditorFrame() {
-    	super("Glavno okno grafike");
+    	super("Java Photo Editor");
         
         /*inicializacije****************************************/
         
@@ -103,7 +97,7 @@ public class JavaPhotoEditorFrame extends JFrame
         //createFrame();
         setContentPane(desktop);
         
-        if (TEST_IMAGE) openTestImage();
+        //if (TEST_IMAGE) openTestImage();
         
         //da obvesca o na novo odprtih in zaprtih internal frejmih
         desktop.addContainerListener(this);
@@ -157,12 +151,13 @@ public class JavaPhotoEditorFrame extends JFrame
                 	//fc.setSelectedFile(new File("C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\color_spectrum.jpg"));
                 	int returnVal = fc.showOpenDialog(JavaPhotoEditorFrame.this);
                 	if (returnVal == JFileChooser.APPROVE_OPTION) {
-            			try {
-						    list.add( ImageIO.read(fc.getSelectedFile() ) );
+                		try {
+                			BufferedImage imgIn = ImageIO.read(fc.getSelectedFile());
+							createFrame(imgIn, fc.getSelectedFile().getName());
 						} catch (IOException f) {
 						}
-						createFrame((BufferedImage) list.get(list.size()-1), 
-													fc.getSelectedFile().getName());
+						
+						//TODO fix
 						//shrani path za naslednjic ko odpremo open ali save
 						//lastPath = fc.getSelectedFile().getAbsolutePath(); 
 						//regex ki izloci filename iz patha - not universal
@@ -610,7 +605,7 @@ public class JavaPhotoEditorFrame extends JFrame
         ); 
         
         //FILTER Brightness2
-/*
+        /*
         meni.menuFiltersBrightness2.addActionListener
         (
             new ActionListener() {
@@ -626,11 +621,11 @@ public class JavaPhotoEditorFrame extends JFrame
                 }
             }
         );
-*/        
+ 		*/
+        
         //FILTER Thresholding
         meni.menuFiltersThresholding.addActionListener
         (
-
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	
@@ -639,14 +634,11 @@ public class JavaPhotoEditorFrame extends JFrame
                 	
                 	if (!dialog.wasCanceled()) {
                 		int values = dialog.getValues();
-                		//System.out.println(values);
                 		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new ThresholdingThread2(frameIn.getOriginalImg(), values , frameOut);
+                		new ThresholdingThread2(frameIn.getOriginalImg(), values , frameOut);
                 	}
-                    
                 	//da prekopira nazaj prvotno sliko v izbrani frame
                 	dialog.resetOriginalImage();
-                	
                 }
             }
         );
@@ -656,9 +648,8 @@ public class JavaPhotoEditorFrame extends JFrame
         (
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	//dobi array, ki predstavlja histogram
-                	double[] histogram = Utility.getHistogram(getSelectedOriginalBufferedImage());
                 	//naredi sliko tega histograma
+                	double[] histogram = Utility.getHistogram(getSelectedOriginalBufferedImage());
                 	BufferedImage hisImg = Utility.getHistogramImage(histogram);
                 	
                 	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
@@ -669,7 +660,7 @@ public class JavaPhotoEditorFrame extends JFrame
                 		int values[] = dialog.getValues();
                 		//System.out.println(values);
                 		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new HistogramStretchingThread2(frameIn.getOriginalImg(), values ,frameOut);
+                		new HistogramStretchingThread2(frameIn.getOriginalImg(), values ,frameOut);
                 	}
                 	//da prekopira nazaj prvotno sliko v izbrani frame
                 	dialog.resetOriginalImage();                	
@@ -831,25 +822,17 @@ public class JavaPhotoEditorFrame extends JFrame
     /**
      * Metode in Funkcije
      */
-     
+
+    //metoda, ki se sprozi ko container listener
+	//zazna da se je dodal novi internal frame v desktop
     public void componentAdded(ContainerEvent e) {
-    	//metoda, ki se sprozi ko container listener
-    	//zazna da se je dodal novi internal frame v desktop
     	noOfFrames++;
-    	//MyInternalFrame myInternalFrame = (MyInternalFrame) e.getChild();
-    	//myInternalFrame.addMouseWheelListener(this);
 	}
 	
 	public void componentRemoved(ContainerEvent e) {
 		noOfFrames--;
-		
-		//Da zbrise iz lista sliko, ki jo ne rabimo vec
-		MyInternalFrame myInternalFrame = (MyInternalFrame) e.getChild();
-		BufferedImage img = myInternalFrame.getImg();
-		boolean isRemoved = list.remove(img);
 	}
-	//namesto tega bi seveda lahko uporabu getAllFrames()
-	
+    
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		//System.out.println("kkjkjsed");
     	int notches = e.getWheelRotation();
@@ -890,7 +873,7 @@ public class JavaPhotoEditorFrame extends JFrame
 		}
 	}
     
-    public MyInternalFrame createFrame(BufferedImage img) {
+    private MyInternalFrame createFrame(BufferedImage img) {
 		//Create a new internal frame with image.
     	MyInternalFrame frame = new MyInternalFrame(img);
         
@@ -953,6 +936,7 @@ public class JavaPhotoEditorFrame extends JFrame
 		return frame.getOriginalImg();
 	}
     
+	/* TODO fix
 	private void openTestImage() {
 		//Odpre testno sliko
 		JFileChooser fc = new JFileChooser();
@@ -964,6 +948,7 @@ public class JavaPhotoEditorFrame extends JFrame
 		} catch (IOException f) {
 		}
 	}
+	*/
 	
     protected void windowClosed() {
     	// TODO: Check if it is safe to close the application

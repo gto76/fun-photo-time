@@ -72,7 +72,7 @@ public class HistogramStretchingDialog extends JFrame
     		JOptionPane.OK_CANCEL_OPTION);
     	
     	dlg = op.createDialog(this, "Histogram");
-    	dlg.setSize(300,500);
+    	dlg.setSize(300,275);
     	dlg.setVisible(true);
     	dlg.dispose();
     	

@@ -13,7 +13,7 @@ public class Utility {
 	
 	public static BufferedImage getHistogramImage (double[] histogram) {
         //naredi sliko histograma
-		final int height = 400;
+		final int height = 150;
     	final  Color red = Color.red;
     	final  Color white = Color.white;
 		final  Color fg = Color.black;
