@@ -6,7 +6,7 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.filterthreads.SaturationThread;
 
 
-public class SaturationDialog extends FilterDialogWithSliderDouble  {
+public class SaturationDialog extends FilterDialogWithSliderDouble {
 	
 	public SaturationDialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Saturation");

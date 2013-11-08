@@ -7,7 +7,7 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.Utility;
 import si.gto76.javaphotoeditor.filterthreads.FilterThread;
 
-abstract class FilterDialog extends MyDialog
+public abstract class FilterDialog extends MyDialog
 								implements ChangeListener {
 	
 	protected BufferedImage imgIn, imgOut;

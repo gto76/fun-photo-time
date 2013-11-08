@@ -180,7 +180,6 @@ public class JavaPhotoEditorFrame extends JFrame
         /*
          * ZOOM
          */
-        
         //ZOOM OUT
         meni.menuZoomOut.addActionListener (
        		new ZoomListener(ZoomOperation.ZOOM_OUT, desktop)
@@ -221,7 +220,6 @@ public class JavaPhotoEditorFrame extends JFrame
         /*
          * FILTERS WITHOUTH PARAMETERS
          */
-
         //FILTER NEGATIV
         meni.menuFiltersNegativ.addActionListener (
         	new FilterWithouthDialogListener(NoDialogFilter.NEGATIV, this)
@@ -234,7 +232,6 @@ public class JavaPhotoEditorFrame extends JFrame
         /*
          * FILTERS WITHOUTH PARAMETERS, WITH MASKS
          */
-
 		//FILTER BLUR
         meni.menuFiltersBlur.addActionListener (
         	new FilterWithouthDialogListener(NoDialogFilter.BLUR, this)
@@ -259,50 +256,18 @@ public class JavaPhotoEditorFrame extends JFrame
         /*
          * FILTERS WITHOUTH PARAMETERS, SMART
          */
-
 		//FILTER HISTOGRAM EQUALIZATION
-        meni.menuFiltersHistogrameq.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-
-					MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(Filtri.histogramEqualization(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-						double[] histogram = Utility.getHistogram(frameIn.getOriginalImg());
-						int[] mappingArray = Filtri.calculateMappingArrayForEqualization(histogram);
-						FilterThread2 filterThread = new HistogramEqualizationThread2(frameIn.getOriginalImg(), frameOut, mappingArray);
-	                }
-
-                }
-            }
+        meni.menuFiltersHistogrameq.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.HISTOGRAM_EQ, this)
         );
-
 		//FILTER SMART BINARIZE
-        meni.menuFiltersSmartbin.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	// find the threshold
-                	BufferedImage img = SpatialFilters.blur(getSelectedBufferedImage());
-                	double[] histogram = Utility.getHistogram(img);
-                	int sedlo = Filtri.poisciSedlo(histogram);
-                	
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(Filtri.thresholding1(getSelectedBufferedImage(), sedlo), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-                		//System.out.println("Sedlo: " + sedlo);
-	                	FilterThread2 filterThread = new ThresholdingThread2(frameIn.getOriginalImg(), sedlo, frameOut);
-	                }
-                }
-                
-            }
+        meni.menuFiltersSmartbin.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.SMART_BIN, this)
         );
-
+        
         /*
          * FILTERS WITH ONE PARAMETER, DOUBLE
          */
-        
         //FILTER CONTRAST
         meni.menuFiltersContrast.addActionListener (
         	new FilterDialogWithSliderDoubleListener(Filter.CONTRAST, this)
@@ -323,13 +288,11 @@ public class JavaPhotoEditorFrame extends JFrame
         /*
          * FILTERS WITH ONE PARAMETER, INT
          */
-        
         //FILTER THRESHOLDING
         meni.menuFiltersThresholding.addActionListener
         (
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	
                 	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
                 	ThresholdingDialog dialog = new ThresholdingDialog(frameIn);
                 	
@@ -347,34 +310,26 @@ public class JavaPhotoEditorFrame extends JFrame
         /*
          * FILTERS WITH DIFFERENT INPUT
          */
-        
         //FILTER BIT-PLANE
-        meni.menuFiltersBitplane.addActionListener
-        (
+        meni.menuFiltersBitplane.addActionListener (
 			 new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	
                 	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
                 	BitPlaneDialog dialog = new BitPlaneDialog(frameIn);
                 	
                 	if (!dialog.wasCanceled()) {
                 		int values = dialog.getValues();
-                		//System.out.println(values);
                 		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new BitPlaneThread2(frameIn.getOriginalImg(), values , frameOut);
+                		new BitPlaneThread2(frameIn.getOriginalImg(), values , frameOut);
                 	}
-                    
                 	//da prekopira nazaj prvotno sliko v izbrani frame
                 	dialog.resetOriginalImage();
-                	
                 }
             }
-			
         ); 
         
 		//FILTER HISTOGRAM STRETCHING
-        meni.menuFiltersHistogramst.addActionListener
-        (
+        meni.menuFiltersHistogramst.addActionListener (
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	//naredi sliko tega histograma
@@ -397,12 +352,10 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         ); 
         
-        //FILTER Color balance
-        meni.menuFiltersColors.addActionListener
-        (
+        //FILTER COLOR BALANCE
+        meni.menuFiltersColors.addActionListener (
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	
                 	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
                 	ColorsDialog dialog = new ColorsDialog(frameIn);
                 	
@@ -410,12 +363,10 @@ public class JavaPhotoEditorFrame extends JFrame
                 		int values[] = dialog.getValues();
                 		//System.out.println(values);
                 		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		FilterThread2 filterThread = new ColorsThread2(frameIn.getOriginalImg(), values , frameOut);
+                		new ColorsThread2(frameIn.getOriginalImg(), values , frameOut);
                 	}
-                    
                 	//da prekopira nazaj prvotno sliko v izbrani frame
                 	dialog.resetOriginalImage();
-                	
                 }
             }
         );
@@ -423,19 +374,9 @@ public class JavaPhotoEditorFrame extends JFrame
         /*
          * LOGIC AND ARITHMETIC OPERATIONS
          */
-
         //LOGICOP NOT
-        meni.menuLogicopNot.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	MyInternalFrame frameOut = createZoomedFrame(Filtri.not(getSelectedBufferedImage()), frameIn);
-                	if ( frameIn.getZoom() != 100 ) {
-	                	new NotThread2(frameIn.getOriginalImg(), frameOut);
-	                }
-                }
-            }
+        meni.menuLogicopNot.addActionListener (
+        	new FilterWithouthDialogListener(NoDialogFilter.NEGATIV, this)
         ); 
         //LOGICOP AND
         meni.menuLogicopAnd.addActionListener (

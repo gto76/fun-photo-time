@@ -4,8 +4,12 @@ import java.awt.image.BufferedImage;
 
 import si.gto76.javaphotoeditor.Filtri;
 import si.gto76.javaphotoeditor.MyInternalFrame;
+import si.gto76.javaphotoeditor.Utility;
+import si.gto76.javaphotoeditor.filterthreads2.FilterThread2;
 import si.gto76.javaphotoeditor.filterthreads2.Greyscale1Thread2;
+import si.gto76.javaphotoeditor.filterthreads2.HistogramEqualizationThread2;
 import si.gto76.javaphotoeditor.filterthreads2.NegativeThread2;
+import si.gto76.javaphotoeditor.filterthreads2.ThresholdingThread2;
 import si.gto76.javaphotoeditor.filterthreads3.BlurThread3;
 import si.gto76.javaphotoeditor.filterthreads3.EdgeDetectionThread3;
 import si.gto76.javaphotoeditor.filterthreads3.MedianThread3;
@@ -19,8 +23,11 @@ public enum NoDialogFilter {
 	RELIEF,
 	SHARPEN,
 	EDGE,
-	MEDIAN;
+	MEDIAN,
+	HISTOGRAM_EQ,
+	SMART_BIN;
 
+	
 	public BufferedImage getFilteredImage(BufferedImage image) {
 		switch (this) {
 	    	case NEGATIV:
@@ -37,6 +44,10 @@ public enum NoDialogFilter {
 	    		return SpatialFilters.edgeDetection(image);
 	    	case MEDIAN:
 	    		return SpatialFilters.median(image);
+	    	case HISTOGRAM_EQ:
+	    		return Filtri.histogramEqualization(image);
+	    	case SMART_BIN:
+	    		return Filtri.smartBinarize(image);
 	    	default:
 	    		throw new ExceptionInInitializerError() {
 	    		};
@@ -66,6 +77,17 @@ public enum NoDialogFilter {
 	    	case MEDIAN:
 	    		new MedianThread3(imgIn, frameOut);
 	    		break;
+	    	case HISTOGRAM_EQ:
+				double[] histogram = Utility.getHistogram(imgIn);
+				int[] mappingArray = Filtri.calculateMappingArrayForEqualization(histogram);
+				new HistogramEqualizationThread2(imgIn, frameOut, mappingArray);
+	    		break;
+	    	case SMART_BIN:
+            	BufferedImage img = SpatialFilters.blur(imgIn);
+            	double[] his = Utility.getHistogram(img);
+            	int sedlo = Filtri.poisciSedlo(his);
+            	new ThresholdingThread2(imgIn, sedlo, frameOut);
+            	break;
 	    	default:
 	    		throw new ExceptionInInitializerError() {
 	    		};
