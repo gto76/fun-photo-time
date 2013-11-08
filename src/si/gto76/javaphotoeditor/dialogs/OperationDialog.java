@@ -92,6 +92,6 @@ public abstract class OperationDialog extends MyDialog
     	return ((MyInternalFrame) combo1.getSelectedItem()).getZoom();
     }
     
-    abstract protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgOn2);
+    abstract protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2);
 	
 }

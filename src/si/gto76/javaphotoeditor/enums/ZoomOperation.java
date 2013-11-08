@@ -1,11 +1,6 @@
 package si.gto76.javaphotoeditor.enums;
 
 import si.gto76.javaphotoeditor.MyInternalFrame;
-import si.gto76.javaphotoeditor.dialogs.Brightness1Dialog;
-import si.gto76.javaphotoeditor.dialogs.ContrastDialog;
-import si.gto76.javaphotoeditor.dialogs.FilterDialogWithSliderDouble;
-import si.gto76.javaphotoeditor.dialogs.GammaDialog;
-import si.gto76.javaphotoeditor.dialogs.SaturationDialog;
 
 public enum ZoomOperation {
 	ZOOM_OUT,

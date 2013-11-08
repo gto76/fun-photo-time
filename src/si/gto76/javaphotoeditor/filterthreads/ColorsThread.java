@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import si.gto76.javaphotoeditor.Filtri;
 import si.gto76.javaphotoeditor.MyInternalFrame;
 
+
 public class ColorsThread extends FilterThread {
 	
 	private int[] value;

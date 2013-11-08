@@ -2,7 +2,6 @@ package si.gto76.javaphotoeditor;
 
 import java.awt.image.BufferedImage;
 
-import si.gto76.javaphotoeditor.enums.SpatialFilters;
 
 
 public class Filtri {
@@ -758,14 +757,12 @@ public class Filtri {
     	int red = getRed(rgb);
     	int green = getGreen(rgb);
     	int blue = getBlue(rgb);
-    	//System.out.println(red + "\t" + green + "\t" + blue);
+    	System.out.println(red + "\t" + green + "\t" + blue);
     }
     
     public static void printRGB(int rgb, String label) {
-    	int red = getRed(rgb);
-    	int green = getGreen(rgb);
-    	int blue = getBlue(rgb);
-    	//System.out.println(label + ":\t" + red + "\t" + green + "\t" + blue);
+    	System.out.print(label); 
+    	printRGB(rgb);
     }
     
     public static int changeAllColorsByPercent(int rgb, double per) {
@@ -776,4 +773,5 @@ public class Filtri {
 			  (( (int) ((double) ( (rgb & 0xff0000) >> 16 ) * per) +  ( (rgb & 0xff0000) >> 16 ) ) << 16);
 		return rgb;
 	}
+    
 } 

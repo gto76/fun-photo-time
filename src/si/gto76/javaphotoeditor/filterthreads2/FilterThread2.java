@@ -48,4 +48,5 @@ public abstract class FilterThread2 implements Runnable {
 	}
 	
 	abstract int filtriraj(int rgb);
+	
 }

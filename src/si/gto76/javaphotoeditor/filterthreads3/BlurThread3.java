@@ -3,7 +3,7 @@ package si.gto76.javaphotoeditor.filterthreads3;
 import java.awt.image.BufferedImage;
 
 import si.gto76.javaphotoeditor.MyInternalFrame;
-import si.gto76.javaphotoeditor.enums.SpatialFilters;
+import si.gto76.javaphotoeditor.SpatialFilters;
 
 
 public class BlurThread3 extends FilterThread3 {
@@ -15,7 +15,5 @@ public class BlurThread3 extends FilterThread3 {
 	protected int filtriraj(int x, int y) {
 		return SpatialFilters.getBlur(imgIn, x, y);
 	}
-	
-
 	
 }

@@ -34,7 +34,6 @@ import si.gto76.javaphotoeditor.dialogs.MyMenuInterface;
 import si.gto76.javaphotoeditor.dialogs.ThresholdingDialog;
 import si.gto76.javaphotoeditor.enums.Filter;
 import si.gto76.javaphotoeditor.enums.NoDialogFilter;
-import si.gto76.javaphotoeditor.enums.SpatialFilters;
 import si.gto76.javaphotoeditor.enums.ZoomOperation;
 import si.gto76.javaphotoeditor.filterthreads2.BitPlaneThread2;
 import si.gto76.javaphotoeditor.filterthreads2.ColorsThread2;
@@ -490,23 +489,9 @@ public class JavaPhotoEditorFrame extends JFrame
         return frame;
     }
     
-    /*
-    private MyInternalFrame createZoomedFrame(BufferedImage img, int zoom) {
-		//Create a new internal frame with zoomed image. Add original image later.
-    	MyInternalFrame frame = new MyInternalFrame(img, zoom);
-        
-        frame.setVisible(true); 
-        desktop.add(frame);
-        try {
-            frame.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {}
-        return frame;
-    }
-    */
-    
     public MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
 		//Create a new internal frame with zoomed image. Add original image later.
-		//also it inherits the titel
+		//also it inherits the titel // TODO fix titeling
     	MyInternalFrame frameOut = new MyInternalFrame(img, frameIn);
         
         frameOut.setVisible(true); 
@@ -548,7 +533,7 @@ public class JavaPhotoEditorFrame extends JFrame
     	try {
     		BufferedImage img = ImageIO.read(fc.getSelectedFile());
 		    MyInternalFrame frame1 = createFrame(img);
-            frame1.setSelected(true);
+            frame1.setSelected(true); //DOESENT WORK
 		} catch (IOException f) {
 		}
     	catch (java.beans.PropertyVetoException e) {

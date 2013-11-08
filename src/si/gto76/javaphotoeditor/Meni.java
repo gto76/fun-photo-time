@@ -6,9 +6,7 @@ import javax.swing.JMenuBar;
 class Meni {
 	
 	JMenuBar menuBar = new JMenuBar();
-	
-	
-	
+
 	MyMenu menuFile = new MyMenu(0);
     MyMenuItem menuFileOpen = new MyMenuItem(0);
     MyMenuItem menuFileSaveas = new MyMenuItem(1);
@@ -58,10 +56,9 @@ class Meni {
     MyMenuItem menuArithmeticopSubtraction = new MyMenuItem(1);
     MyMenuItem menuArithmeticopMultiplication = new MyMenuItem(1);
     MyMenuItem menuArithmeticopDivision = new MyMenuItem(1);
-	
-	
+
+    
 	public Meni() {
-		
 		menuFile.setText("File");
         menuFileOpen.setText("Open...");
         menuFileSaveas.setText("Save As...");
@@ -161,11 +158,11 @@ class Meni {
         menuArithmeticop.add(menuArithmeticopDivision);
         menuBar.add(menuArithmeticop);
         
-        
         //setJMenuBar(menuBar);
 	}
 	
 	public JMenuBar getMenuBar() {
 		return menuBar;
 	}
+	
 }

@@ -18,6 +18,5 @@ public class ColorsThread2 extends FilterThread2 {
 	protected int filtriraj(int rgb) {
 		return Filtri.getColors(rgb, value);
 	}
-	
 
 }

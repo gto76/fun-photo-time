@@ -13,7 +13,7 @@ public class AdditionDialog extends OperationDialog {
 		super( desktop, "Addition", " + ");
 	}
 	
-	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgOn2) {
+	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2) {
 		return Filtri.arithmeticOperation(imgIn1, imgIn2, 1);
 	}
 

@@ -2,9 +2,8 @@ package si.gto76.javaphotoeditor;
 
 import java.awt.image.BufferedImage;
 
+
 class Zoom {
-	
-	
 	public static BufferedImage out(BufferedImage img, int cent) {
 		int width = img.getWidth();
     	int height = img.getHeight();

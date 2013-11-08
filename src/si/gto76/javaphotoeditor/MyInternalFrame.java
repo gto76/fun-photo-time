@@ -93,8 +93,6 @@ public class MyInternalFrame extends JInternalFrame
 	          true, //closable
 	          true, //maximizable
 	          true);//iconifiable
-	    
-		
 
 	    ++openFrameCount;
 	    //fileNameInstanceNo = " #" +openFrameCount;
@@ -117,7 +115,6 @@ public class MyInternalFrame extends JInternalFrame
 
 	public void anounceThread(Thread thread) {
 		this.thread = thread;
-		//System.out.println("Thread "+thread+" was anounced");
 	}
 
 	public String getFileName() { //zoomed, displayed img
@@ -213,7 +210,6 @@ public class MyInternalFrame extends JInternalFrame
 		}
 	}
 	
-	
 	public void waitForThread() {
 		if ( thread != null ) {
 			//se sprehodimo skoz celo hierarhijo da prodemo do glavnega frejma
@@ -232,7 +228,6 @@ public class MyInternalFrame extends JInternalFrame
 		}
 	}
 	
-	
 	public String toString() {
     	return getTitle();
     }
@@ -247,16 +242,12 @@ public class MyInternalFrame extends JInternalFrame
 
     public void internalFrameClosed(InternalFrameEvent e) {
 		//prekine nit ko se zepre
-		//System.out.println("Internal frame "+this+" was closed");
 		if ( thread != null ) {
 			thread.interrupt();
-			//System.out.println("Thread "+thread+" was interupted");
 			try {
 				thread.join();
-				//System.out.println("Thread "+thread+" was joined");
 			}
 			catch ( InterruptedException f ) { 
-				//System.out.println("With Thread "+thread+" happened "+f);
 			}
 		}
 	}

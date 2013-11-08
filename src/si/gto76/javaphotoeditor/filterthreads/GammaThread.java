@@ -18,6 +18,5 @@ public class GammaThread extends FilterThread {
 	protected int filtriraj(int rgb) {
 		return Filtri.getGamma(rgb, value);
 	}
-	
 
 }

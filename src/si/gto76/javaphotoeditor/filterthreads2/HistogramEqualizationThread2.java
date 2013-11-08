@@ -15,8 +15,6 @@ public class HistogramEqualizationThread2 extends FilterThread2 {
 		//double[] histogram = Utility.getHistogram(imgIn);
 		//int[] mappingArray = Filtri.calculateMappingArrayForEqualization(histogram);
 		this.mappingArray = mappingArray;
-		////System.out.println("Thread konstuktor executed");
-		////System.out.println("Mapping array: "+ mappingArray);
 	}
 		
 	protected int filtriraj(int rgb) {

@@ -18,6 +18,5 @@ public class SaturationThread extends FilterThread {
 	protected int filtriraj(int rgb) {
 		return Filtri.getSaturation(rgb, value);
 	}
-	
 
 }

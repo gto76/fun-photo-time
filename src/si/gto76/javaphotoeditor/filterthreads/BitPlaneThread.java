@@ -18,6 +18,5 @@ public class BitPlaneThread extends FilterThread {
 	protected int filtriraj(int rgb) {
 		return Filtri.getBitPlane(rgb, value);
 	}
-	
 
 }

@@ -108,9 +108,8 @@ public class Utility {
     
     public static void izpisiHistogram(double[] histogram) {
 		for (int i = 0; i < histogram.length; i++) {
-			//System.out.print(i + " " + histogram[i] + "\t");
+			System.out.print(i + " " + histogram[i] + "\t");
 		}
-		
 	}
     
     public static void initializeArray(int[] arr) {
@@ -126,4 +125,5 @@ public class Utility {
     		}
     	}
     }
+    
 }

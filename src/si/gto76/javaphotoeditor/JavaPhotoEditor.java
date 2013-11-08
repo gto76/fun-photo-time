@@ -8,9 +8,6 @@ package si.gto76.javaphotoeditor;
  * @version 1.00 08/02/21
  */
 
-import java.awt.Color;
-import java.awt.Frame;
-
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -60,4 +57,5 @@ public class JavaPhotoEditor {
 	    catch (IllegalAccessException e) {
 	    }
     }
+    
 }

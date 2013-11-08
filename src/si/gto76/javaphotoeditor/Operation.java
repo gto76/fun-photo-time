@@ -10,7 +10,6 @@ import si.gto76.javaphotoeditor.dialogs.OperationDialog;
 import si.gto76.javaphotoeditor.dialogs.OrDialog;
 import si.gto76.javaphotoeditor.dialogs.SubtractionDialog;
 import si.gto76.javaphotoeditor.dialogs.XorDialog;
-import si.gto76.javaphotoeditor.dialogs.MyDialog;
 
 public enum Operation {
 	ADDITION,

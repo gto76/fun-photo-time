@@ -14,7 +14,6 @@ public abstract class FilterThread3 implements Runnable {
 	protected MyInternalFrame selectedFrame;
 	static int threadCount = 0;
 	
-	
 	FilterThread3( BufferedImage imgIn, MyInternalFrame selectedFrame) {
 		this.imgIn = imgIn;
 		this.imgOut = Utility.declareNewBufferedImage(imgIn);
@@ -29,7 +28,6 @@ public abstract class FilterThread3 implements Runnable {
 		int width = imgIn.getWidth();
 		int rgb;
 		
-		
 		try {
 			for (int i = 0; i < height; i++) {
 				for (int j = 0; j < width; j++) {
@@ -41,9 +39,7 @@ public abstract class FilterThread3 implements Runnable {
 					}
 				}
 			}
-			
 			selectedFrame.setOriginalImg(imgOut);
-			
 		}
 		catch ( InterruptedException e ) {
 			return;

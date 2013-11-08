@@ -18,6 +18,5 @@ public class Brightness2Thread2 extends FilterThread2 {
 	protected int filtriraj(int rgb) {
 		return Filtri.getBrightness2(rgb, value);
 	}
-	
 
 }

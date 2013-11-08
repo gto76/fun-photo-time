@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 
 import si.gto76.javaphotoeditor.Filtri;
 import si.gto76.javaphotoeditor.MyInternalFrame;
+import si.gto76.javaphotoeditor.SpatialFilters;
 import si.gto76.javaphotoeditor.Utility;
-import si.gto76.javaphotoeditor.filterthreads2.FilterThread2;
 import si.gto76.javaphotoeditor.filterthreads2.Greyscale1Thread2;
 import si.gto76.javaphotoeditor.filterthreads2.HistogramEqualizationThread2;
 import si.gto76.javaphotoeditor.filterthreads2.NegativeThread2;

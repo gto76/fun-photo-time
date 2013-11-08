@@ -13,7 +13,7 @@ public class XorDialog extends OperationDialog {
 		super( desktop, "Xor", " XOR ");
 	}
 	
-	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgOn2) {
+	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2) {
 		return Filtri.logicOperation(imgIn1, imgIn2, 3);
 	}
 

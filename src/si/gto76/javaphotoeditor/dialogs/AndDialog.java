@@ -13,8 +13,8 @@ public class AndDialog extends OperationDialog {
 		super( desktop, "And", " AND ");
 	}
 	
-	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgOn2) {
-		return Filtri.logicOperation(imgIn1, imgIn2, 1); //TODO: WTF!??????
+	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2) {
+		return Filtri.logicOperation(imgIn1, imgIn2, 1); 
 	}
 
 }
