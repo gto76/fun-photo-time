@@ -3,6 +3,7 @@ package si.gto76.javaphotoeditor;
 import javax.swing.JMenu;
 import si.gto76.javaphotoeditor.dialogs.MyMenuInterface;
 
+
 class MyMenu extends JMenu
 				implements MyMenuInterface {
 	

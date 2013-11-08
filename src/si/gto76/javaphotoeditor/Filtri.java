@@ -476,7 +476,7 @@ public class Filtri {
     }
     public static int getThresholding1(int rgb, int val) {
     	int avg = getGrayLevel(rgb);
-    	if ( ((double)avg) > val )
+    	if ( ((double)avg) < val )
     		rgb = assignLevelToAllColors(0);
     	else
     		rgb = assignLevelToAllColors(255);	

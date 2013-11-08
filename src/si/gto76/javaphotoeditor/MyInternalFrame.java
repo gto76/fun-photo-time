@@ -15,10 +15,10 @@ import javax.swing.event.InternalFrameListener;
 
 public class MyInternalFrame extends JInternalFrame 
 						implements InternalFrameListener {
-	
+	private static final int SCROLL_PANE_SPEED = 14;
+	private static final int X_OFFSET = 30, Y_OFFSET = 30;
 	//kolk okvirjev je ze bilo odprtih
 	private static int openFrameCount = 0;
-	private static final int xOffset = 30, yOffset = 30;
 	private ImageIcon icon;
 	private BufferedImage originalImg; //image that is not resized
 	private int zoom = 100;
@@ -36,7 +36,7 @@ public class MyInternalFrame extends JInternalFrame
 	          true);//iconifiable
 	    
 	    //%10 - da se zacnejo spet odpirat levo zgoraj ko se enkrat odpre 11sti
-	    setLocation(xOffset*(openFrameCount%10), yOffset*(openFrameCount%10));
+	    setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
 	    //hasOriginalImage = false;
 		addInternalFrameListener(this);
 	}
@@ -53,9 +53,10 @@ public class MyInternalFrame extends JInternalFrame
 	    icon = new ImageIcon((Image)imgIn, "description");
         JLabel label = new JLabel(icon);
         JScrollPane scrollPane = new JScrollPane(label);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_PANE_SPEED);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	    
-		setLocation(xOffset*(openFrameCount%10), yOffset*(openFrameCount%10));
+		setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
 	    pack();
 		addInternalFrameListener(this);
 	}
@@ -80,9 +81,10 @@ public class MyInternalFrame extends JInternalFrame
 	    icon = new ImageIcon((Image)imgIn, "description");
         JLabel label = new JLabel(icon);
         JScrollPane scrollPane = new JScrollPane(label);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_PANE_SPEED);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	    
-	    setLocation(xOffset*(openFrameCount%10), yOffset*(openFrameCount%10));
+	    setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
 	    pack();
 		addInternalFrameListener(this);
 	}
@@ -102,9 +104,10 @@ public class MyInternalFrame extends JInternalFrame
 	    icon = new ImageIcon((Image)imgIn, "description");
         JLabel label = new JLabel(icon);
         JScrollPane scrollPane = new JScrollPane(label);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_PANE_SPEED);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	    
-	    setLocation(xOffset*(openFrameCount%10), yOffset*(openFrameCount%10));
+	    setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
 	    pack();
 		addInternalFrameListener(this);
 	}
@@ -144,7 +147,7 @@ public class MyInternalFrame extends JInternalFrame
     
     public void zoom(int cent) {
     	waitForThread();
-    	if ( originalImg != null && cent < 100 && cent > 0) {
+    	if ( originalImg != null && cent < 100 && cent > 0 && cent != zoom) {
     		zoom = cent;
 	    	icon.setImage(Zoom.out(originalImg, cent));
 	    	super.setTitle(fileName + fileNameInstanceNo +" / zoom: " +zoom+ "%");
@@ -202,7 +205,7 @@ public class MyInternalFrame extends JInternalFrame
 	
 	public void actualSize() {
     	waitForThread();
-		if ( originalImg != null ) {
+		if ( originalImg != null && zoom!=100 ) {
 			zoom = 100;
 			icon.setImage(originalImg);
 			super.setTitle(fileName + fileNameInstanceNo);
@@ -217,9 +220,7 @@ public class MyInternalFrame extends JInternalFrame
 			//JRootPane mainFrame = (JRootPane) this.getParent().getParent().getParent();
 			//HourglassThread hourglassThread = new HourglassThread(mainFrame);
 			//mainFrame.setCursor(hourglassCursor);
-
 			try {
-				//System.out.println("Waiting for thread: "+thread);
 				thread.join();
 			}
 			catch ( InterruptedException f ) {}

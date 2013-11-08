@@ -1,5 +1,6 @@
 package si.gto76.javaphotoeditor.dialogs;
 
+import javax.swing.BoxLayout;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -14,7 +15,8 @@ public class BitPlaneDialog extends FilterDialog  {
 	private JSpinner spinner;
 	
 	public BitPlaneDialog( MyInternalFrame selectedFrame ) {
-		super(selectedFrame, "Bit Plane");
+		//super(selectedFrame, "Bit Plane");
+		super( selectedFrame, "Bit Plane", BoxLayout.X_AXIS, 265, 120);
 		
 		SpinnerModel model =
         new SpinnerNumberModel(1, 1, 8, 1);
@@ -22,6 +24,10 @@ public class BitPlaneDialog extends FilterDialog  {
 		
 		spinner.addChangeListener(this);
 		addComponent(spinner);
+		
+		//dlg.setSize(300,100);
+    	//dlg.setVisible(true);
+    	//dlg.dispose();
 	}
 	
 	public void stateChanged(ChangeEvent e)  {

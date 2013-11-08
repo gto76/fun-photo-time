@@ -62,6 +62,7 @@ public abstract class MyDialog extends JFrame {
     }
     
     public boolean wasCanceled() {
+    	if ( op.getValue() == null ) return true;
     	int option = ((Integer)op.getValue()).intValue();
 		if (option == JOptionPane.CANCEL_OPTION) return true;
 		else return false;

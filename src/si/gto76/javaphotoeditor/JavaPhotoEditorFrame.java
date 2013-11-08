@@ -14,6 +14,8 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -29,6 +31,7 @@ import si.gto76.javaphotoeditor.actionlisteners.OperationDialogListener;
 import si.gto76.javaphotoeditor.actionlisteners.ZoomListener;
 import si.gto76.javaphotoeditor.dialogs.BitPlaneDialog;
 import si.gto76.javaphotoeditor.dialogs.ColorsDialog;
+import si.gto76.javaphotoeditor.dialogs.HelpDialog;
 import si.gto76.javaphotoeditor.dialogs.HistogramStretchingDialog;
 import si.gto76.javaphotoeditor.dialogs.MyMenuInterface;
 import si.gto76.javaphotoeditor.dialogs.ThresholdingDialog;
@@ -37,17 +40,10 @@ import si.gto76.javaphotoeditor.enums.NoDialogFilter;
 import si.gto76.javaphotoeditor.enums.ZoomOperation;
 import si.gto76.javaphotoeditor.filterthreads2.BitPlaneThread2;
 import si.gto76.javaphotoeditor.filterthreads2.ColorsThread2;
-import si.gto76.javaphotoeditor.filterthreads2.FilterThread2;
-import si.gto76.javaphotoeditor.filterthreads2.HistogramEqualizationThread2;
 import si.gto76.javaphotoeditor.filterthreads2.HistogramStretchingThread2;
-import si.gto76.javaphotoeditor.filterthreads2.NotThread2;
 import si.gto76.javaphotoeditor.filterthreads2.ThresholdingThread2;
 
 /*
- * @(#)Grafika2.java
- *
- * JFC Sample application
- *
  * @author: Jure Sorn 
  * @version 1.00 08/02/21
  */
@@ -67,7 +63,7 @@ public class JavaPhotoEditorFrame extends JFrame
      */  
      
     public JavaPhotoEditorFrame() {
-    	super("Java Photo Editor");
+    	super("Photo Fun Time"); // super("Java Photo Editor");
         
         /*inicializacije****************************************/
         
@@ -130,11 +126,14 @@ public class JavaPhotoEditorFrame extends JFrame
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	JFileChooser fc = new JFileChooser();
+                	fc. setMultiSelectionEnabled(true);
                 	int returnVal = fc.showOpenDialog(JavaPhotoEditorFrame.this);
                 	if (returnVal == JFileChooser.APPROVE_OPTION) {
                 		try {
-                			BufferedImage imgIn = ImageIO.read(fc.getSelectedFile());
-							createFrame(imgIn, fc.getSelectedFile().getName());
+                			for (File fIn : fc.getSelectedFiles()) {
+                				BufferedImage imgIn = ImageIO.read(fIn);
+    							createFrame(imgIn, fc.getSelectedFile().getName());
+                			}
 						} catch (IOException f) {
 						}
 						
@@ -287,7 +286,7 @@ public class JavaPhotoEditorFrame extends JFrame
         /*
          * FILTERS WITH ONE PARAMETER, INT
          */
-        //FILTER THRESHOLDING
+        //FILTER THRESHOLDING 
         meni.menuFiltersThresholding.addActionListener
         (
 			new ActionListener() {
@@ -327,9 +326,7 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         ); 
         
-        ////////////////////////////////
-        
-		//FILTER HISTOGRAM STRETCHING
+		//FILTER HISTOGRAM STRETCHING 
         meni.menuFiltersHistogramst.addActionListener (
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -408,9 +405,24 @@ public class JavaPhotoEditorFrame extends JFrame
         		new OperationDialogListener(Operation.DIVISION, this)
         );
         
+        /*
+         * HELP ABOUT
+         */
+        //FILTER THRESHOLDING 
+        meni.menuHelpAbout.addActionListener (
+			new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	try {
+						new HelpDialog();
+					} catch (URISyntaxException e1) {
+						e1.printStackTrace();
+					}
+                }
+            }
+        );
+        
         // Add window listener.
-        this.addWindowListener
-        (
+        this.addWindowListener (
             new WindowAdapter() {
                 public void windowClosing(WindowEvent e) {
                     JavaPhotoEditorFrame.this.windowClosed();
