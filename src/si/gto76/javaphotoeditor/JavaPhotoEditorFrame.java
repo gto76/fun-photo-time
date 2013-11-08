@@ -327,6 +327,8 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         ); 
         
+        ////////////////////////////////
+        
 		//FILTER HISTOGRAM STRETCHING
         meni.menuFiltersHistogramst.addActionListener (
             new ActionListener() {
