@@ -25,29 +25,29 @@ public class MyInternalFrame extends JInternalFrame
 	private String fileName;
 	private String fileNameInstanceNo;
 	Thread thread;
-	JFrame mainFrame;
+	JavaPhotoEditorFrame mainFrame;
 	//boolean hasOriginalImage;
 
-	public MyInternalFrame() {
+	public MyInternalFrame(JavaPhotoEditorFrame mainFrame) {
 		super("Document #" + (++openFrameCount),
 	          true, //resizable
 	          true, //closable
 	          true, //maximizable
 	          true);//iconifiable
-	    
+	    this.mainFrame = mainFrame;
 	    //%10 - da se zacnejo spet odpirat levo zgoraj ko se enkrat odpre 11sti
 	    setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
 	    //hasOriginalImage = false;
 		addInternalFrameListener(this);
 	}
 	
-	public MyInternalFrame(BufferedImage imgIn) {
+	public MyInternalFrame(BufferedImage imgIn,JavaPhotoEditorFrame mainFrame) {
 		super("Document #" + (++openFrameCount),
 	          true, //resizable
 	          true, //closable
 	          true, //maximizable
 	          true);//iconifiable
-	    
+		this.mainFrame = mainFrame;
 	    originalImg = imgIn;
 	    //hasOriginalImage = true;
 	    icon = new ImageIcon((Image)imgIn, "description");
@@ -61,10 +61,10 @@ public class MyInternalFrame extends JInternalFrame
 		addInternalFrameListener(this);
 	}
 	
-	public MyInternalFrame(BufferedImage imgIn, MyInternalFrame frameIn) {
+	public MyInternalFrame(BufferedImage imgIn, MyInternalFrame frameIn,JavaPhotoEditorFrame mainFrame) {
 		super(frameIn.getFileName()+" #"+(++openFrameCount)+" / zoom: "+frameIn.zoom+"%",
 	          true, true, true, true);
-	    
+		this.mainFrame = mainFrame;
 	    if ( frameIn.getZoom() == 100 ) {
 	    	originalImg = imgIn;
 	    	//hasOriginalImage = true;
@@ -89,13 +89,13 @@ public class MyInternalFrame extends JInternalFrame
 		addInternalFrameListener(this);
 	}
 	
-	public MyInternalFrame(BufferedImage imgIn, String title) {
+	public MyInternalFrame(BufferedImage imgIn, String title, JavaPhotoEditorFrame mainFrame) {
 		super(title,
 	          true, //resizable
 	          true, //closable
 	          true, //maximizable
 	          true);//iconifiable
-
+		this.mainFrame = mainFrame;
 	    ++openFrameCount;
 	    //fileNameInstanceNo = " #" +openFrameCount;
 	    this.fileName = title;
@@ -251,6 +251,8 @@ public class MyInternalFrame extends JInternalFrame
 			catch ( InterruptedException f ) { 
 			}
 		}
+		//odstrani okno iz view menija
+		mainFrame.removeInternalFrameReference(this);
 	}
 
     public void internalFrameOpened(InternalFrameEvent e) {

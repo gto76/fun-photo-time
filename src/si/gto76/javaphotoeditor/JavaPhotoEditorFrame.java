@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.MenuElement;
 import javax.swing.event.MenuEvent;
@@ -60,7 +61,7 @@ public class JavaPhotoEditorFrame extends JFrame
     private int noOfFrames = 0;
     private Meni meni;
     private String lastPath = "C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\Bergel.jpg";
-    ViewMenuUtil vmu = new ViewMenuUtil();
+    public ViewMenuUtil vmu = new ViewMenuUtil();
     
     /**
      * The constructor.
@@ -456,9 +457,11 @@ public class JavaPhotoEditorFrame extends JFrame
 		noOfFrames--;
 	}
     
+	
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		//System.out.println("kkjkjsed");
-    	int notches = e.getWheelRotation();
+		//NE DELA - verjetno tudi ni zazeleno
+		/*
+		int notches = e.getWheelRotation();
     	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
         if (notches < 0) { //Mouse wheel moved UP, zoom in
             frame.zoomIn(10);
@@ -466,13 +469,14 @@ public class JavaPhotoEditorFrame extends JFrame
         else {
        		frame.zoomOut(10);
         }
+        */
     }
 	
 	
-    private void disableOrEnableMenuItems() { //TODO
+    private void disableOrEnableMenuItems() {
 		//ce ni nobenega izbranega frejma, onemogoci
 		//menije, ki potrebujejo sliko
-		/*
+		
 		MenuElement[] menuElement = meni.menuBar.getSubElements();
 		Component[] component;
 		boolean isThereASelectedFrame =	!( desktop.getSelectedFrame() == null );
@@ -492,12 +496,11 @@ public class JavaPhotoEditorFrame extends JFrame
 				//gleda za izjeme, ce je slucajno kaksen menu med meniji...
 			}
 		}
-		*/
 	}
     
     public MyInternalFrame createFrame(BufferedImage img) {
 		//Create a new internal frame with image.
-    	MyInternalFrame frame = new MyInternalFrame(img);
+    	MyInternalFrame frame = new MyInternalFrame(img, this);
         
         frame.setVisible(true);
         desktop.add(frame);
@@ -511,7 +514,7 @@ public class JavaPhotoEditorFrame extends JFrame
     public MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
 		//Create a new internal frame with zoomed image. Add original image later.
 		//also it inherits the titel // TODO fix titeling
-    	MyInternalFrame frameOut = new MyInternalFrame(img, frameIn);
+    	MyInternalFrame frameOut = new MyInternalFrame(img, frameIn, this);
         
         frameOut.setVisible(true); 
         desktop.add(frameOut);
@@ -524,7 +527,7 @@ public class JavaPhotoEditorFrame extends JFrame
     
     private MyInternalFrame createFrame(BufferedImage img, String title) {
     	//Create a new internal frame with image and titel.
-    	MyInternalFrame frame = new MyInternalFrame(img, title);
+    	MyInternalFrame frame = new MyInternalFrame(img, title, this);
         
         frame.setVisible(true); 
         desktop.add(frame);
@@ -559,6 +562,10 @@ public class JavaPhotoEditorFrame extends JFrame
 		}
     	catch (java.beans.PropertyVetoException e) {
     	}
+	}
+	
+	public void removeInternalFrameReference(JInternalFrame iFrame) {
+		vmu.removeViewMenuItem(this, iFrame);
 	}
 	
     protected void windowClosed() {
