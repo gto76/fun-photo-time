@@ -1,5 +1,6 @@
 package si.gto76.javaphotoeditor;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -51,12 +52,15 @@ import si.gto76.javaphotoeditor.filterthreads2.ThresholdingThread2;
 public class JavaPhotoEditorFrame extends JFrame 
 							implements ContainerListener, MouseWheelListener {
     
-    final private boolean TEST_IMAGE = true; //da avtomatsko odpre testno sliko
+	final private Color BACKGROUND_COLOR = Color.WHITE;
+    final private boolean TEST_IMAGE = true;
 	final private String TEST_IMAGE_FILE_NAME = "/home/minerva/131060885.jpg";
+	
     public JDesktopPane desktop;
     private int noOfFrames = 0;
     private Meni meni;
     private String lastPath = "C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\Bergel.jpg";
+    ViewMenuUtil vmu = new ViewMenuUtil();
     
     /**
      * The constructor.
@@ -74,10 +78,9 @@ public class JavaPhotoEditorFrame extends JFrame
                   screenSize.width  - inset*2,
                   screenSize.height - inset*2);
         desktop = new JDesktopPane();
+        desktop.setBackground(BACKGROUND_COLOR);
         //createFrame();
         setContentPane(desktop);
-        
-        if (TEST_IMAGE) openTestImage();
         
         //da obvesca o na novo odprtih in zaprtih internal frejmih
         desktop.addContainerListener(this);
@@ -136,7 +139,6 @@ public class JavaPhotoEditorFrame extends JFrame
                 			}
 						} catch (IOException f) {
 						}
-						
 						//TODO fix
 						//shrani path za naslednjic ko odpremo open ali save
 						//lastPath = fc.getSelectedFile().getAbsolutePath(); 
@@ -430,6 +432,7 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         );  
         
+        if (TEST_IMAGE) openTestImage();
     }
     
     /*
@@ -466,10 +469,10 @@ public class JavaPhotoEditorFrame extends JFrame
     }
 	
 	
-    private void disableOrEnableMenuItems() {
+    private void disableOrEnableMenuItems() { //TODO
 		//ce ni nobenega izbranega frejma, onemogoci
 		//menije, ki potrebujejo sliko
-		
+		/*
 		MenuElement[] menuElement = meni.menuBar.getSubElements();
 		Component[] component;
 		boolean isThereASelectedFrame =	!( desktop.getSelectedFrame() == null );
@@ -489,6 +492,7 @@ public class JavaPhotoEditorFrame extends JFrame
 				//gleda za izjeme, ce je slucajno kaksen menu med meniji...
 			}
 		}
+		*/
 	}
     
     public MyInternalFrame createFrame(BufferedImage img) {
@@ -500,6 +504,7 @@ public class JavaPhotoEditorFrame extends JFrame
         try {
             frame.setSelected(true);
         } catch (java.beans.PropertyVetoException e) {}
+        vmu.createViewMenuItem(this, frame);
         return frame;
     }
     
@@ -513,6 +518,7 @@ public class JavaPhotoEditorFrame extends JFrame
         try {
             frameOut.setSelected(true);
         } catch (java.beans.PropertyVetoException e) {}
+        vmu.createViewMenuItem(this, frameOut);
         return frameOut;
     }
     
@@ -525,6 +531,7 @@ public class JavaPhotoEditorFrame extends JFrame
         try {
             frame.setSelected(true);
         } catch (java.beans.PropertyVetoException e) {}
+        vmu.createViewMenuItem(this, frame);
         return frame;
     }
     

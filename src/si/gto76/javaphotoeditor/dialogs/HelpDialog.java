@@ -61,7 +61,7 @@ public class HelpDialog extends JFrame {
     	lbl = new JLabel("Author: Jure Šorn");
     	p.add(lbl);
     	p.add(new JLabel(" "));
-    	p.add(button);
+    	//p.add(button);
     	
     	dlg.setSize(240, 200);
     	dlg.setVisible(true);

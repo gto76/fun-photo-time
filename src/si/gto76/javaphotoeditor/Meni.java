@@ -56,6 +56,7 @@ class Meni {
     MyMenuItem menuArithmeticopSubtraction = new MyMenuItem(1);
     MyMenuItem menuArithmeticopMultiplication = new MyMenuItem(1);
     MyMenuItem menuArithmeticopDivision = new MyMenuItem(1);
+    MyMenu menuWindow = new MyMenu(1);
     MyMenu menuHelp = new MyMenu(1);
     MyMenuItem menuHelpAbout = new MyMenuItem(1);
 
@@ -102,6 +103,7 @@ class Meni {
         menuArithmeticopSubtraction.setText("-");
         menuArithmeticopMultiplication.setText("x");
         menuArithmeticopDivision.setText("/");
+        menuWindow.setText("Window");
         menuHelp.setText("Help");
         menuHelpAbout.setText("About");
 		
@@ -160,6 +162,8 @@ class Meni {
         menuArithmeticop.add(menuArithmeticopMultiplication);
         menuArithmeticop.add(menuArithmeticopDivision);
         menuBar.add(menuArithmeticop);
+        
+        menuBar.add(menuWindow);
         
         menuHelp.add(menuHelpAbout);
         menuBar.add(menuHelp);
