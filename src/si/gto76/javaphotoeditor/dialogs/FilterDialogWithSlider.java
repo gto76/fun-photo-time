@@ -7,6 +7,10 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 
 public abstract class FilterDialogWithSlider extends FilterDialog  {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7976235939424336985L;
 	protected JSlider sld;
 	
 	public FilterDialogWithSlider( MyInternalFrame selectedFrame, String title ) {

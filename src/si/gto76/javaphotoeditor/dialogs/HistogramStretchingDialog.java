@@ -22,13 +22,16 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.Utility;
 import si.gto76.javaphotoeditor.filterthreads.FilterThread;
 import si.gto76.javaphotoeditor.filterthreads.HistogramStretchingThread;
-import si.gto76.javaphotoeditor.filterthreads.ThresholdingThread;
 
 
 public class HistogramStretchingDialog extends JFrame 
 								implements ChangeListener  {
      
- 	 protected BufferedImage imgIn, imgOut;
+ 	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2858551691574547798L;
+	protected BufferedImage imgIn, imgOut;
  	 protected MyInternalFrame selectedFrame;
  	 protected FilterThread filterThread;
      
@@ -41,7 +44,7 @@ public class HistogramStretchingDialog extends JFrame
      private JDialog dlg;
      
      public HistogramStretchingDialog( MyInternalFrame selectedFrame, BufferedImage histogramImg ) {
-     	
+     	//TODO histogram popedenat elemente
  		this.selectedFrame = selectedFrame;
  		imgIn = selectedFrame.getImg();
  		imgOut = Utility.declareNewBufferedImageAndCopy(imgIn); //naredi kopijo
@@ -137,7 +140,6 @@ public class HistogramStretchingDialog extends JFrame
 	protected void processPicture() {
 		//ko se slider premakne prvo pogleda ce ze obstaja
 		//kaksna nit in jo prekine
-		//System.out.println("1");
 		if ( filterThread != null ) {
 			filterThread.t.interrupt();
 			try {
@@ -145,10 +147,8 @@ public class HistogramStretchingDialog extends JFrame
 			}
 			catch ( InterruptedException f ) {}
 		}
-		//System.out.println("2");
 		//nato naredi novo nit
 		filterThread = new HistogramStretchingThread(imgIn, imgOut, getValues(), selectedFrame);
-		//System.out.println("3");	
 	}
 	
 	public void resetOriginalImage() {

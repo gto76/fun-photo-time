@@ -38,6 +38,11 @@ public enum Operation {
 	    		return new XorDialog(desktop);
 	    	default:
 	    		throw new ExceptionInInitializerError() {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = -3603518262645278157L;
 	    		};
 		}
     }

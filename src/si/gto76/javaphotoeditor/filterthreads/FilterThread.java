@@ -42,7 +42,7 @@ public abstract class FilterThread implements Runnable {
 				}
 			}
 			//ko (ce) se nit izvede do konca, osvezi internal frame
-			selectedFrame.repaint(100, 0, 0, 1000, 1000);
+			selectedFrame.repaint(100, 0, 0, 10000, 10000);
 			
 		}
 		catch ( InterruptedException e ) {

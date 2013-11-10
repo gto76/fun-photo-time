@@ -10,6 +10,10 @@ import si.gto76.javaphotoeditor.filterthreads.FilterThread;
 public abstract class FilterDialog extends MyDialog
 								implements ChangeListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1168306069304323548L;
 	protected BufferedImage imgIn, imgOut;
 	protected MyInternalFrame selectedFrame;
 	protected FilterThread filterThread;

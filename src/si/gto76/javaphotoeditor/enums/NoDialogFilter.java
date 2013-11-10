@@ -50,6 +50,11 @@ public enum NoDialogFilter {
 	    		return Filtri.smartBinarize(image);
 	    	default:
 	    		throw new ExceptionInInitializerError() {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 7199345466977708588L;
 	    		};
 		}
     }
@@ -90,6 +95,11 @@ public enum NoDialogFilter {
             	break;
 	    	default:
 	    		throw new ExceptionInInitializerError() {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 821403174133489165L;
 	    		};
 		}
 	}

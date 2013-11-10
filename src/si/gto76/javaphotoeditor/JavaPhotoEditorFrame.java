@@ -53,12 +53,17 @@ import si.gto76.javaphotoeditor.filterthreads2.ThresholdingThread2;
 public class JavaPhotoEditorFrame extends JFrame 
 							implements ContainerListener, MouseWheelListener {
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5772778382924626863L;
+	//TODO vse statike v en class
 	final private Color BACKGROUND_COLOR = Color.WHITE;
     final private boolean TEST_IMAGE = true;
 	final private String TEST_IMAGE_FILE_NAME = "/home/minerva/131060885.jpg";
 	
     public JDesktopPane desktop;
-    private int noOfFrames = 0;
+    //private int noOfFrames = 0;
     private Meni meni;
     private String lastPath = "C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\Bergel.jpg";
     public ViewMenuUtil vmu = new ViewMenuUtil();
@@ -140,7 +145,7 @@ public class JavaPhotoEditorFrame extends JFrame
                 			}
 						} catch (IOException f) {
 						}
-						//TODO fix
+						//TODO last path
 						//shrani path za naslednjic ko odpremo open ali save
 						//lastPath = fc.getSelectedFile().getAbsolutePath(); 
 						//regex ki izloci filename iz patha - not universal
@@ -450,11 +455,11 @@ public class JavaPhotoEditorFrame extends JFrame
     //metoda, ki se sprozi ko container listener
 	//zazna da se je dodal novi internal frame v desktop
     public void componentAdded(ContainerEvent e) {
-    	noOfFrames++;
+    	//noOfFrames++;
 	}
 	
 	public void componentRemoved(ContainerEvent e) {
-		noOfFrames--;
+		//noOfFrames--;
 	}
     
 	
@@ -498,37 +503,24 @@ public class JavaPhotoEditorFrame extends JFrame
 		}
 	}
     
-    public MyInternalFrame createFrame(BufferedImage img) {
-		//Create a new internal frame with image.
-    	MyInternalFrame frame = new MyInternalFrame(img, this);
-        
-        frame.setVisible(true);
-        desktop.add(frame);
-        try {
-            frame.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {}
-        vmu.createViewMenuItem(this, frame);
-        return frame;
-    }
-    
+    /*
+     * INTERNAL FRAME CONSTRUCTION
+     */
+    //TODO imena oken
+    // Used when importing from other frame
     public MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
 		//Create a new internal frame with zoomed image. Add original image later.
-		//also it inherits the titel // TODO fix titeling
-    	MyInternalFrame frameOut = new MyInternalFrame(img, frameIn, this);
-        
-        frameOut.setVisible(true); 
-        desktop.add(frameOut);
-        try {
-            frameOut.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {}
-        vmu.createViewMenuItem(this, frameOut);
-        return frameOut;
+		//also it inherits the titel
+    	MyInternalFrame frame = new MyInternalFrame(this, img, frameIn);
+    	return internalFrameInit(frame);
     }
-    
-    private MyInternalFrame createFrame(BufferedImage img, String title) {
+	// Used when importing from file
+    public MyInternalFrame createFrame(BufferedImage img, String title) {
     	//Create a new internal frame with image and titel.
-    	MyInternalFrame frame = new MyInternalFrame(img, title, this);
-        
+    	MyInternalFrame frame = new MyInternalFrame(this, img, title);
+    	return internalFrameInit(frame);
+    }
+    private MyInternalFrame internalFrameInit(MyInternalFrame frame) {
         frame.setVisible(true); 
         desktop.add(frame);
         try {
@@ -556,7 +548,7 @@ public class JavaPhotoEditorFrame extends JFrame
         fc.setSelectedFile(new File(TEST_IMAGE_FILE_NAME));
     	try {
     		BufferedImage img = ImageIO.read(fc.getSelectedFile());
-		    MyInternalFrame frame1 = createFrame(img);
+    		MyInternalFrame frame1 =createFrame(img, fc.getSelectedFile().getName());
             frame1.setSelected(true); //DOESENT WORK
 		} catch (IOException f) {
 		}
@@ -569,7 +561,6 @@ public class JavaPhotoEditorFrame extends JFrame
 	}
 	
     protected void windowClosed() {
-    	// TODO: Check if it is safe to close the application
         System.exit(0);
     }
     

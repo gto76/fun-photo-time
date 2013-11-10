@@ -9,6 +9,11 @@ import si.gto76.javaphotoeditor.Filtri;
 
 public class DivisionDialog extends OperationDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1521758606230922389L;
+
 	public DivisionDialog( JDesktopPane desktop ) {
 		super( desktop, "Division", " / ");
 	}

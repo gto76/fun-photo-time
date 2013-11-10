@@ -8,6 +8,10 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 import si.gto76.javaphotoeditor.filterthreads.ColorsThread;
 
 public class ColorsDialog extends FilterDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4759236677164906508L;
 	// R, G and B sliders
 	protected JSlider[] sld = new JSlider[3];
 	

@@ -9,6 +9,11 @@ import si.gto76.javaphotoeditor.Filtri;
 
 public class XorDialog extends OperationDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3881568387038110320L;
+
 	public XorDialog( JDesktopPane desktop ) {
 		super( desktop, "Xor", " XOR ");
 	}

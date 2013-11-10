@@ -31,6 +31,11 @@ public enum Filter {
 	    		return new Brightness1Dialog(frame);
 	    	default:
 	    		throw new ExceptionInInitializerError() {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = -2115640049630620261L;
 	    		};
 		}
     }
@@ -51,6 +56,11 @@ public enum Filter {
 	    		break;
 	    	default:
 	    		throw new ExceptionInInitializerError() {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = -2877266507139641775L;
 	    		};
 		}
 	}

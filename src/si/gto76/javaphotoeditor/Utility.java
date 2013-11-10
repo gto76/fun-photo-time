@@ -17,9 +17,7 @@ public class Utility {
 		final int height = 150;
     	final  Color red = Color.red;
     	final  Color white = Color.white;
-		final  Color fg = Color.black;
-		//setBackground(white);
-		//setForeground(fg);
+
     	BufferedImage img = 
 			new BufferedImage(256, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = img.createGraphics();
@@ -41,7 +39,7 @@ public class Utility {
     	//na sliki, zacensi s cisto crno (0) in naprej do ciste bele (255)
     	int height = img.getHeight();
 		int width = img.getWidth();
-		int rgb, avg;
+		int rgb;
 		double pixelWeight = 1.0 / (height * width);
 		double[] histogram = new double[256];
 		

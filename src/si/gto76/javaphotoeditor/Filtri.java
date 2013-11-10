@@ -3,7 +3,7 @@ package si.gto76.javaphotoeditor;
 import java.awt.image.BufferedImage;
 
 
-
+// TODO remove duplication filtri
 public class Filtri {
 	
 	/*
@@ -161,7 +161,7 @@ public class Filtri {
     	BufferedImage imgOut = Utility.declareNewBufferedImage(img);
     	int height = img.getHeight();
 		int width = img.getWidth();
-		int rgb, avg;
+		int rgb;
 		
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -337,7 +337,7 @@ public class Filtri {
 		BufferedImage imgOut = Utility.declareNewBufferedImage(img);
 		int height = img.getHeight();
 		int width = img.getWidth();
-		int rgb, avg;
+		int rgb;
 		
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -362,7 +362,7 @@ public class Filtri {
     	BufferedImage imgOut = Utility.declareNewBufferedImage(img);
     	int width = img.getWidth();
     	int height = img.getHeight();
-		int rgb, bw;
+		int rgb;
     	
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {

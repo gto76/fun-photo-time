@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -15,6 +14,10 @@ import javax.swing.event.InternalFrameListener;
 
 public class MyInternalFrame extends JInternalFrame 
 						implements InternalFrameListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1665181775406001910L;
 	private static final int SCROLL_PANE_SPEED = 14;
 	private static final int X_OFFSET = 30, Y_OFFSET = 30;
 	//kolk okvirjev je ze bilo odprtih
@@ -26,87 +29,45 @@ public class MyInternalFrame extends JInternalFrame
 	private String fileNameInstanceNo;
 	Thread thread;
 	JavaPhotoEditorFrame mainFrame;
-	//boolean hasOriginalImage;
 
-	public MyInternalFrame(JavaPhotoEditorFrame mainFrame) {
-		super("Document #" + (++openFrameCount),
-	          true, //resizable
-	          true, //closable
-	          true, //maximizable
-	          true);//iconifiable
-	    this.mainFrame = mainFrame;
-	    //%10 - da se zacnejo spet odpirat levo zgoraj ko se enkrat odpre 11sti
-	    setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
-	    //hasOriginalImage = false;
-		addInternalFrameListener(this);
-	}
-	
-	public MyInternalFrame(BufferedImage imgIn,JavaPhotoEditorFrame mainFrame) {
-		super("Document #" + (++openFrameCount),
-	          true, //resizable
-	          true, //closable
-	          true, //maximizable
-	          true);//iconifiable
+	// TODO imena oken: text = name + zoom
+	// TODO naštmat barvo podlage
+
+	// Used when importing from other frame
+	public MyInternalFrame(JavaPhotoEditorFrame mainFrame, BufferedImage imgIn, MyInternalFrame frameIn) {
+		super(frameIn.getFileName()+" #"+(++openFrameCount)+" / zoom: "+frameIn.zoom+"%", 
+				true, true, true, true);
 		this.mainFrame = mainFrame;
-	    originalImg = imgIn;
-	    //hasOriginalImage = true;
-	    icon = new ImageIcon((Image)imgIn, "description");
-        JLabel label = new JLabel(icon);
-        JScrollPane scrollPane = new JScrollPane(label);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_PANE_SPEED);
-        this.getContentPane().add(scrollPane, BorderLayout.CENTER);
-	    
-		setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
-	    pack();
-		addInternalFrameListener(this);
-	}
-	
-	public MyInternalFrame(BufferedImage imgIn, MyInternalFrame frameIn,JavaPhotoEditorFrame mainFrame) {
-		super(frameIn.getFileName()+" #"+(++openFrameCount)+" / zoom: "+frameIn.zoom+"%",
-	          true, true, true, true);
-		this.mainFrame = mainFrame;
+		//če ni frameIn zoom 100% zaenkrat ostane brez originalne slike
+		//(ker jo more en od FilterThreadov, ki teče v ozadju še narest)
 	    if ( frameIn.getZoom() == 100 ) {
 	    	originalImg = imgIn;
-	    	//hasOriginalImage = true;
 	    }
-	    else {
-			//zaenkrat ostane brez originalne slike
-	    	//hasOriginalImage = false;
-	    }
-	    
 	    this.zoom = frameIn.zoom;
-	    fileName = frameIn.getFileName();
+	    fileName = frameIn.getFileName(); 
 	    fileNameInstanceNo = " #" +openFrameCount;
-	    
-	    icon = new ImageIcon((Image)imgIn, "description");
-        JLabel label = new JLabel(icon);
-        JScrollPane scrollPane = new JScrollPane(label);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_PANE_SPEED);
-        this.getContentPane().add(scrollPane, BorderLayout.CENTER);
-	    
-	    setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
-	    pack();
-		addInternalFrameListener(this);
+
+	    init(imgIn);
 	}
-	
-	public MyInternalFrame(BufferedImage imgIn, String title, JavaPhotoEditorFrame mainFrame) {
-		super(title,
-	          true, //resizable
-	          true, //closable
-	          true, //maximizable
-	          true);//iconifiable
+	// Used when importing from file
+	public MyInternalFrame(JavaPhotoEditorFrame mainFrame, BufferedImage imgIn, String title) {
+		super(title, true, true, true, true);
 		this.mainFrame = mainFrame;
 	    ++openFrameCount;
 	    //fileNameInstanceNo = " #" +openFrameCount;
 	    this.fileName = title;
-
 	    originalImg = imgIn;
+
+	    init(imgIn);
+	}
+	
+	// Initializes the window components
+	private void init(BufferedImage imgIn) {
 	    icon = new ImageIcon((Image)imgIn, "description");
         JLabel label = new JLabel(icon);
         JScrollPane scrollPane = new JScrollPane(label);
         scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_PANE_SPEED);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
-	    
 	    setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
 	    pack();
 		addInternalFrameListener(this);
@@ -145,6 +106,9 @@ public class MyInternalFrame extends JInternalFrame
     	return zoom;
     }
     
+    //TODO če je full screen da ga zoom ne vrže ven
+    // TODO remove duplication zoom
+    ////////////////////////////////////////////////////
     public void zoom(int cent) {
     	waitForThread();
     	if ( originalImg != null && cent < 100 && cent > 0 && cent != zoom) {
@@ -212,6 +176,7 @@ public class MyInternalFrame extends JInternalFrame
 		    pack();
 		}
 	}
+	/////////////////////////////////////////////////
 	
 	public void waitForThread() {
 		if ( thread != null ) {

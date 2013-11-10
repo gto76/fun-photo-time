@@ -9,6 +9,11 @@ import si.gto76.javaphotoeditor.Filtri;
 
 public class AndDialog extends OperationDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4848154008464104710L;
+
 	public AndDialog( JDesktopPane desktop ) {
 		super( desktop, "And", " AND ");
 	}

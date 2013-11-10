@@ -55,7 +55,11 @@ public class ViewMenuUtil implements ActionListener {
   
     class ViewMenuItem extends JMenuItem implements Comparable<JInternalFrame>,
     										MyMenuInterface {  
-        private JInternalFrame childFrame;  
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 333892455020266595L;
+		private JInternalFrame childFrame;  
         
         ViewMenuItem (String childName, JInternalFrame childFrame){  
             super(childName);  

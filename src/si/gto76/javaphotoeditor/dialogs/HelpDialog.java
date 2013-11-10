@@ -1,9 +1,7 @@
 package si.gto76.javaphotoeditor.dialogs;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Desktop;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -21,6 +19,10 @@ import javax.swing.SwingConstants;
 
 
 public class HelpDialog extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4236082773760097536L;
 	protected JPanel p;
 	protected JDialog dlg;
 	protected JOptionPane op;
@@ -50,10 +52,11 @@ public class HelpDialog extends JFrame {
     	op = new JOptionPane(p,
     		JOptionPane.PLAIN_MESSAGE,
     		JOptionPane.CLOSED_OPTION);
-    	dlg = op.createDialog(this, "About");
-    	
-    	JLabel lbl = new JLabel("Photo Fun Time");
-    	p.add(lbl);
+    	dlg = op.createDialog(this, "Photo Fun Time");
+    	JLabel lbl;
+    	/*
+    	lbl = new JLabel("Photo Fun Time");
+    	p.add(lbl); */
     	p.add(new JLabel(" "));
     	lbl = new JLabel("Version: 0.9.0");
     	p.add(lbl);
@@ -63,7 +66,7 @@ public class HelpDialog extends JFrame {
     	p.add(new JLabel(" "));
     	//p.add(button);
     	
-    	dlg.setSize(240, 200);
+    	dlg.setSize(240, 160);
     	dlg.setVisible(true);
     	dlg.dispose();
     	
@@ -73,8 +76,9 @@ public class HelpDialog extends JFrame {
 	    if (Desktop.isDesktopSupported()) {
 	    	try {
 	    		Desktop.getDesktop().browse(uri);
-	    	} catch (IOException e) { /* TODO: error handling */ }
-	    } else { /* TODO: error handling */ }
+	    	} catch (IOException e) {
+	    	}
+	    }
 	}
 
 }

@@ -9,6 +9,11 @@ import si.gto76.javaphotoeditor.Filtri;
 
 public class OrDialog extends OperationDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6056902344950844669L;
+
 	public OrDialog( JDesktopPane desktop ) {
 		super( desktop, "Or", " OR ");
 	}

@@ -17,6 +17,10 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 public abstract class OperationDialog extends MyDialog 
 									implements ActionListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4986931956064747068L;
 	protected BufferedImage imgIn1, imgIn2, imgOut;
 	protected MyInternalFrame selectedFrame1, selectedFrame2;
 	protected JDesktopPane desktop;
@@ -25,7 +29,7 @@ public abstract class OperationDialog extends MyDialog
 	
 	public OperationDialog( JDesktopPane desktop, String title, String symbol ) {
 		super(title);
-		
+		// TODO sirsi aritmeticni dialogi
 		this.desktop = desktop;
 		
 		//Naredi komponente in jih "ugradi" v dialog
@@ -49,13 +53,6 @@ public abstract class OperationDialog extends MyDialog
 			new JLabel(symbol),
 			combo2
 		};
-		
-		/*
-		JComponent[] components = new JComponent[3];
-		components[0] = combo1;
-		components[1] = new JLabel(symbol);
-		components[2] = combo2;
-		*/
 		
 		//dlg.setPreferredSize(new Dimension(400, 60));
 		//p.setPreferredSize(new Dimension(400, 60));
@@ -86,6 +83,13 @@ public abstract class OperationDialog extends MyDialog
 		imgIn2 = ((MyInternalFrame) combo2.getSelectedItem()).getOriginalImg();
 		imgOut = operation(imgIn1, imgIn2);
 		return imgOut;  	
+    }
+    
+    public String getName() {
+    	String name = ((MyInternalFrame) combo1.getSelectedItem()).getFileName()
+    			+ " "
+    			+ ((MyInternalFrame) combo2.getSelectedItem()).getFileName();
+    	return name;
     }
     
     public int getZoom() {

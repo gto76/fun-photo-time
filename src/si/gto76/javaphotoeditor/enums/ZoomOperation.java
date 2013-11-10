@@ -40,6 +40,11 @@ public enum ZoomOperation {
 	    		break;
 	    	default:
 	    		throw new ExceptionInInitializerError() {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 4033579193896323312L;
 	    		};
 		}
     }

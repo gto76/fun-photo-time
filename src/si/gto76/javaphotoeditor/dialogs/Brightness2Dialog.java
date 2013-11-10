@@ -8,6 +8,11 @@ import si.gto76.javaphotoeditor.filterthreads.Brightness2Thread;
 
 public class Brightness2Dialog extends FilterDialogWithSlider  {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8530046270541381978L;
+
 	public Brightness2Dialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Brightness2");
 	}

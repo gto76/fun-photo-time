@@ -11,10 +11,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import si.gto76.javaphotoeditor.Filtri;
-
 
 public abstract class MyDialog extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3084765862658349147L;
 	protected JPanel p;
 	protected JDialog dlg;
 	protected JOptionPane op;

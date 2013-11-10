@@ -20,7 +20,7 @@ public class OperationDialogListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
     	OperationDialog dialog = (OperationDialog) op.getDialog(mainFrame.desktop);//new AdditionDialog(desktop);
     	if (!dialog.wasCanceled()) {
-    		MyInternalFrame frame = mainFrame.createFrame(dialog.getProcessedOrigImage());
+    		MyInternalFrame frame = mainFrame.createFrame(dialog.getProcessedOrigImage(), dialog.getName());
     		frame.zoom(dialog.getZoom());
         }
     }
