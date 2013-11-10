@@ -19,7 +19,7 @@ public class SubtractionDialog extends OperationDialog {
 	}
 	
 	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2) {
-		return Filtri.arithmeticOperation(imgIn1, imgIn2, 2);
+		return Filtri.subtraction(imgIn1, imgIn2);
 	}
 
 }

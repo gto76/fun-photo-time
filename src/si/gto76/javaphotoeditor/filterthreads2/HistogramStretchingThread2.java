@@ -20,7 +20,7 @@ public class HistogramStretchingThread2 extends FilterThread2 {
 		if ( mappingArray == null ) { 
 			mappingArray = Filtri.calculateMappingArrayForStretching(bounds[0], bounds[1]);
 		}
-		return Filtri.getHistogramStretching(rgb, mappingArray);
+		return Filtri.getHistogramMapping(rgb, mappingArray);
 	}
 
 }

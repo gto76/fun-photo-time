@@ -13,7 +13,7 @@ public class Greyscale1Thread2 extends FilterThread2 {
 	}
 		
 	protected int filtriraj(int rgb) {
-		return Filtri.assignLevelToAllColors(Filtri.getGrayLevel(rgb));
+		return Filtri.assignLevelToAllColors(Filtri.getGrayLevel1(rgb));
 	}
 	
 }

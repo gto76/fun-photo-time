@@ -33,7 +33,7 @@ public enum NoDialogFilter {
 	    	case NEGATIV:
 	    		return Filtri.negativ(image);  
 	    	case GREYSCALE:
-	    		return Filtri.greyScale(image);
+	    		return Filtri.greyScale1(image);
 	    	case BLUR:
 	    		return SpatialFilters.blur(image);
 	    	case RELIEF:
@@ -90,7 +90,7 @@ public enum NoDialogFilter {
 	    	case SMART_BIN:
             	BufferedImage img = SpatialFilters.blur(imgIn);
             	double[] his = Utility.getHistogram(img);
-            	int sedlo = Filtri.poisciSedlo(his);
+            	int sedlo = Filtri.findSaddle(his);
             	new ThresholdingThread2(imgIn, sedlo, frameOut);
             	break;
 	    	default:

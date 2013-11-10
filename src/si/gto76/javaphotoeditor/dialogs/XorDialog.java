@@ -19,7 +19,7 @@ public class XorDialog extends OperationDialog {
 	}
 	
 	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2) {
-		return Filtri.logicOperation(imgIn1, imgIn2, 3);
+		return Filtri.xor(imgIn1, imgIn2);
 	}
 
 }

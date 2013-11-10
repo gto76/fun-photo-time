@@ -16,7 +16,7 @@ public class ContrastThread extends FilterThread {
 	}
 		
 	protected int filtriraj(int rgb) {
-		return Filtri.getContrast(rgb, value);
+		return Filtri.getContrast1(rgb, value);
 	}
 	
 

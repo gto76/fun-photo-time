@@ -19,7 +19,7 @@ public class DivisionDialog extends OperationDialog {
 	}
 	
 	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2) {
-		return Filtri.arithmeticOperation(imgIn1, imgIn2, 4);
+		return Filtri.division(imgIn1, imgIn2);
 	}
 
 }

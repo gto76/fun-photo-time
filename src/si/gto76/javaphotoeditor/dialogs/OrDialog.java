@@ -19,7 +19,7 @@ public class OrDialog extends OperationDialog {
 	}
 	
 	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2) {
-		return Filtri.logicOperation(imgIn1, imgIn2, 2);
+		return Filtri.or(imgIn1, imgIn2);
 	}
 
 }
