@@ -14,9 +14,6 @@ import javax.swing.event.InternalFrameListener;
 
 public class MyInternalFrame extends JInternalFrame 
 						implements InternalFrameListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1665181775406001910L;
 	private static final int SCROLL_PANE_SPEED = 14;
 	private static final int X_OFFSET = 30, Y_OFFSET = 30;
@@ -107,7 +104,6 @@ public class MyInternalFrame extends JInternalFrame
     }
     
     //TODO če je full screen da ga zoom ne vrže ven
-    // TODO remove duplication zoom
     ////////////////////////////////////////////////////
     public void zoom(int cent) {
     	waitForThread();
@@ -123,19 +119,16 @@ public class MyInternalFrame extends JInternalFrame
     	waitForThread();
     	if ( originalImg != null && (zoom / 2) > 0) {
     		zoom /= 2;
-	    	icon.setImage(Zoom.out(originalImg, zoom));
-	    	super.setTitle(fileName + fileNameInstanceNo + " / zoom: " +zoom+ "%");
-	    	pack();
+    		refreshImage();
     	}
 	}
 	
 	public void zoomOut(int cent) { //za cent
+		if (cent < 1) return;
     	waitForThread();
     	if ( originalImg != null && zoom - cent > 0 ) {
     		zoom -= cent;
-	    	icon.setImage(Zoom.out(originalImg, zoom));
-	    	super.setTitle(fileName + fileNameInstanceNo + " / zoom: " +zoom+ "%");
-	    	pack();
+    		refreshImage();
     	}
 	}
 	
@@ -143,9 +136,7 @@ public class MyInternalFrame extends JInternalFrame
     	waitForThread();
 		if ( originalImg != null && zoom * 2 < 100 ) {
 	    	zoom *= 2;
-	    	icon.setImage(Zoom.out(originalImg, zoom));
-	    	super.setTitle(fileName + fileNameInstanceNo + " / zoom: " +zoom+ "%");
-	    	pack();
+	    	refreshImage();
 	    	return;
 	    }
 	    if ( originalImg != null && zoom * 2 == 100) {
@@ -154,12 +145,11 @@ public class MyInternalFrame extends JInternalFrame
 	}
 	
 	public void zoomIn(int cent) { //za cent
-    	waitForThread();
+		waitForThread();
+		if (cent < 1) return;
 		if ( originalImg != null && zoom + cent < 100 ) {
 	    	zoom += cent;
-	    	icon.setImage(Zoom.out(originalImg, zoom));
-	    	super.setTitle(fileName + fileNameInstanceNo + " / zoom: " +zoom+ "%");
-	    	pack();
+	    	refreshImage();
 	    	return;
 	    }
 	    if ( originalImg != null && zoom + cent == 100) {
@@ -167,6 +157,7 @@ public class MyInternalFrame extends JInternalFrame
 	    }
 	}
 	
+	//TODO imena oken
 	public void actualSize() {
     	waitForThread();
 		if ( originalImg != null && zoom!=100 ) {
@@ -175,6 +166,12 @@ public class MyInternalFrame extends JInternalFrame
 			super.setTitle(fileName + fileNameInstanceNo);
 		    pack();
 		}
+	}
+
+	private void refreshImage() {
+		icon.setImage(Zoom.out(originalImg, zoom));
+    	super.setTitle(fileName + fileNameInstanceNo + " / zoom: " +zoom+ "%");
+    	pack();
 	}
 	/////////////////////////////////////////////////
 	
