@@ -15,7 +15,7 @@ public class DivisionDialog extends OperationDialog {
 	private static final long serialVersionUID = 1521758606230922389L;
 
 	public DivisionDialog( JDesktopPane desktop ) {
-		super( desktop, "Division", " / ");
+		super( desktop, "Division", "  /  ");
 	}
 	
 	protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2) {

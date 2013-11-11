@@ -199,7 +199,6 @@ public class Filtri {
      * BIT PLANE - Returns BW image, that represents values of n-th bit for every pixel
      */	
 	public static BufferedImage bitPlane(BufferedImage img, final int bit) {
-		//TODO se cudno obnasa, za vecje bite vraca skor cist crno sliko
 		return processImage(img, new RGBFunction() {
     	    public int apply(int rgb) {
 				return getBitPlane(rgb, bit);

@@ -23,29 +23,27 @@ import si.gto76.javaphotoeditor.Utility;
 import si.gto76.javaphotoeditor.filterthreads.FilterThread;
 import si.gto76.javaphotoeditor.filterthreads.HistogramStretchingThread;
 
-
+	
 public class HistogramStretchingDialog extends JFrame 
 								implements ChangeListener  {
-     
- 	 /**
-	 * 
-	 */
+	
+		
 	private static final long serialVersionUID = -2858551691574547798L;
 	protected BufferedImage imgIn, imgOut;
- 	 protected MyInternalFrame selectedFrame;
- 	 protected FilterThread filterThread;
-     
-     private BufferedImage histogramImg1, histogramImg2;
-     private JPanel p;
-     private ImageIcon icon;
-     private JLabel label;
-     private JSlider sld1, sld2;
-     private JOptionPane op;
-     private JDialog dlg;
-     
-     public HistogramStretchingDialog( MyInternalFrame selectedFrame, BufferedImage histogramImg ) {
-     	//TODO histogram popedenat elemente
- 		this.selectedFrame = selectedFrame;
+	protected MyInternalFrame selectedFrame;
+ 	protected FilterThread filterThread;
+ 	 
+    private BufferedImage histogramImg1, histogramImg2;
+    private JPanel p;
+    private ImageIcon icon;
+    private JLabel label;
+    private JSlider sld1, sld2;
+    private JOptionPane op;
+    private JDialog dlg;
+    
+    //TODO2 Ce ga zaprem z x-om pride do napake
+    public HistogramStretchingDialog( MyInternalFrame selectedFrame, BufferedImage histogramImg ) {
+    	this.selectedFrame = selectedFrame;
  		imgIn = selectedFrame.getImg();
  		imgOut = Utility.declareNewBufferedImageAndCopy(imgIn); //naredi kopijo
  		selectedFrame.setImg(imgOut); //na kero usmeri kazalec od frejma
@@ -75,12 +73,10 @@ public class HistogramStretchingDialog extends JFrame
     		JOptionPane.OK_CANCEL_OPTION);
     	
     	dlg = op.createDialog(this, "Histogram");
-    	dlg.setSize(300,275);
+    	dlg.setSize(300, 264);
     	dlg.setVisible(true);
     	dlg.dispose();
-    	
     }
-    
     public int[] getValues() {
     	//Vrne vrednosti slajderjev
     	int[] value = new int[2];
@@ -179,4 +175,3 @@ public class HistogramStretchingDialog extends JFrame
     
 }
                                    		
-

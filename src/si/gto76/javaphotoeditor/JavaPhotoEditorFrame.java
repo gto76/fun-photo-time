@@ -1,6 +1,5 @@
 package si.gto76.javaphotoeditor;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -16,6 +15,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
@@ -52,30 +53,20 @@ import si.gto76.javaphotoeditor.filterthreads2.ThresholdingThread2;
  
 public class JavaPhotoEditorFrame extends JFrame 
 							implements ContainerListener, MouseWheelListener {
-    
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5772778382924626863L;
-	//TODO vse statike v en class
-	final private Color BACKGROUND_COLOR = Color.WHITE;
-    final private boolean TEST_IMAGE = true;
-	final private String TEST_IMAGE_FILE_NAME = "/home/minerva/131060885.jpg";
 	
+	private static final long serialVersionUID = 5772778382924626863L;
     public JDesktopPane desktop;
-    //private int noOfFrames = 0;
     private Meni meni;
-    private String lastPath = "C:\\Documents and Settings\\User\\My Documents\\My Pictures\\Ostalo\\Bergel.jpg";
+    private String lastPath = null;
     public ViewMenuUtil vmu = new ViewMenuUtil();
     
-    /**
+    /*
      * The constructor.
      */  
-     
     public JavaPhotoEditorFrame() {
     	super("Photo Fun Time"); // super("Java Photo Editor");
         
-        /*inicializacije****************************************/
+        /*Inicializacije****************************************/
         
         //nastavitve za internal frame
         int inset = 50;
@@ -84,7 +75,7 @@ public class JavaPhotoEditorFrame extends JFrame
                   screenSize.width  - inset*2,
                   screenSize.height - inset*2);
         desktop = new JDesktopPane();
-        desktop.setBackground(BACKGROUND_COLOR);
+        desktop.setBackground(Conf.BACKGROUND_COLOR);
         //createFrame();
         setContentPane(desktop);
         
@@ -136,6 +127,8 @@ public class JavaPhotoEditorFrame extends JFrame
                 public void actionPerformed(ActionEvent e) {
                 	JFileChooser fc = new JFileChooser();
                 	fc. setMultiSelectionEnabled(true);
+                	if (lastPath != null)
+                		fc.setCurrentDirectory(new File(lastPath));
                 	int returnVal = fc.showOpenDialog(JavaPhotoEditorFrame.this);
                 	if (returnVal == JFileChooser.APPROVE_OPTION) {
                 		try {
@@ -145,16 +138,7 @@ public class JavaPhotoEditorFrame extends JFrame
                 			}
 						} catch (IOException f) {
 						}
-						//TODO last path
-						//shrani path za naslednjic ko odpremo open ali save
-						//lastPath = fc.getSelectedFile().getAbsolutePath(); 
-						//regex ki izloci filename iz patha - not universal
-						/*
-						Pattern pat = Pattern.compile("^(.+\\\\)[^\\\\]+$");
-				        Matcher mat = pat.matcher(lastPath);
-				        mat.find();
-				        lastPath = mat.group(1);
-				        */
+						lastPath = fc.getSelectedFile().getPath();
 				    }
 				}
             }
@@ -438,7 +422,7 @@ public class JavaPhotoEditorFrame extends JFrame
             }
         );  
         
-        if (TEST_IMAGE) openTestImage();
+        if (Conf.TEST_IMAGE) openTestImage();
     }
     
     /*
@@ -545,7 +529,7 @@ public class JavaPhotoEditorFrame extends JFrame
 	private void openTestImage() {
 		//Odpre testno sliko
 		JFileChooser fc = new JFileChooser();
-        fc.setSelectedFile(new File(TEST_IMAGE_FILE_NAME));
+        fc.setSelectedFile(new File(Conf.TEST_IMAGE_FILE_NAME));
     	try {
     		BufferedImage img = ImageIO.read(fc.getSelectedFile());
     		MyInternalFrame frame1 =createFrame(img, fc.getSelectedFile().getName());

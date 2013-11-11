@@ -1,10 +1,13 @@
 package si.gto76.javaphotoeditor;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyVetoException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -15,8 +18,7 @@ import javax.swing.event.InternalFrameListener;
 public class MyInternalFrame extends JInternalFrame 
 						implements InternalFrameListener {
 	private static final long serialVersionUID = -1665181775406001910L;
-	private static final int SCROLL_PANE_SPEED = 14;
-	private static final int X_OFFSET = 30, Y_OFFSET = 30;
+
 	//kolk okvirjev je ze bilo odprtih
 	private static int openFrameCount = 0;
 	private ImageIcon icon;
@@ -28,7 +30,7 @@ public class MyInternalFrame extends JInternalFrame
 	JavaPhotoEditorFrame mainFrame;
 
 	// TODO imena oken: text = name + zoom
-	// TODO naštmat barvo podlage
+	
 
 	// Used when importing from other frame
 	public MyInternalFrame(JavaPhotoEditorFrame mainFrame, BufferedImage imgIn, MyInternalFrame frameIn) {
@@ -60,12 +62,18 @@ public class MyInternalFrame extends JInternalFrame
 	
 	// Initializes the window components
 	private void init(BufferedImage imgIn) {
+		
 	    icon = new ImageIcon((Image)imgIn, "description");
-        JLabel label = new JLabel(icon);
+	    JLabel label = new JLabel(icon);
+	    label.setBackground(Conf.BACKGROUND_COLOR);
+	    label.setOpaque(true);
         JScrollPane scrollPane = new JScrollPane(label);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_PANE_SPEED);
+        
+        scrollPane.getVerticalScrollBar().setUnitIncrement(Conf.SCROLL_PANE_SPEED);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
-	    setLocation(X_OFFSET*(openFrameCount%10), Y_OFFSET*(openFrameCount%10));
+	    setLocation(Conf.X_OFFSET*(openFrameCount%10), Conf.Y_OFFSET*(openFrameCount%10));
+	    Container pane = this.getContentPane();
+	    
 	    pack();
 		addInternalFrameListener(this);
 	}
@@ -103,15 +111,13 @@ public class MyInternalFrame extends JInternalFrame
     	return zoom;
     }
     
-    //TODO če je full screen da ga zoom ne vrže ven
+    //TODO refacture zoom routines
     ////////////////////////////////////////////////////
     public void zoom(int cent) {
     	waitForThread();
     	if ( originalImg != null && cent < 100 && cent > 0 && cent != zoom) {
     		zoom = cent;
-	    	icon.setImage(Zoom.out(originalImg, cent));
-	    	super.setTitle(fileName + fileNameInstanceNo +" / zoom: " +zoom+ "%");
-	    	pack();
+    		refreshImage();
 	    }
     }
     
@@ -124,8 +130,8 @@ public class MyInternalFrame extends JInternalFrame
 	}
 	
 	public void zoomOut(int cent) { //za cent
-		if (cent < 1) return;
     	waitForThread();
+    	if (cent < 1) return;
     	if ( originalImg != null && zoom - cent > 0 ) {
     		zoom -= cent;
     		refreshImage();
@@ -157,22 +163,34 @@ public class MyInternalFrame extends JInternalFrame
 	    }
 	}
 	
-	//TODO imena oken
 	public void actualSize() {
     	waitForThread();
 		if ( originalImg != null && zoom!=100 ) {
 			zoom = 100;
-			icon.setImage(originalImg);
-			super.setTitle(fileName + fileNameInstanceNo);
-		    pack();
+			refreshImage();
 		}
 	}
-
+	//TODO imena oken
 	private void refreshImage() {
-		icon.setImage(Zoom.out(originalImg, zoom));
-    	super.setTitle(fileName + fileNameInstanceNo + " / zoom: " +zoom+ "%");
+		boolean isMax = this.isMaximum;
+		if (zoom == 100) {
+			icon.setImage(originalImg);
+			super.setTitle(fileName + fileNameInstanceNo);
+		} else {
+			icon.setImage(Zoom.out(originalImg, zoom));
+	    	super.setTitle(fileName + fileNameInstanceNo + " / zoom: " +zoom+ "%");
+		}
     	pack();
+
+    	if (isMax) {
+    		try {
+				this.setMaximum(true);
+			} catch (PropertyVetoException e) {
+				e.printStackTrace();
+			}
+    	}
 	}
+
 	/////////////////////////////////////////////////
 	
 	public void waitForThread() {

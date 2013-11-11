@@ -7,9 +7,6 @@ import si.gto76.javaphotoeditor.dialogs.MyMenuInterface;
 class MyMenuItem extends JMenuItem
 					implements MyMenuInterface {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3854336471073348117L;
 	private int noOfOperands;
 	

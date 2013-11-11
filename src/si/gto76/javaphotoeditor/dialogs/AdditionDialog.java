@@ -9,9 +9,6 @@ import si.gto76.javaphotoeditor.Filtri;
 
 public class AdditionDialog extends OperationDialog {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7864165614411296542L;
 
 	public AdditionDialog( JDesktopPane desktop ) {

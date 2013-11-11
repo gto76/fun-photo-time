@@ -17,24 +17,16 @@ import si.gto76.javaphotoeditor.MyInternalFrame;
 public abstract class OperationDialog extends MyDialog 
 									implements ActionListener{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4986931956064747068L;
 	protected BufferedImage imgIn1, imgIn2, imgOut;
 	protected MyInternalFrame selectedFrame1, selectedFrame2;
 	protected JDesktopPane desktop;
 	protected JComboBox combo1, combo2;
 	
-	
 	public OperationDialog( JDesktopPane desktop, String title, String symbol ) {
 		super(title);
-		// TODO sirsi aritmeticni dialogi
-		this.desktop = desktop;
-		
-		//Naredi komponente in jih "ugradi" v dialog
-		
 		//Vse internal frejme iz desktopa nalozi v tabelo
+		this.desktop = desktop;
 		JInternalFrame[] allFrames = desktop.getAllFrames();
 		
 		//potem jih dodeli vsakmu komboboksu
@@ -43,7 +35,6 @@ public abstract class OperationDialog extends MyDialog
 		
 		combo1.setPreferredSize(new Dimension(90, 20));
 		combo2.setPreferredSize(new Dimension(90, 20));
-		//combo1.getComponentPopupMenu().setPreferredSize(new Dimension(150, 50));
 		
 		combo1.addActionListener(this);
 		combo2.addActionListener(this);
@@ -54,13 +45,8 @@ public abstract class OperationDialog extends MyDialog
 			combo2
 		};
 		
-		//dlg.setPreferredSize(new Dimension(400, 60));
-		//p.setPreferredSize(new Dimension(400, 60));
-		//op.setPreferredSize(new Dimension(400, 60));
-		
+		dlg.setSize(400, 104);
 		addComponents(components);
-		//OperationDialog.this.setSize(new Dimension(600, 60));
-		
 	}
 	
 	public void actionPerformed(ActionEvent e) {

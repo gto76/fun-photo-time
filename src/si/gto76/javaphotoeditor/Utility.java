@@ -10,7 +10,6 @@ import javax.imageio.ImageTypeSpecifier;
 
 
 public class Utility {
-	private static final int HISTOGRAM_VERTICAL_ZOOM = 30;
 	
 	public static BufferedImage getHistogramImage (double[] histogram) {
         //naredi sliko histograma
@@ -28,7 +27,7 @@ public class Utility {
     	g2.setPaint(red);
     	//Gre cez vseh 256 polj od histograma[] in narise navpicno crto
     	for (int i = 0; i < 256; i++) {
-    		height2 = height - (int)(histogram[i] * height * HISTOGRAM_VERTICAL_ZOOM); //EX:15
+    		height2 = height - (int)(histogram[i] * height * Conf.HISTOGRAM_VERTICAL_ZOOM); //EX:15
     		g2.draw(new Line2D.Double(i, height, i, height2));
 		}
 		return img;

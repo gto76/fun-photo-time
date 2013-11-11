@@ -94,10 +94,10 @@ class Meni {
         menuFiltersColors.setText("Color Adjustment...");
         //menuFilters.setText("");
         menuLogicop.setText("Logic");
-        menuLogicopNot.setText("NOT");
-        menuLogicopAnd.setText("AND");
-        menuLogicopOr.setText("OR");
-        menuLogicopXor.setText("XOR");
+        menuLogicopNot.setText("Not...");
+        menuLogicopAnd.setText("And...");
+        menuLogicopOr.setText("Or...");
+        menuLogicopXor.setText("Xor...");
         menuArithmeticop.setText("Arithmetic");
         menuArithmeticopAddition.setText("+");
         menuArithmeticopSubtraction.setText("-");
