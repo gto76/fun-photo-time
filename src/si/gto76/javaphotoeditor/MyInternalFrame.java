@@ -17,26 +17,29 @@ import javax.swing.event.InternalFrameListener;
 
 public class MyInternalFrame extends JInternalFrame 
 						implements InternalFrameListener {
+	
 	private static final long serialVersionUID = -1665181775406001910L;
-
-	//kolk okvirjev je ze bilo odprtih
-	private static int openFrameCount = 0;
 	private ImageIcon icon;
 	private BufferedImage originalImg; //image that is not resized
+	
+	//kolk okvirjev je ze bilo odprtih
+	private static int openFrameCount = 0;
 	private int zoom = 100;
 	private String fileName;
-	private String fileNameInstanceNo;
+	private int fileNameInstanceNo;
+	
 	Thread thread;
 	JavaPhotoEditorFrame mainFrame;
 
-	// TODO imena oken: text = name + zoom
 	
-
+	/*
+	 * CONSTRUCTORS
+	 */
+	
 	// Used when importing from other frame
 	public MyInternalFrame(JavaPhotoEditorFrame mainFrame, BufferedImage imgIn, MyInternalFrame frameIn) {
-		super(frameIn.getFileName()+" #"+(++openFrameCount)+" / zoom: "+frameIn.zoom+"%", 
-				true, true, true, true);
-		this.mainFrame = mainFrame;
+		super("", true, true, true, true);
+		this.setTitle(fileName);
 		//če ni frameIn zoom 100% zaenkrat ostane brez originalne slike
 		//(ker jo more en od FilterThreadov, ki teče v ozadju še narest)
 	    if ( frameIn.getZoom() == 100 ) {
@@ -44,24 +47,23 @@ public class MyInternalFrame extends JInternalFrame
 	    }
 	    this.zoom = frameIn.zoom;
 	    fileName = frameIn.getFileName(); 
-	    fileNameInstanceNo = " #" +openFrameCount;
-
-	    init(imgIn);
+	    init(mainFrame, imgIn);
 	}
+	
 	// Used when importing from file
 	public MyInternalFrame(JavaPhotoEditorFrame mainFrame, BufferedImage imgIn, String title) {
-		super(title, true, true, true, true);
-		this.mainFrame = mainFrame;
-	    ++openFrameCount;
-	    //fileNameInstanceNo = " #" +openFrameCount;
+		super("", true, true, true, true);
+		originalImg = imgIn;
+		this.zoom = 100;
 	    this.fileName = title;
-	    originalImg = imgIn;
-
-	    init(imgIn);
+	    init(mainFrame, imgIn);
 	}
 	
 	// Initializes the window components
-	private void init(BufferedImage imgIn) {
+	private void init(JavaPhotoEditorFrame mainFrame, BufferedImage imgIn) {
+		fileNameInstanceNo = ++openFrameCount;
+		refreshTitle();
+		this.mainFrame = mainFrame;
 		
 	    icon = new ImageIcon((Image)imgIn, "description");
 	    JLabel label = new JLabel(icon);
@@ -78,10 +80,11 @@ public class MyInternalFrame extends JInternalFrame
 		addInternalFrameListener(this);
 	}
 	
+	
 	/*
-	METODE
-	*/
-
+	 * ROUTINES
+	 */
+	
 	public void anounceThread(Thread thread) {
 		this.thread = thread;
 	}
@@ -111,8 +114,7 @@ public class MyInternalFrame extends JInternalFrame
     	return zoom;
     }
     
-    //TODO refacture zoom routines
-    ////////////////////////////////////////////////////
+    /// ZOOM /////////////////////////////////////////////////
     public void zoom(int cent) {
     	waitForThread();
     	if ( originalImg != null && cent < 100 && cent > 0 && cent != zoom) {
@@ -170,16 +172,16 @@ public class MyInternalFrame extends JInternalFrame
 			refreshImage();
 		}
 	}
-	//TODO imena oken
+	
+	/// REFRESHMENTS ////////////////////////////////////////////
 	private void refreshImage() {
 		boolean isMax = this.isMaximum;
 		if (zoom == 100) {
 			icon.setImage(originalImg);
-			super.setTitle(fileName + fileNameInstanceNo);
 		} else {
 			icon.setImage(Zoom.out(originalImg, zoom));
-	    	super.setTitle(fileName + fileNameInstanceNo + " / zoom: " +zoom+ "%");
 		}
+		refreshTitle();
     	pack();
 
     	if (isMax) {
@@ -190,8 +192,20 @@ public class MyInternalFrame extends JInternalFrame
 			}
     	}
 	}
-
+	
+	private void refreshTitle() {
+		String title;
+		if (zoom == 100) {
+			title = fileName+" #"+fileNameInstanceNo;
+		}
+		else {
+			title = fileName+" #"+fileNameInstanceNo+" / zoom: "+zoom+"%";
+		}
+		System.out.println(title);
+		this.setTitle(title);
+	}
 	/////////////////////////////////////////////////
+	
 	
 	public void waitForThread() {
 		if ( thread != null ) {
@@ -214,8 +228,8 @@ public class MyInternalFrame extends JInternalFrame
     }
 
 	/*
-	INTERNAL FRAME EVENTS
-	*/
+	 * INTERNAL FRAME EVENTS
+	 */
 
 	public void internalFrameClosing(InternalFrameEvent e) {
 		////System.out.println("Internal frame "+this+" is closing");

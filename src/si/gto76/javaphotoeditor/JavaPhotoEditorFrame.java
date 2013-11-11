@@ -504,6 +504,7 @@ public class JavaPhotoEditorFrame extends JFrame
     	MyInternalFrame frame = new MyInternalFrame(this, img, title);
     	return internalFrameInit(frame);
     }
+    
     private MyInternalFrame internalFrameInit(MyInternalFrame frame) {
         frame.setVisible(true); 
         desktop.add(frame);
@@ -513,6 +514,7 @@ public class JavaPhotoEditorFrame extends JFrame
         vmu.createViewMenuItem(this, frame);
         return frame;
     }
+    //////////////////////////////////
     
     public BufferedImage getSelectedBufferedImage() {
     	//Vrne sliko, ki se nahaja v izbranem oknu
