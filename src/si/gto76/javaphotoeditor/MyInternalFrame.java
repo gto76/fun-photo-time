@@ -1,13 +1,11 @@
 package si.gto76.javaphotoeditor;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -36,6 +34,7 @@ public class MyInternalFrame extends JInternalFrame
 	 * CONSTRUCTORS
 	 */
 	
+	//TODO 2 hand move tool
 	// Used when importing from other frame
 	public MyInternalFrame(JavaPhotoEditorFrame mainFrame, BufferedImage imgIn, MyInternalFrame frameIn) {
 		super("", true, true, true, true);
@@ -74,7 +73,6 @@ public class MyInternalFrame extends JInternalFrame
         scrollPane.getVerticalScrollBar().setUnitIncrement(Conf.SCROLL_PANE_SPEED);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	    setLocation(Conf.X_OFFSET*(openFrameCount%10), Conf.Y_OFFSET*(openFrameCount%10));
-	    Container pane = this.getContentPane();
 	    
 	    pack();
 		addInternalFrameListener(this);
@@ -89,7 +87,7 @@ public class MyInternalFrame extends JInternalFrame
 		this.thread = thread;
 	}
 
-	public String getFileName() { //zoomed, displayed img
+	public String getFileName() {
 		return fileName;
     }
 	
@@ -201,7 +199,6 @@ public class MyInternalFrame extends JInternalFrame
 		else {
 			title = fileName+" #"+fileNameInstanceNo+" / zoom: "+zoom+"%";
 		}
-		System.out.println(title);
 		this.setTitle(title);
 	}
 	/////////////////////////////////////////////////

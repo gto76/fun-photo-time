@@ -13,14 +13,14 @@ import javax.swing.JPanel;
 
 
 public abstract class MyDialog extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 3084765862658349147L;
 	protected JPanel p;
 	protected JDialog dlg;
 	protected JOptionPane op;
-
+	
+	// TODO 2 da si zapomne pozicijo
+	// TODO 2 problem ce pritisnes drugam
     public MyDialog(String title) {
     	init(title, BoxLayout.X_AXIS);
     }

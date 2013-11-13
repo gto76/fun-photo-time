@@ -2,6 +2,8 @@ package si.gto76.javaphotoeditor.dialogs;
 
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -17,17 +19,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import si.gto76.javaphotoeditor.Conf;
 
-public class HelpDialog extends JFrame {
-	/**
-	 * 
-	 */
+
+public class AboutDialog extends JFrame {
+
 	private static final long serialVersionUID = 4236082773760097536L;
 	protected JPanel p;
 	protected JDialog dlg;
 	protected JOptionPane op;
 
-    public HelpDialog() throws URISyntaxException {
+	//TODO 2 rename classes
+	// TODO 2 popedenat izgled abouta
+    public AboutDialog() throws URISyntaxException {
     	
     	final URI uri = new URI("http://www.yahoo.com");
         class OpenUrlAction implements ActionListener {
@@ -52,21 +56,29 @@ public class HelpDialog extends JFrame {
     	op = new JOptionPane(p,
     		JOptionPane.PLAIN_MESSAGE,
     		JOptionPane.CLOSED_OPTION);
-    	dlg = op.createDialog(this, "Photo Fun Time");
+    	dlg = op.createDialog(this, "About");
     	JLabel lbl;
-    	/*
-    	lbl = new JLabel("Photo Fun Time");
-    	p.add(lbl); */
-    	p.add(new JLabel(" "));
-    	lbl = new JLabel("Version: 0.9.0");
+    	
+    	//p.setLayout(new GridBagLayout());
+    	
+    	lbl = new JLabel("         Photo Fun Time         ", SwingConstants.CENTER); 
+    	Font newLabelFont =new Font(lbl.getFont().getName(), Font.BOLD, lbl.getFont().getSize()+3);
+    	lbl.setFont(newLabelFont);
+    	lbl.setHorizontalAlignment(JLabel.CENTER);
+    	
     	p.add(lbl);
     	p.add(new JLabel(" "));
-    	lbl = new JLabel("Author: Jure Šorn");
+    	 
+    	lbl = new JLabel("               Version: " + Conf.VERSION + "               ");
     	p.add(lbl);
     	p.add(new JLabel(" "));
+    	
+    	lbl = new JLabel("            Author: Jure Šorn            ");
+    	p.add(lbl);
+    	p.add(new JLabel("     <sornjure@hotmail.com>     "));
     	//p.add(button);
     	
-    	dlg.setSize(240, 160);
+    	dlg.setSize(240, 175);
     	dlg.setVisible(true);
     	dlg.dispose();
     	

@@ -72,9 +72,9 @@ public abstract class OperationDialog extends MyDialog
     }
     
     public String getName() {
-    	String name = ((MyInternalFrame) combo1.getSelectedItem()).getFileName()
-    			+ " "
-    			+ ((MyInternalFrame) combo2.getSelectedItem()).getFileName();
+    	String name = ((MyInternalFrame) combo1.getSelectedItem()).getFileName();
+    	//		+ " "
+    	//		+ ((MyInternalFrame) combo2.getSelectedItem()).getFileName();
     	return name;
     }
     

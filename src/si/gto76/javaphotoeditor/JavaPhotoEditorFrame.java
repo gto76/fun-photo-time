@@ -15,9 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -27,6 +24,7 @@ import javax.swing.JMenu;
 import javax.swing.MenuElement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.filechooser.FileFilter;
 
 import si.gto76.javaphotoeditor.actionlisteners.FilterDialogWithSliderDoubleListener;
 import si.gto76.javaphotoeditor.actionlisteners.FilterWithouthDialogListener;
@@ -34,7 +32,7 @@ import si.gto76.javaphotoeditor.actionlisteners.OperationDialogListener;
 import si.gto76.javaphotoeditor.actionlisteners.ZoomListener;
 import si.gto76.javaphotoeditor.dialogs.BitPlaneDialog;
 import si.gto76.javaphotoeditor.dialogs.ColorsDialog;
-import si.gto76.javaphotoeditor.dialogs.HelpDialog;
+import si.gto76.javaphotoeditor.dialogs.AboutDialog;
 import si.gto76.javaphotoeditor.dialogs.HistogramStretchingDialog;
 import si.gto76.javaphotoeditor.dialogs.MyMenuInterface;
 import si.gto76.javaphotoeditor.dialogs.ThresholdingDialog;
@@ -63,6 +61,8 @@ public class JavaPhotoEditorFrame extends JFrame
     /*
      * The constructor.
      */  
+    //TODO 2 dodat ikonco
+    //TODO 3 shortcuts
     public JavaPhotoEditorFrame() {
     	super("Photo Fun Time"); // super("Java Photo Editor");
         
@@ -143,29 +143,72 @@ public class JavaPhotoEditorFrame extends JFrame
 				}
             }
         ); 
-        
+
+        final String[] pngExtensions = {".png", ".PNG"};
+        final ExtensionFileFilter pngFileFilter = new ExtensionFileFilter("*.png,*.PNG", pngExtensions);
+        final String[] jpgExtensions = {".jpg", ".JPG", ".jpeg", ".JPEG"};
+        final ExtensionFileFilter jpgFileFilter = new ExtensionFileFilter("*.jpg,*.JPG", jpgExtensions);
+		
         //FILE SAVE
         meni.menuFileSaveas.addActionListener
         (
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	if ( desktop.getSelectedFrame() != null ) {
-                		JFileChooser fc = new JFileChooser();
-                		String fileName = desktop.getSelectedFrame().toString();
-                		fc.setSelectedFile(new File(lastPath + fileName));
-                		fc.setDialogTitle("Save As");
-	                	int returnVal = fc.showSaveDialog(JavaPhotoEditorFrame.this);
-			            if (returnVal == JFileChooser.APPROVE_OPTION) {
-			                try {
-					        File outputfile = fc.getSelectedFile();
-					        	ImageIO.write(getSelectedBufferedImage(), "png", outputfile);
-					    	} catch (IOException f) {
-					    	}
-					    }
-					}
+                	if ( desktop.getSelectedFrame() == null ) 
+                		return;
+            		JFileChooser fc = new JFileChooser();
+            		String fileName = ((MyInternalFrame)desktop.getSelectedFrame()).getFileName();
+            		// odstrani koncnico imenu
+            		int indexOfDot = fileName.indexOf(".");
+            		if (indexOfDot != -1)
+            			fileName = (String) fileName.subSequence(0, indexOfDot);
+            		if (lastPath != null)
+            			fc.setSelectedFile(new File(lastPath));
+            		else
+            			fc.setSelectedFile(new File(fileName));
+            		fc.setDialogTitle("Save As");
+
+            		fc.addChoosableFileFilter(pngFileFilter);
+            		fc.addChoosableFileFilter(jpgFileFilter);
+            		fc.setFileFilter(pngFileFilter);
+            		
+                	int returnVal = fc.showSaveDialog(JavaPhotoEditorFrame.this);
+		            if (returnVal == JFileChooser.APPROVE_OPTION) {
+		            	// TODO 1 save
+		            	// if filter png, koncnica png -> save as png
+		            	// if filter png, koncnica "" -> add koncnica, save as png
+		            	// if filter png, koncnica ~png (ali vec koncnic) -> FAIL
+		            	
+		            	// if filter jpg, koncnica jpg,jpeg -> save as koncnica
+		            	// if filter jpg, koncnica "" -> add koncnica, save as koncnica
+		            	// if filter jpg, koncnica ~jpg (ali vec koncnic) -> FAIL
+		            	
+		            	// if filter all, koncnica png -> save as png
+		            	// if filter all, koncnica jpg,jpeg -> save as koncnica
+		            	// if filter all, koncnica "" -> save as png
+		            	// if filter all, koncnica ~png, ~jpg (ali vec koncnic) -> FAIL
+		            	
+		            	String ext = "";
+		            	if (fc.getFileFilter().equals(pngFileFilter)) { 
+		            		ext = "png";
+		            	}
+						if (fc.getFileFilter().equals(jpgFileFilter)) {
+							ext = "jpg";
+						}
+						System.out.println("Ext: "+ext);
+		                try {
+		                	File outputfile = fc.getSelectedFile();
+				        	ImageIO.write(getSelectedBufferedImage(), ext, outputfile);
+				    	} catch (IOException f) {
+				    		System.out.println("SAVE ERROR!");
+				    	}
+				    }
+		            
+		            
 		        }
             }
         );
+
         
         /*
          * ZOOM
@@ -405,7 +448,7 @@ public class JavaPhotoEditorFrame extends JFrame
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	try {
-						new HelpDialog();
+						new AboutDialog();
 					} catch (URISyntaxException e1) {
 						e1.printStackTrace();
 					}
@@ -490,7 +533,6 @@ public class JavaPhotoEditorFrame extends JFrame
     /*
      * INTERNAL FRAME CONSTRUCTION
      */
-    //TODO imena oken
     // Used when importing from other frame
     public MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
 		//Create a new internal frame with zoomed image. Add original image later.
