@@ -2,19 +2,28 @@ package si.gto76.funphototime;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 
 public class MyInternalFrame extends JInternalFrame 
-						implements InternalFrameListener {
+						implements InternalFrameListener /*, MouseMotionListener*/ {
+					        
+					        
 	
 	private static final long serialVersionUID = -1665181775406001910L;
 	private ImageIcon icon;
@@ -34,7 +43,6 @@ public class MyInternalFrame extends JInternalFrame
 	 * CONSTRUCTORS
 	 */
 	
-	//TODO 2 hand move tool
 	// Used when importing from other frame
 	public MyInternalFrame(FunPhotoTimeFrame mainFrame, BufferedImage imgIn, MyInternalFrame frameIn) {
 		super("", true, true, true, true);
@@ -260,5 +268,72 @@ public class MyInternalFrame extends JInternalFrame
 
     public void internalFrameDeactivated(InternalFrameEvent e) {
 	}
+
+    /*
+     * MOUSE MOTION LISTENER
+     */
+
+    //TODO hand move tool
+    
+    /*
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e){
+		if(SwingUtilities.isLeftMouseButton(e)){
+			//make sure the point is within bounds of image
+			int l_x, l_y;
+			Point tempPoint = new Point(e.getPoint());
+			l_x = source.getWidth();
+			l_y = source.getHeight();
+			if( tempPoint.x > l_x)
+				tempPoint.x = l_x;
+			if( tempPoint.y > l_y)
+				tempPoint.y = l_y;
+			sel.updateSelectionArea(tempPoint);
+			repaint(); 
+		}
+		else if(SwingUtilities.isRightMouseButton(e)){
+			JViewport viewport = parent.getViewport();
+			JScrollBar jsbY= parent.getVerticalScrollBar();
+			JScrollBar jsbX= parent.getHorizontalScrollBar();
+			try{
+				Point newPosition = parent.getMousePosition();
+				
+				int dx, dy;
+				dx = panAnchor.x - newPosition.x;
+				dy = panAnchor.y - newPosition.y;
+				
+				// update pan anchor
+				panAnchor.x = newPosition.x;
+				panAnchor.y = newPosition.y;
+				
+				int x, y;
+				x = viewport.getViewPosition().x + dx;
+				y = viewport.getViewPosition().y + dy;
+				
+				if ( x < 1 || this.getDims().width < parent.getVisibleRect().width + jsbY.getWidth())
+					x = 1;
+				else if( x > (this.getDims().width - parent.getVisibleRect().width + jsbY.getWidth()))
+					x = this.getDims().width - parent.getVisibleRect().width + jsbY.getWidth();
+				
+				if ( y < 1 || this.getDims().height < parent.getVisibleRect().height + jsbX.getHeight())
+					y = 1;
+				else if( y > (this.getDims().height - parent.getVisibleRect().height + jsbX.getHeight()))
+					y = this.getDims().height - parent.getVisibleRect().height + jsbX.getHeight();
+				
+				viewport.setViewPosition(new Point(x,y));
+			}
+			catch(Exception e2){}
+			
+			repaint();
+		}
+		
+	}
+*/
+
 	
 }

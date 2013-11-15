@@ -1,22 +1,12 @@
 package si.gto76.funphototime;
 /*
- * @(#)JavaPhotoEditor.java
+ * @(#)FunPhotoTime.java
  *
  * Aplication for manipulating bitmaps.
  *
- * @author Jure Sorn
- * @version 1.00 08/02/21
+ * @author Jure Šorn <sornjure@hotmail.com>
+ * @version 0.9.1 13/11/15
  */
-
-/*
- * Things to add in next major release:
- * 	Web page
- * 	Middle slider at histogram stretching
- * 	rotation
- * 	full screen slideshow
- * 	fit screen zoom
- */
-
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -52,14 +42,12 @@ public class FunPhotoTime {
         // Set diferent icons, depending on main window focus.
         frame.addWindowFocusListener(new WindowAdapter() {
             public void windowGainedFocus(WindowEvent e) {
-              frame.setIconImage(FunPhotoTimeFrame.iconImg2.getImage());
+              frame.setIconImages(FunPhotoTimeFrame.iconsActive);
             }
-
             public void windowLostFocus(WindowEvent e) {
-              frame.setIconImage(FunPhotoTimeFrame.iconImg1.getImage());
+              frame.setIconImages(FunPhotoTimeFrame.iconsNotActive);
             }
-          });
-        
+        });
         frame.setVisible(true);
     }
     

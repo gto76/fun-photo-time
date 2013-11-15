@@ -32,6 +32,15 @@ import java.io.File;
 final class ExtensionFileFilter extends FileFilter {
 	private final String description;
 	private final String[] extensions;
+	
+    static final String[] pngExtensions = {".png"};
+    static final ExtensionFileFilter png = new ExtensionFileFilter("*.png,*.PNG", pngExtensions);
+    static final String[] gifExtensions = {".gif"};
+    static final ExtensionFileFilter gif = new ExtensionFileFilter("*.gif,*.GIF", gifExtensions);
+    static final String[] bmpExtensions = {".bmp"};
+    static final ExtensionFileFilter bmp = new ExtensionFileFilter("*.bmp,*.BMP", bmpExtensions);
+    static final String[] jpgExtensions = {".jpg", ".jpeg"};
+    static final ExtensionFileFilter jpg = new ExtensionFileFilter("*.jpg,*.JPG", jpgExtensions);
 
 	/**
 	 * Creates a new ExtensionFileFilter.

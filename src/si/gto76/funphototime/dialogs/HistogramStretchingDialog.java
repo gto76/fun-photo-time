@@ -75,6 +75,7 @@ public class HistogramStretchingDialog extends JFrame
     	dlg = op.createDialog(this, "Histogram");
     	dlg.setSize(300, 264);
     	dlg.setLocation(MyDialog.location);
+    	dlg.setAlwaysOnTop(true);
     	dlg.setVisible(true);
     	dlg.dispose();
     }

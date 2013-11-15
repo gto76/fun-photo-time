@@ -2,6 +2,8 @@ package si.gto76.funphototime;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,7 +48,6 @@ import si.gto76.funphototime.filterthreads2.ColorsThread2;
 import si.gto76.funphototime.filterthreads2.HistogramStretchingThread2;
 import si.gto76.funphototime.filterthreads2.ThresholdingThread2;
 
-// TODO 2 preimenovat projekt
 
 /*
  * @author: Jure Sorn 
@@ -62,20 +63,18 @@ public class FunPhotoTimeFrame extends JFrame
     private String lastPath = null;
     public ViewMenuUtil vmu = new ViewMenuUtil();
     
-    static ImageIcon iconImg1;
-    static ImageIcon iconImg2;
+    static ArrayList<Image> iconsActive;
+    static ArrayList<Image> iconsNotActive;
     
     /*
      * The constructor.
      */  
-    //TODO 2 dodat ikonco
-    //TODO 3 shortcuts
     public FunPhotoTimeFrame() {
-    	super("Photo Fun Time"); // super("Java Photo Editor");
+    	super("Fun Photo Time");
         
         /*Inicializacije****************************************/
         
-        //nastavitve za internal frame
+        // Internal frame 
         int inset = 50;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(inset + 30, inset,
@@ -83,7 +82,6 @@ public class FunPhotoTimeFrame extends JFrame
                   screenSize.height - inset*2);
         desktop = new JDesktopPane();
         desktop.setBackground(Conf.BACKGROUND_COLOR);
-        //createFrame();
         setContentPane(desktop);
         
         //da obvesca o na novo odprtih in zaprtih internal frejmih
@@ -91,26 +89,25 @@ public class FunPhotoTimeFrame extends JFrame
         //poslusa kolescek na miski za zoom in, out
         desktop.addMouseWheelListener(this);
         
-        //Meniji
+        // Menus
         meni = new Menu();
         setJMenuBar(meni.getMenuBar());
         
-      //Ikonca
-        URL url = getClass().getResource(Conf.ICON_FILENAME_1);
-        iconImg1 = new ImageIcon(url);
-
-        url = getClass().getResource(Conf.ICON_FILENAME_2);
-        iconImg2 = new ImageIcon(url);
-        
-        this.setIconImage(iconImg1.getImage());
-        
-        
-        
-        //new ImageIcon(new BufferedImage(5, 5, BufferedImage.TYPE_INT_ARGB));
-        
-
-        
-        
+        // Icons
+    	final ImageIcon iconImgS = new ImageIcon(getClass().getResource(Conf.ICON_FILENAME_S));
+    	final ImageIcon iconImgSBlue = new ImageIcon(getClass().getResource(Conf.ICON_FILENAME_S_BLUE));
+    	final ImageIcon iconImgM = new ImageIcon(getClass().getResource(Conf.ICON_FILENAME_M));
+    	final ImageIcon iconImgL = new ImageIcon(getClass().getResource(Conf.ICON_FILENAME_L));
+    	final ImageIcon iconImgXL = new ImageIcon(getClass().getResource(Conf.ICON_FILENAME_XL));
+    	
+    	iconsActive = new ArrayList<Image>() {
+    		{add(iconImgSBlue.getImage()); add(iconImgM.getImage()); add(iconImgL.getImage()); add(iconImgXL.getImage());}
+    	};
+    	iconsNotActive = new ArrayList<Image>() {
+    		{add(iconImgS.getImage()); add(iconImgM.getImage()); add(iconImgL.getImage()); add(iconImgXL.getImage());}
+    	};
+        this.setIconImages(iconsActive);
+  
         
         /*Action*Listenerji***************************************/ 
         
@@ -167,14 +164,6 @@ public class FunPhotoTimeFrame extends JFrame
             }
         ); 
 
-        final String[] pngExtensions = {".png"};
-        final ExtensionFileFilter pngFileFilter = new ExtensionFileFilter("*.png,*.PNG", pngExtensions);
-        final String[] gifExtensions = {".gif"};
-        final ExtensionFileFilter gifFileFilter = new ExtensionFileFilter("*.gif,*.GIF", gifExtensions);
-        final String[] bmpExtensions = {".bmp"};
-        final ExtensionFileFilter bmpFileFilter = new ExtensionFileFilter("*.bmp,*.BMP", bmpExtensions);
-        final String[] jpgExtensions = {".jpg", ".jpeg"};
-        final ExtensionFileFilter jpgFileFilter = new ExtensionFileFilter("*.jpg,*.JPG", jpgExtensions);
 		
         //FILE SAVE
         meni.menuFileSaveas.addActionListener
@@ -190,20 +179,20 @@ public class FunPhotoTimeFrame extends JFrame
             		if (indexOfDot != -1)
             			fileName = (String) fileName.subSequence(0, indexOfDot);
             		if (lastPath != null)
-            			fc.setSelectedFile(new File(lastPath)); // TODO 1 save V tem primeru je treba odstranit ime in dodat ime izbranega frejma
+            			fc.setSelectedFile(new File(lastPath)); // TODO save V tem primeru je treba odstranit ime in dodat ime izbranega frejma
             		else
             			fc.setSelectedFile(new File(fileName));
             		fc.setDialogTitle("Save As");
 
-            		fc.addChoosableFileFilter(pngFileFilter);
-            		fc.addChoosableFileFilter(jpgFileFilter);
-            		fc.addChoosableFileFilter(bmpFileFilter);
-            		fc.addChoosableFileFilter(gifFileFilter);
-            		fc.setFileFilter(pngFileFilter);
+            		fc.addChoosableFileFilter(ExtensionFileFilter.png);
+            		fc.addChoosableFileFilter(ExtensionFileFilter.jpg);
+            		fc.addChoosableFileFilter(ExtensionFileFilter.bmp);
+            		fc.addChoosableFileFilter(ExtensionFileFilter.gif);
+            		fc.setFileFilter(ExtensionFileFilter.png);
             		
                 	int returnVal = fc.showSaveDialog(FunPhotoTimeFrame.this);
 		            if (returnVal == JFileChooser.APPROVE_OPTION) {
-		            	// TODO 1 save in da sejva original image in ne zooma
+		            	// TODO save in da sejva original image in ne zooma
 		            	// if filter png, koncnica png -> save as png
 		            	// if filter png, koncnica "" -> add koncnica, save as png
 		            	// if filter png, koncnica ~png (ali vec koncnic) -> FAIL
@@ -218,14 +207,19 @@ public class FunPhotoTimeFrame extends JFrame
 		            	// if filter all, koncnica ~png, ~jpg (ali vec koncnic) -> FAIL
 		            	
 		            	String ext = "";
-		            	
 		            	File outputfile = fc.getSelectedFile();
 		            	String givenName = outputfile.getName();
 		            	
-		            	if (fc.getFileFilter().equals(pngFileFilter)) { 
+		            	if (fc.getFileFilter().equals(ExtensionFileFilter.png)) { 
+		            		// if filter png, koncnica png -> save as png
+			            	//givenName.endsWith(".png") // or does not contain .
+		            		// if filter png, koncnica "" -> add koncnica, save as png
+			            	//else
+		            		// if filter png, koncnica ~png (ali vec koncnic) -> FAIL
+			            	
 		            		ext = "png";
 		            	}
-		            	else if (fc.getFileFilter().equals(jpgFileFilter)) {
+		            	else if (fc.getFileFilter().equals(ExtensionFileFilter.jpg)) {
 							ext = "jpg";
 						} else { // all
 							

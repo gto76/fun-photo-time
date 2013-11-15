@@ -1,6 +1,7 @@
 package si.gto76.funphototime.dialogs;
 
 import java.awt.Component;
+import java.awt.Dialog.ModalityType;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
@@ -23,7 +24,6 @@ public abstract class MyDialog extends JFrame {
 	protected JOptionPane op;
 	static public Point location = new Point(Conf.DIALOG_LOCATION_X, Conf.DIALOG_LOCATION_Y);
 	
-	// TODO 2 problem ce pritisnes drugam
     public MyDialog(String title) {
     	init(title, BoxLayout.X_AXIS);
     }
@@ -41,7 +41,9 @@ public abstract class MyDialog extends JFrame {
     	op = new JOptionPane(p,
     		JOptionPane.PLAIN_MESSAGE,
     		JOptionPane.OK_CANCEL_OPTION);
+    	
     	dlg = op.createDialog(this, title);
+    	dlg.setAlwaysOnTop(true);
     	dlg.setLocation(location);
 	}
 	
