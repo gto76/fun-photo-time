@@ -22,6 +22,8 @@ package si.gto76.funphototime;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This <code>FileFilter</code> accepts files that end in one of the given
@@ -29,19 +31,33 @@ import java.io.File;
  * 
  * @author Eric Lafortune
  */
-final class ExtensionFileFilter extends FileFilter {
+public final class ExtensionFileFilter extends FileFilter {
 	private final String description;
 	private final String[] extensions;
 	
     static final String[] pngExtensions = {".png"};
-    static final ExtensionFileFilter png = new ExtensionFileFilter("*.png,*.PNG", pngExtensions);
+    public static final ExtensionFileFilter png = new ExtensionFileFilter("png", pngExtensions);
     static final String[] gifExtensions = {".gif"};
-    static final ExtensionFileFilter gif = new ExtensionFileFilter("*.gif,*.GIF", gifExtensions);
+    public static final ExtensionFileFilter gif = new ExtensionFileFilter("gif", gifExtensions);
     static final String[] bmpExtensions = {".bmp"};
-    static final ExtensionFileFilter bmp = new ExtensionFileFilter("*.bmp,*.BMP", bmpExtensions);
+    public static final ExtensionFileFilter bmp = new ExtensionFileFilter("bmp", bmpExtensions);
     static final String[] jpgExtensions = {".jpg", ".jpeg"};
-    static final ExtensionFileFilter jpg = new ExtensionFileFilter("*.jpg,*.JPG", jpgExtensions);
+    public static final ExtensionFileFilter jpg = new ExtensionFileFilter("jpg", jpgExtensions);
 
+    public static final ExtensionFileFilter[] all =  {png, gif, jpg, bmp};
+    
+    /**
+     * Returns matching filter for a filename, null if none match.
+     */
+    public static ExtensionFileFilter getFilter(String fileName) {
+    	for (ExtensionFileFilter filter : all) {
+    		if (filter.accept(fileName)) {
+    			return filter;
+    		}
+    	}
+    	return null;
+    }
+    
 	/**
 	 * Creates a new ExtensionFileFilter.
 	 * 
@@ -61,19 +77,20 @@ final class ExtensionFileFilter extends FileFilter {
 		return description;
 	}
 
-	public boolean accept(File file) {
-		if (file.isDirectory()) {
-			return true;
-		}
-
-		String fileName = file.getName().toLowerCase();
-
+	public boolean accept(String fileName) {
 		for (int index = 0; index < extensions.length; index++) {
 			if (fileName.endsWith(extensions[index])) {
 				return true;
 			}
 		}
-
-		return false;
+		return false;		
+	}
+	
+	public boolean accept(File file) {
+		if (file.isDirectory()) {
+			return true;
+		}
+		String fileName = file.getName().toLowerCase();
+		return accept(fileName);
 	}
 }

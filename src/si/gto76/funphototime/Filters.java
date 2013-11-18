@@ -215,6 +215,8 @@ public class Filters {
 		return rgb;
 	}
 
+
+    // TODO 10 binarize... dela narobe - svetli deli postanejo crni
     /**
      * THRESHOLDING 1 (Binarization)
      */	
@@ -237,14 +239,36 @@ public class Filters {
     /**
      * THRESHOLDING 2 (Binarization)
      */ 
-    public static BufferedImage thresholding2(BufferedImage img, final int bitNo) {
+      public static BufferedImage thresholding2(BufferedImage img, final int bitNo) {
     	return processImage(img, new RGBFunction() {
     	    public int apply(int rgb) {
 				return getThresholding2(rgb, bitNo);
     	    }
     	} );
     }
+    /**
+     * val: -100 to 100
+     */
     public static int getThresholding2(int rgb, int val) {
+    	int avg = getGrayLevel2(rgb);
+    	if ( ((double)avg / 255 * 100) < val )
+    		rgb = assignLevelToAllColors(255);
+    	else
+    		rgb = assignLevelToAllColors(0);	
+    	return rgb;
+    }
+    
+    /**
+     * Smart binarize tresholding
+     */
+     public static BufferedImage smartBinarizeThresholding(BufferedImage img, final int bitNo) {
+    	return processImage(img, new RGBFunction() {
+    	    public int apply(int rgb) {
+				return getSmartBinarizeThresholding(rgb, bitNo);
+    	    }
+    	} );
+    }
+    public static int getSmartBinarizeThresholding(int rgb, int val) {
     	int avg = getGrayLevel1(rgb);
     	if ( ((double)avg) < val )
     		rgb = assignLevelToAllColors(0);
@@ -355,7 +379,7 @@ public class Filters {
     	double[] histogram = Utility.getHistogram(imgTmp);
     	int sedlo = Filters.findSaddle(histogram);
     	// call thresholding
-    	return thresholding2(img, sedlo);
+    	return smartBinarizeThresholding(img, sedlo);
     }
     public static int findSaddle(double[] histogram) {
 		double sumL = 0;

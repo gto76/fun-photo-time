@@ -34,6 +34,7 @@ import javax.swing.event.MenuListener;
 import si.gto76.funphototime.actionlisteners.FilterDialogWithSliderDoubleListener;
 import si.gto76.funphototime.actionlisteners.FilterWithouthDialogListener;
 import si.gto76.funphototime.actionlisteners.OperationDialogListener;
+import si.gto76.funphototime.actionlisteners.SaveListener;
 import si.gto76.funphototime.actionlisteners.ZoomListener;
 import si.gto76.funphototime.dialogs.AboutDialog;
 import si.gto76.funphototime.dialogs.BitPlaneDialog;
@@ -60,7 +61,7 @@ public class FunPhotoTimeFrame extends JFrame
 	private static final long serialVersionUID = 5772778382924626863L;
     public JDesktopPane desktop;
     private Menu meni;
-    private String lastPath = null;
+    public String lastPath = null;
     public ViewMenuUtil vmu = new ViewMenuUtil();
     
     static ArrayList<Image> iconsActive;
@@ -140,6 +141,9 @@ public class FunPhotoTimeFrame extends JFrame
             }
         ); 
         
+        // TODO 10 če jih več odpremo dobijo vsi ime po prvemu
+        // TODO 5 da ima tudi open filtre
+      
         //FILE OPEN
         meni.menuFileOpen.addActionListener
         (
@@ -164,81 +168,9 @@ public class FunPhotoTimeFrame extends JFrame
             }
         ); 
 
-		
         //FILE SAVE
-        meni.menuFileSaveas.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	if ( desktop.getSelectedFrame() == null ) 
-                		return;
-            		JFileChooser fc = new JFileChooser();
-            		String fileName = ((MyInternalFrame)desktop.getSelectedFrame()).getFileName();
-            		// odstrani koncnico imenu
-            		int indexOfDot = fileName.indexOf(".");
-            		if (indexOfDot != -1)
-            			fileName = (String) fileName.subSequence(0, indexOfDot);
-            		if (lastPath != null)
-            			fc.setSelectedFile(new File(lastPath)); // TODO save V tem primeru je treba odstranit ime in dodat ime izbranega frejma
-            		else
-            			fc.setSelectedFile(new File(fileName));
-            		fc.setDialogTitle("Save As");
-
-            		fc.addChoosableFileFilter(ExtensionFileFilter.png);
-            		fc.addChoosableFileFilter(ExtensionFileFilter.jpg);
-            		fc.addChoosableFileFilter(ExtensionFileFilter.bmp);
-            		fc.addChoosableFileFilter(ExtensionFileFilter.gif);
-            		fc.setFileFilter(ExtensionFileFilter.png);
-            		
-                	int returnVal = fc.showSaveDialog(FunPhotoTimeFrame.this);
-		            if (returnVal == JFileChooser.APPROVE_OPTION) {
-		            	// TODO save in da sejva original image in ne zooma
-		            	// if filter png, koncnica png -> save as png
-		            	// if filter png, koncnica "" -> add koncnica, save as png
-		            	// if filter png, koncnica ~png (ali vec koncnic) -> FAIL
-		            	
-		            	// if filter jpg, koncnica jpg,jpeg -> save as koncnica
-		            	// if filter jpg, koncnica "" -> add koncnica, save as koncnica
-		            	// if filter jpg, koncnica ~jpg (ali vec koncnic) -> FAIL
-		            	
-		            	// if filter all, koncnica png -> save as png
-		            	// if filter all, koncnica jpg,jpeg -> save as koncnica
-		            	// if filter all, koncnica "" -> save as png
-		            	// if filter all, koncnica ~png, ~jpg (ali vec koncnic) -> FAIL
-		            	
-		            	String ext = "";
-		            	File outputfile = fc.getSelectedFile();
-		            	String givenName = outputfile.getName();
-		            	
-		            	if (fc.getFileFilter().equals(ExtensionFileFilter.png)) { 
-		            		// if filter png, koncnica png -> save as png
-			            	//givenName.endsWith(".png") // or does not contain .
-		            		// if filter png, koncnica "" -> add koncnica, save as png
-			            	//else
-		            		// if filter png, koncnica ~png (ali vec koncnic) -> FAIL
-			            	
-		            		ext = "png";
-		            	}
-		            	else if (fc.getFileFilter().equals(ExtensionFileFilter.jpg)) {
-							ext = "jpg";
-						} else { // all
-							
-						}
-						
-						//System.out.println("Ext: "+ext);
-		                
-						
-						try {
-		                	
-				        	ImageIO.write(getSelectedBufferedImage(), ext, outputfile);
-				    	} catch (IOException f) {
-				    		System.out.println("SAVE ERROR!");
-				    	}
-				    }
-		            
-		            
-		        }
-            }
+        meni.menuFileSaveas.addActionListener (
+        	new SaveListener(this)
         );
 
         
@@ -621,6 +553,7 @@ public class FunPhotoTimeFrame extends JFrame
 	}
 	
     protected void windowClosed() {
+    	// TODO 10 Do you realy want to exit dialog
         System.exit(0);
     }
     

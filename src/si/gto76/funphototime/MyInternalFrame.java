@@ -77,7 +77,8 @@ public class MyInternalFrame extends JInternalFrame
 	    label.setBackground(Conf.BACKGROUND_COLOR);
 	    label.setOpaque(true);
         JScrollPane scrollPane = new JScrollPane(label);
-        
+
+        // TODO 10 kolescek je pocasen ce se lahko premikamo samo horizontalno        
         scrollPane.getVerticalScrollBar().setUnitIncrement(Conf.SCROLL_PANE_SPEED);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	    setLocation(Conf.X_OFFSET*(openFrameCount%10), Conf.Y_OFFSET*(openFrameCount%10));
@@ -273,7 +274,7 @@ public class MyInternalFrame extends JInternalFrame
      * MOUSE MOTION LISTENER
      */
 
-    //TODO hand move tool
+    //hand move tool:
     
     /*
 	@Override

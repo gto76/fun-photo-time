@@ -32,8 +32,6 @@ public class ThresholdingDialog extends FilterDialogWithSlider  {
 	}
     
     public int getValues() {
-    	//from 0 to 400, 100 in the midle
-    	//ko je value vecji od nic zacne return value trikrat hitrej narascat
     	int value = sld.getValue();
     	return  (value + 100) / 2;
 	}
