@@ -215,8 +215,6 @@ public class Filters {
 		return rgb;
 	}
 
-
-    // TODO 10 binarize... dela narobe - svetli deli postanejo crni
     /**
      * THRESHOLDING 1 (Binarization)
      */	
@@ -247,14 +245,14 @@ public class Filters {
     	} );
     }
     /**
-     * val: -100 to 100
+     * val: 0 to 100
      */
     public static int getThresholding2(int rgb, int val) {
     	int avg = getGrayLevel2(rgb);
-    	if ( ((double)avg / 255 * 100) < val )
-    		rgb = assignLevelToAllColors(255);
+    	if ( ((double)avg / 255 * 100) < (-val+100) )
+    		rgb = assignLevelToAllColors(0);
     	else
-    		rgb = assignLevelToAllColors(0);	
+    		rgb = assignLevelToAllColors(255);	
     	return rgb;
     }
     

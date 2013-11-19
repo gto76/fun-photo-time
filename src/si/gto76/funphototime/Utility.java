@@ -104,10 +104,12 @@ public class Utility {
     	return imgOut;
     }
     
-    public static void izpisiHistogram(double[] histogram) {
-		for (int i = 0; i < histogram.length; i++) {
-			System.out.print(i + " " + histogram[i] + "\t");
+    public static String histogramToString(double[] histogram) {
+		StringBuilder sb = new StringBuilder();
+    	for (int i = 0; i < histogram.length; i++) {
+    		sb.append(i + " " + histogram[i] + "\t");
 		}
+    	return sb.toString();
 	}
     
     public static void initializeArray(int[] arr) {

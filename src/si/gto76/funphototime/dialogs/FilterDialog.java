@@ -54,6 +54,18 @@ public abstract class FilterDialog extends MyDialog
 		}
 		selectedFrame.setImg(imgIn);
     }
+
+	// When slider moves it first checks if any thread exists,
+	// and if so, it terminates it. Then it starts a new thread.
+	public void stopActiveThread() {
+		if ( filterThread != null ) {
+			filterThread.t.interrupt();
+			try {
+				filterThread.t.join();
+			}
+			catch ( InterruptedException f ) {}
+		}
+	}
 	
 	public BufferedImage getProcessedImage() {
 		try {

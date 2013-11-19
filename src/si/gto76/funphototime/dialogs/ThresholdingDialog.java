@@ -19,15 +19,7 @@ public class ThresholdingDialog extends FilterDialogWithSlider  {
 	}
 
 	protected void actionWhenStateChanged() {
-		// When slider moves it first checks if any thread exists,
-		// and if so, it terminates it. Then it starts a new thread.
-		if ( filterThread != null ) {
-			filterThread.t.interrupt();
-			try {
-				filterThread.t.join();
-			}
-			catch ( InterruptedException f ) {}
-		}
+		stopActiveThread();
 		filterThread = new ThresholdingThread(imgIn, imgOut, getValues(), selectedFrame);
 	}
     

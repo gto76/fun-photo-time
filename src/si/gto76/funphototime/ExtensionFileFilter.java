@@ -22,8 +22,6 @@ package si.gto76.funphototime;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This <code>FileFilter</code> accepts files that end in one of the given

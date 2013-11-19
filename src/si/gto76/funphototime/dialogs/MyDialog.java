@@ -1,7 +1,6 @@
 package si.gto76.funphototime.dialogs;
 
 import java.awt.Component;
-import java.awt.Dialog.ModalityType;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;

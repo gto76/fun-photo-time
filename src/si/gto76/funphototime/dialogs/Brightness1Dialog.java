@@ -15,18 +15,7 @@ public class Brightness1Dialog extends FilterDialogWithSliderDouble  {
 	}
 	
 	public void stateChanged(ChangeEvent e)  {
-		//ko se slider premakne prvo pogleda ce ze obstaja
-		//kaksna nit in jo prekine
-
-        // TODO 20 umaknit duplikacijo v dialogih: actionWhenStateChanged
-		if ( filterThread != null ) {
-			filterThread.t.interrupt();
-			try {
-				filterThread.t.join();
-			}
-			catch ( InterruptedException f ) {}
-		}
-		//nato naredi novo nit
+		stopActiveThread();
 		filterThread = new Brightness1Thread(imgIn, imgOut, getValues(), selectedFrame);
 	}
 

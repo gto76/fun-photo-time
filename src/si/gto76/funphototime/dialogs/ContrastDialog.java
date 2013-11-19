@@ -18,16 +18,7 @@ public class ContrastDialog extends FilterDialogWithSliderDouble  {
 	}
 	
 	public void stateChanged(ChangeEvent e)  {
-		//ko se slider premakne prvo pogleda ce ze obstaja
-		//kaksna nit in jo prekine
-		if ( filterThread != null ) {
-			filterThread.t.interrupt();
-			try {
-				filterThread.t.join();
-			}
-			catch ( InterruptedException f ) {}
-		}
-		//nato naredi novo nit
+		stopActiveThread();
 		filterThread = new ContrastThread(imgIn, imgOut, getValues(), selectedFrame);
 	}
     

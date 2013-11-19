@@ -8,9 +8,6 @@ import si.gto76.funphototime.filterthreads.Brightness2Thread;
 
 public class Brightness2Dialog extends FilterDialogWithSlider  {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8530046270541381978L;
 
 	public Brightness2Dialog( MyInternalFrame selectedFrame ) {
@@ -18,16 +15,7 @@ public class Brightness2Dialog extends FilterDialogWithSlider  {
 	}
 	
 	public void stateChanged(ChangeEvent e)  {
-		//ko se slider premakne prvo pogleda ce ze obstaja
-		//kaksna nit in jo prekine
-		if ( filterThread != null ) {
-			filterThread.t.interrupt();
-			try {
-				filterThread.t.join();
-			}
-			catch ( InterruptedException f ) {}
-		}
-		//nato naredi novo nit
+		stopActiveThread();
 		filterThread = new Brightness2Thread(imgIn, imgOut, getValues(), selectedFrame);
 	}
     

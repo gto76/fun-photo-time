@@ -38,16 +38,7 @@ public class ColorsDialog extends FilterDialog {
 	}
 
 	protected void actionWhenStateChanged() {
-		//ko se slider premakne prvo pogleda ce ze obstaja
-		//kaksna nit in jo prekine
-		if ( filterThread != null ) {
-			filterThread.t.interrupt();
-			try {
-				filterThread.t.join();
-			}
-			catch ( InterruptedException f ) {}
-		}
-		//nato naredi novo nit
+		stopActiveThread();
 		filterThread = new ColorsThread(imgIn, imgOut, getValues(), selectedFrame);
 	}
     

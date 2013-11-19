@@ -16,7 +16,6 @@ public class BitPlaneDialog extends FilterDialog  {
 	private JSpinner spinner;
 	
 	public BitPlaneDialog( MyInternalFrame selectedFrame ) {
-		//super(selectedFrame, "Bit Plane");
 		super( selectedFrame, "Bit Plane", BoxLayout.X_AXIS, 265, 120);
 		
 		SpinnerModel model =
@@ -26,18 +25,14 @@ public class BitPlaneDialog extends FilterDialog  {
 		spinner.addChangeListener(this);
 		addComponent(spinner);
 		
-		//dlg.setSize(300,100);
-    	//dlg.setVisible(true);
-    	//dlg.dispose();
 	}
 	
 	public void stateChanged(ChangeEvent e)  {
-		//ko se slider premakne prvo pogleda ce ze obstaja
-		//kaksna nit in jo prekine
+		/* OLD:
 		if ( filterThread != null ) {
 			filterThread.t.interrupt();
-		}
-		//nato naredi novo nit
+		}*/
+		stopActiveThread();
 		filterThread = new BitPlaneThread(imgIn, imgOut, getValues(), selectedFrame);
 	}
     

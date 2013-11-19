@@ -3,7 +3,6 @@ package si.gto76.funphototime;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -61,8 +59,13 @@ public class FunPhotoTimeFrame extends JFrame
 	private static final long serialVersionUID = 5772778382924626863L;
     public JDesktopPane desktop;
     private Menu meni;
-    public String lastPath = null;
+    public File lastPath = null;
+    
     public ViewMenuUtil vmu = new ViewMenuUtil();
+    
+    
+    
+    
     
     static ArrayList<Image> iconsActive;
     static ArrayList<Image> iconsNotActive;
@@ -102,13 +105,15 @@ public class FunPhotoTimeFrame extends JFrame
     	final ImageIcon iconImgXL = new ImageIcon(getClass().getResource(Conf.ICON_FILENAME_XL));
     	
     	iconsActive = new ArrayList<Image>() {
-    		{add(iconImgSBlue.getImage()); add(iconImgM.getImage()); add(iconImgL.getImage()); add(iconImgXL.getImage());}
+			private static final long serialVersionUID = 4560955969369357297L;
+			{add(iconImgSBlue.getImage()); add(iconImgM.getImage()); add(iconImgL.getImage()); add(iconImgXL.getImage());}
     	};
     	iconsNotActive = new ArrayList<Image>() {
-    		{add(iconImgS.getImage()); add(iconImgM.getImage()); add(iconImgL.getImage()); add(iconImgXL.getImage());}
+			private static final long serialVersionUID = -337325274310404675L;
+			{add(iconImgS.getImage()); add(iconImgM.getImage()); add(iconImgL.getImage()); add(iconImgXL.getImage());}
     	};
         this.setIconImages(iconsActive);
-  
+
         
         /*Action*Listenerji***************************************/ 
         
@@ -136,13 +141,10 @@ public class FunPhotoTimeFrame extends JFrame
         (
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    FunPhotoTimeFrame.this.windowClosed();
+                    FunPhotoTime.onWindowClose(); 
                 }
             }
         ); 
-        
-        // TODO 10 če jih več odpremo dobijo vsi ime po prvemu
-        // TODO 5 da ima tudi open filtre
       
         //FILE OPEN
         meni.menuFileOpen.addActionListener
@@ -151,18 +153,24 @@ public class FunPhotoTimeFrame extends JFrame
                 public void actionPerformed(ActionEvent e) {
                 	JFileChooser fc = new JFileChooser();
                 	fc. setMultiSelectionEnabled(true);
-                	if (lastPath != null)
-                		fc.setCurrentDirectory(new File(lastPath));
+                	// adds file filters
+                	for (ExtensionFileFilter filter : ExtensionFileFilter.all) {
+            			fc.addChoosableFileFilter(filter);
+            		}
+                	if (lastPath != null) {
+                		fc.setCurrentDirectory(lastPath);
+                	}
                 	int returnVal = fc.showOpenDialog(FunPhotoTimeFrame.this);
                 	if (returnVal == JFileChooser.APPROVE_OPTION) {
                 		try {
                 			for (File fIn : fc.getSelectedFiles()) {
                 				BufferedImage imgIn = ImageIO.read(fIn);
-    							createFrame(imgIn, fc.getSelectedFile().getName());
+    							createFrame(imgIn, fIn.getName());
                 			}
 						} catch (IOException f) {
 						}
-						lastPath = fc.getSelectedFile().getPath();
+						//lastPath = fc.getSelectedFile().getPath();
+						lastPath = fc.getSelectedFile();
 				    }
 				}
             }
@@ -339,7 +347,6 @@ public class FunPhotoTimeFrame extends JFrame
                 	
                 	if (!dialog.wasCanceled()) {
                 		int values[] = dialog.getValues();
-                		//System.out.println(values);
                 		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
                 		new HistogramStretchingThread2(frameIn.getOriginalImg(), values ,frameOut);
                 	}
@@ -358,7 +365,6 @@ public class FunPhotoTimeFrame extends JFrame
                 	
                 	if (!dialog.wasCanceled()) {
                 		int values[] = dialog.getValues();
-                		//System.out.println(values);
                 		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
                 		new ColorsThread2(frameIn.getOriginalImg(), values , frameOut);
                 	}
@@ -552,9 +558,12 @@ public class FunPhotoTimeFrame extends JFrame
 		vmu.removeViewMenuItem(this, iFrame);
 	}
 	
+	
     protected void windowClosed() {
-    	// TODO 10 Do you realy want to exit dialog
-        System.exit(0);
+    	//System.exit(0);
     }
+    
+ 
+
     
 }

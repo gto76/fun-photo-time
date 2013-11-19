@@ -10,12 +10,11 @@ package si.gto76.funphototime;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.URL;
-
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 
 public class FunPhotoTime {
 
@@ -48,7 +47,29 @@ public class FunPhotoTime {
               frame.setIconImages(FunPhotoTimeFrame.iconsNotActive);
             }
         });
+        
+        // Exit dialog
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+        	@Override
+			public void windowClosing(WindowEvent we) {
+        		onWindowClose();
+			}
+		});
+        
         frame.setVisible(true);
+    }
+    
+    public static void onWindowClose() {
+    	String ObjButtons[] = { "Yes", "No" };
+		int PromptResult = JOptionPane.showOptionDialog(null,
+				"Are you sure you want to exit?", "",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.WARNING_MESSAGE, null, ObjButtons,
+				ObjButtons[1]);
+		if (PromptResult == JOptionPane.YES_OPTION) {
+			System.exit(0);
+		}
     }
     
     private static void setNativeLookAndFeel() {

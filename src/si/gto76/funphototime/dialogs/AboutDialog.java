@@ -1,20 +1,12 @@
 package si.gto76.funphototime.dialogs;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -96,6 +88,7 @@ public class AboutDialog extends JFrame {
     	pnl.add(lbl);
     }
 	  
+    /*
 	private static void open(URI uri) {
 	    if (Desktop.isDesktopSupported()) {
 	    	try {
@@ -104,5 +97,6 @@ public class AboutDialog extends JFrame {
 	    	}
 	    }
 	}
-
+	*/
+    
 }

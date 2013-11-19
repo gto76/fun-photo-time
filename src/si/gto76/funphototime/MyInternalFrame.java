@@ -2,20 +2,13 @@ package si.gto76.funphototime;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
@@ -78,8 +71,9 @@ public class MyInternalFrame extends JInternalFrame
 	    label.setOpaque(true);
         JScrollPane scrollPane = new JScrollPane(label);
 
-        // TODO 10 kolescek je pocasen ce se lahko premikamo samo horizontalno        
-        scrollPane.getVerticalScrollBar().setUnitIncrement(Conf.SCROLL_PANE_SPEED);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(Conf.SCROLL_PANE_SPEED);   
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(Conf.SCROLL_PANE_SPEED);
+        
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	    setLocation(Conf.X_OFFSET*(openFrameCount%10), Conf.Y_OFFSET*(openFrameCount%10));
 	    
@@ -238,7 +232,6 @@ public class MyInternalFrame extends JInternalFrame
 	 */
 
 	public void internalFrameClosing(InternalFrameEvent e) {
-		////System.out.println("Internal frame "+this+" is closing");
 	}
 
     public void internalFrameClosed(InternalFrameEvent e) {
