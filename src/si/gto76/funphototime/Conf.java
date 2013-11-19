@@ -14,7 +14,7 @@ public class Conf {
 	public static final String ICON_FILENAME_S_BLUE = "/resources/icon-blue-16x16.png"; // b8cfe5 is color of background
 	public static final String ICON_FILENAME_M = "/resources/icon-trans-32x32.png"; 
 	public static final String ICON_FILENAME_L = "/resources/icon-trans-64x64.png"; 
-	public static final String ICON_FILENAME_XL = "/resources/icon-trans-64x64.png"; 
+	public static final String ICON_FILENAME_XL = "/resources/icon-trans-128x128.png"; 
 	// Test image
 	public static final boolean TEST_IMAGE = true;
 	public static final String TEST_IMAGE_FILE_NAME = "/home/minerva/131060885.jpg";

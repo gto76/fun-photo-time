@@ -63,10 +63,6 @@ public class FunPhotoTimeFrame extends JFrame
     
     public ViewMenuUtil vmu = new ViewMenuUtil();
     
-    
-    
-    
-    
     static ArrayList<Image> iconsActive;
     static ArrayList<Image> iconsNotActive;
     
@@ -558,12 +554,7 @@ public class FunPhotoTimeFrame extends JFrame
 		vmu.removeViewMenuItem(this, iFrame);
 	}
 	
-	
     protected void windowClosed() {
-    	//System.exit(0);
     }
-    
- 
-
     
 }
