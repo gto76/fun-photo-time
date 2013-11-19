@@ -3,7 +3,7 @@ package si.gto76.funphototime;
 import java.awt.Color;
 
 public class Conf {
-	public static final String VERSION = "0.9.1";
+	public static final String VERSION = "0.9.2";
 	// Main frame
 	public static final boolean NATIVE_LOOK_AND_FEEL = false;
 	public static final int MAIN_WINDOW_WIDTH = 800;
@@ -16,7 +16,7 @@ public class Conf {
 	public static final String ICON_FILENAME_L = "/resources/icon-trans-64x64.png"; 
 	public static final String ICON_FILENAME_XL = "/resources/icon-trans-128x128.png"; 
 	// Test image
-	public static final boolean TEST_IMAGE = true;
+	public static final boolean TEST_IMAGE = false;
 	public static final String TEST_IMAGE_FILE_NAME = "/home/minerva/131060885.jpg";
 	// Internal frame
 	public static final int SCROLL_PANE_SPEED = 14;
