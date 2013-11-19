@@ -30,25 +30,94 @@ public class SaveListener implements ActionListener {
 
 			@Override
 			public void approveSelection() {
-				File f = getSelectedFile();
-				if (f.exists() && getDialogType() == SAVE_DIALOG) {
-					int result = JOptionPane.showConfirmDialog(this,
-							"The file exists, overwrite?", "Existing file",
-							JOptionPane.YES_NO_CANCEL_OPTION);
-					switch (result) {
-					case JOptionPane.YES_OPTION:
-						super.approveSelection();
-						return;
-					case JOptionPane.NO_OPTION:
-						return;
-					case JOptionPane.CLOSED_OPTION:
-						return;
-					case JOptionPane.CANCEL_OPTION:
-						cancelSelection();
-						return;
+
+		    	String formatName = "";
+		    	String errMessage = "";
+		    	File outputfile = this.getSelectedFile();
+		    	final String givenName = outputfile.getName();
+		    	
+		    	// Filename Test:
+		    	// No filter chosen
+		    	if (this.getFileFilter().getDescription() == "All Files") {
+		    		ExtensionFileFilter fileFilter = ExtensionFileFilter.getFilter(givenName);
+		    		// No extension given - ERR
+		    		if ( givenName.indexOf(".") == -1 ) {
+		    			errMessage = "No filename extension or file filter selected. Image was not saved.";
+		        	}
+		    		// No file filter matches the extension - ERR 
+		    		else if (fileFilter == null) {
+		    			errMessage = "Unknown filename extension. Image was not saved.";
+		    		}
+		    		// Valid extension - OK
+		    		else {
+		    			formatName = fileFilter.getDescription();
+		    		}
+		    	}
+		    	// Filter selected
+		    	else {
+		        	ExtensionFileFilter selectedFilter = (ExtensionFileFilter) this.getFileFilter();
+		        	// Filter and extension match - OK
+		        	if ( selectedFilter.accept(givenName) ) {
+		        		formatName = selectedFilter.getDescription();
+		        	}
+		        	// No extension given - OK
+		        	else if ( givenName.indexOf(".") == -1 ) {
+		        		String newPathName = outputfile.getPath().concat("."+selectedFilter.getDescription() );
+		        		outputfile = new File(newPathName);
+		        		formatName = selectedFilter.getDescription();
+		        	}
+		        	// Extension does not match selected filter - ERR
+		        	else {
+		        		errMessage = "Filename extension and file filter did not match. Image was not saved.";
+		        	}
+		    	}
+				
+		    	// If it passed the test above -> Filename was valid and passed trough filter.
+				if (formatName != "") {
+					//********************************************//
+					// File already exists check:
+					if (outputfile.exists() && getDialogType() == SAVE_DIALOG) {
+						int result = JOptionPane.showConfirmDialog(this,
+								"The file exists, overwrite?", "Existing file",
+								JOptionPane.YES_NO_CANCEL_OPTION);
+						switch (result) {
+							case JOptionPane.YES_OPTION:
+								
+								// SAVE (overwrite existing file)
+								try {
+						        	ImageIO.write(frame.getSelectedBufferedImage(), formatName, outputfile);
+						    	} catch (IOException f) {
+						    		JOptionPane.showMessageDialog(null, "SAVE ERROR!", "Error", JOptionPane.ERROR_MESSAGE);
+						    	}
+								
+								super.approveSelection();
+								return;
+							case JOptionPane.NO_OPTION:
+								return;
+							case JOptionPane.CLOSED_OPTION:
+								return;
+							case JOptionPane.CANCEL_OPTION:
+								cancelSelection();
+								return;
+						}
 					}
+					
+					// SAVE (duplicate from above) 
+		        	try {
+			        	ImageIO.write(frame.getSelectedBufferedImage(), formatName, outputfile);
+			    	} catch (IOException f) {
+			    		JOptionPane.showMessageDialog(null, "SAVE ERROR!", "Error", JOptionPane.ERROR_MESSAGE);
+			    	}
+			    	
+					super.approveSelection();
+					return;
 				}
-				super.approveSelection();
+				// If it didn't pass the test from above -> Filename wasn't valid or it didn't pass trough filter.
+				else {
+					JOptionPane.showMessageDialog(null, errMessage, "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
 			}
 		};
 		
@@ -69,12 +138,8 @@ public class SaveListener implements ActionListener {
 		}
 		fc.setFileFilter(ExtensionFileFilter.png);
 		
-		
-    	int returnVal = fc.showSaveDialog(frame);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-        	save(fc);
-        	frame.lastPath = fc.getSelectedFile();
-        }
+		// OPEN DIALOG
+    	fc.showSaveDialog(frame);
     }
     
     private static String removeExtension(String fileName) {
@@ -84,58 +149,5 @@ public class SaveListener implements ActionListener {
 		return fileName;
     }
     
-    private void save(JFileChooser fc) {
-    	String formatName = "";
-    	String errMessage = "";
-    	File outputfile = fc.getSelectedFile();
-    	final String givenName = outputfile.getName();
-    	
-    	// No filter chosen
-    	if (fc.getFileFilter().getDescription() == "All Files") {
-    		ExtensionFileFilter fileFilter = ExtensionFileFilter.getFilter(givenName);
-    		// No extension given - ERR
-    		if ( givenName.indexOf(".") == -1 ) {
-    			errMessage = "No filename extension or file filter selected. Image was not saved.";
-        	}
-    		// No file filter matches the extension - ERR 
-    		else if (fileFilter == null) {
-    			errMessage = "Unknown filename extension. Image was not saved.";
-    		}
-    		// Valid extension - OK
-    		else {
-    			formatName = fileFilter.getDescription();
-    		}
-    	}
-    	// Filter selected
-    	else {
-        	ExtensionFileFilter selectedFilter = (ExtensionFileFilter) fc.getFileFilter();
-        	// Filter and extension match - OK
-        	if ( selectedFilter.accept(givenName) ) {
-        		formatName = selectedFilter.getDescription();
-        	}
-        	// No extension given - OK
-        	else if ( givenName.indexOf(".") == -1 ) {
-        		String newPathName = outputfile.getPath().concat("."+selectedFilter.getDescription() );
-        		outputfile = new File(newPathName);
-        		formatName = selectedFilter.getDescription();
-        	}
-        	// Extension does not match selected filter - ERR
-        	else {
-        		errMessage = "Filename extension and file filter did not match. Image was not saved.";
-        	}
-    	}
-		
-		if (formatName != "") {
-        	try {
-	        	ImageIO.write(frame.getSelectedBufferedImage(), formatName, outputfile);
-	    	} catch (IOException f) {
-	    		JOptionPane.showMessageDialog(null, "SAVE ERROR!", "Error", JOptionPane.ERROR_MESSAGE);
-	    	}
-		} 
-		else {
-			JOptionPane.showMessageDialog(null, errMessage, "Error", JOptionPane.ERROR_MESSAGE);
-		}
-    }
-
 }
 
