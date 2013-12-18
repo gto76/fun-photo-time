@@ -20,6 +20,14 @@ public class SaveListener implements ActionListener {
 		this.frame = frame;
 	}
 	
+	private void saveFile(String formatName, File outputfile) {
+		try {
+        	ImageIO.write(frame.getSelectedBufferedImage(), formatName, outputfile);
+    	} catch (IOException f) {
+    		JOptionPane.showMessageDialog(null, "SAVE ERROR!", "Error", JOptionPane.ERROR_MESSAGE);
+    	}
+	}
+	
     public void actionPerformed(ActionEvent e) {
     	if ( frame.desktop.getSelectedFrame() == null ) 
     		return;
@@ -84,11 +92,7 @@ public class SaveListener implements ActionListener {
 							case JOptionPane.YES_OPTION:
 								
 								// SAVE (overwrite existing file)
-								try {
-						        	ImageIO.write(frame.getSelectedBufferedImage(), formatName, outputfile);
-						    	} catch (IOException f) {
-						    		JOptionPane.showMessageDialog(null, "SAVE ERROR!", "Error", JOptionPane.ERROR_MESSAGE);
-						    	}
+								saveFile(formatName, outputfile);
 								
 								super.approveSelection();
 								return;
@@ -102,12 +106,8 @@ public class SaveListener implements ActionListener {
 						}
 					}
 					
-					// SAVE (duplicate from above) 
-		        	try {
-			        	ImageIO.write(frame.getSelectedBufferedImage(), formatName, outputfile);
-			    	} catch (IOException f) {
-			    		JOptionPane.showMessageDialog(null, "SAVE ERROR!", "Error", JOptionPane.ERROR_MESSAGE);
-			    	}
+					// SAVE (new file)
+					saveFile(formatName, outputfile);
 			    	
 					super.approveSelection();
 					return;
@@ -119,6 +119,8 @@ public class SaveListener implements ActionListener {
 				}
 				
 			}
+
+			
 		};
 		
 		String fileName = ((MyInternalFrame)frame.desktop.getSelectedFrame()).getFileName();

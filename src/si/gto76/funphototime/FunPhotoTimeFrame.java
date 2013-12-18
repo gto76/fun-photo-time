@@ -31,6 +31,7 @@ import javax.swing.event.MenuListener;
 
 import si.gto76.funphototime.actionlisteners.FilterDialogWithSliderDoubleListener;
 import si.gto76.funphototime.actionlisteners.FilterWithouthDialogListener;
+import si.gto76.funphototime.actionlisteners.LoadListener;
 import si.gto76.funphototime.actionlisteners.OperationDialogListener;
 import si.gto76.funphototime.actionlisteners.SaveListener;
 import si.gto76.funphototime.actionlisteners.ZoomListener;
@@ -59,9 +60,8 @@ public class FunPhotoTimeFrame extends JFrame
 	private static final long serialVersionUID = 5772778382924626863L;
     public JDesktopPane desktop;
     private Menu meni;
-    public File lastPath = null;
-    
     public ViewMenuUtil vmu = new ViewMenuUtil();
+    public File lastPath = null;
     
     static ArrayList<Image> iconsActive;
     static ArrayList<Image> iconsNotActive;
@@ -111,7 +111,7 @@ public class FunPhotoTimeFrame extends JFrame
         this.setIconImages(iconsActive);
 
         
-        /*Action*Listenerji***************************************/ 
+        /*Action*Listeners***************************************/ 
         
         MenuListener menuListener = new MenuListener() {
         	//ko odpremo meni onemogoci tiste operacije,
@@ -131,7 +131,18 @@ public class FunPhotoTimeFrame extends JFrame
         meni.menuFilters.addMenuListener(menuListener);
         meni.menuLogicop.addMenuListener(menuListener);
         meni.menuArithmeticop.addMenuListener(menuListener);
-        
+       
+        /*
+         * FILE
+         */
+        //FILE OPEN
+        meni.menuFileOpen.addActionListener (
+    		new LoadListener(this)
+        ); 
+        //FILE SAVE
+        meni.menuFileSaveas.addActionListener (
+        	new SaveListener(this)
+        );
         //FILE EXIT
         meni.menuFileExit.addActionListener
         (
@@ -141,42 +152,6 @@ public class FunPhotoTimeFrame extends JFrame
                 }
             }
         ); 
-      
-        //FILE OPEN
-        meni.menuFileOpen.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	JFileChooser fc = new JFileChooser();
-                	fc. setMultiSelectionEnabled(true);
-                	// adds file filters
-                	for (ExtensionFileFilter filter : ExtensionFileFilter.all) {
-            			fc.addChoosableFileFilter(filter);
-            		}
-                	if (lastPath != null) {
-                		fc.setCurrentDirectory(lastPath);
-                	}
-                	int returnVal = fc.showOpenDialog(FunPhotoTimeFrame.this);
-                	if (returnVal == JFileChooser.APPROVE_OPTION) {
-                		try {
-                			for (File fIn : fc.getSelectedFiles()) {
-                				BufferedImage imgIn = ImageIO.read(fIn);
-    							createFrame(imgIn, fIn.getName());
-                			}
-						} catch (IOException f) {
-						}
-						//lastPath = fc.getSelectedFile().getPath();
-						lastPath = fc.getSelectedFile();
-				    }
-				}
-            }
-        ); 
-
-        //FILE SAVE
-        meni.menuFileSaveas.addActionListener (
-        	new SaveListener(this)
-        );
-
         
         /*
          * ZOOM
@@ -409,7 +384,6 @@ public class FunPhotoTimeFrame extends JFrame
         /*
          * HELP ABOUT
          */
-        //FILTER THRESHOLDING 
         meni.menuHelpAbout.addActionListener (
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {

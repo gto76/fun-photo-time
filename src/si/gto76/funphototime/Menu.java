@@ -58,8 +58,7 @@ class Menu {
     MyMenuItem menuArithmeticopDivision = new MyMenuItem(1);
     MyMenu menuWindow = new MyMenu(1);
     MyMenu menuHelp = new MyMenu(1);
-    MyMenuItem menuHelpAbout = new MyMenuItem(1);
-
+    MyMenuItem menuHelpAbout = new MyMenuItem(0);
     
 	public Menu() {
 		menuFile.setText("File");
@@ -99,10 +98,10 @@ class Menu {
         menuLogicopOr.setText("Or...");
         menuLogicopXor.setText("Xor...");
         menuArithmeticop.setText("Arithmetic");
-        menuArithmeticopAddition.setText("Addition...");
-        menuArithmeticopSubtraction.setText("Subtraction...");
-        menuArithmeticopMultiplication.setText("Multiplication...");
-        menuArithmeticopDivision.setText("Division...");
+        menuArithmeticopAddition.setText("Add...");
+        menuArithmeticopSubtraction.setText("Subtract...");
+        menuArithmeticopMultiplication.setText("Multiply...");
+        menuArithmeticopDivision.setText("Divide...");
         menuWindow.setText("Window");
         menuHelp.setText("Help");
         menuHelpAbout.setText("About");

@@ -17,6 +17,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 public class FunPhotoTime {
+	static FunPhotoTimeFrame frame;
 
 	public static void main(String[] args) {
 		// Try setting native look and feel
@@ -35,7 +36,7 @@ public class FunPhotoTime {
     private static void createAndShowGUI() {
     	// Create application frame.
     	JFrame.setDefaultLookAndFeelDecorated(true);
-        final FunPhotoTimeFrame frame = new FunPhotoTimeFrame();
+        /*final FunPhotoTimeFrame*/ frame = new FunPhotoTimeFrame();
         // Show frame.
         frame.setSize(Conf.MAIN_WINDOW_WIDTH, Conf.MAIN_WINDOW_HEIGHT);
         // Set diferent icons, depending on main window focus.
@@ -61,6 +62,14 @@ public class FunPhotoTime {
     }
     
     public static void onWindowClose() {
+        int noOfFrames = frame.desktop.getComponentCount();
+    	if (noOfFrames > 0)
+    		confirmExit();
+    	else
+    		System.exit(0);
+    }
+    
+    private static void confirmExit() {
     	String ObjButtons[] = { "Yes", "No" };
 		int PromptResult = JOptionPane.showOptionDialog(null,
 				"Are you sure you want to exit?", "",
@@ -70,9 +79,9 @@ public class FunPhotoTime {
 		if (PromptResult == JOptionPane.YES_OPTION) {
 			System.exit(0);
 		}
-    }
-    
-    private static void setNativeLookAndFeel() {
+	}
+
+	private static void setNativeLookAndFeel() {
     	try {
 	        UIManager.setLookAndFeel(
 	            UIManager.getSystemLookAndFeelClassName());

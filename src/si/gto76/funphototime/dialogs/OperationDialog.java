@@ -33,6 +33,11 @@ public abstract class OperationDialog extends MyDialog
 		combo1 = new JComboBox(allFrames);
 		combo2 = new JComboBox(allFrames);
 		
+		//if more than one frame exist
+		if (allFrames.length > 1) {
+			combo2.setSelectedIndex(1);
+		}
+		
 		combo1.setPreferredSize(new Dimension(90, 20));
 		combo2.setPreferredSize(new Dimension(90, 20));
 		
@@ -45,10 +50,24 @@ public abstract class OperationDialog extends MyDialog
 			combo2
 		};
 		
-		dlg.setSize(400, 104);
+		int longestName = getLongestName(allFrames);
+		int width = longestName * 8 * 2 + 100;
+		
+		dlg.setSize(width, 104);
 		addComponents(components);
 	}
 	
+	private int getLongestName(JInternalFrame[] allFrames) {
+		int longest = 0;
+		for (JInternalFrame frame : allFrames) {
+			MyInternalFrame myFrame = (MyInternalFrame) frame;
+			int length = myFrame.getTitle().length();
+			if (length > longest)
+				longest = length;
+		}
+		return longest;
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		//ko izberemo v kombo boksu en okvir ga izbere, da ga vidmo
         JComboBox cb = (JComboBox)e.getSource();

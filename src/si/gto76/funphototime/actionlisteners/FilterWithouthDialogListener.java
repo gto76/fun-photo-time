@@ -2,6 +2,7 @@ package si.gto76.funphototime.actionlisteners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.FunPhotoTimeFrame;
@@ -22,8 +23,34 @@ public class FilterWithouthDialogListener implements ActionListener{
     	MyInternalFrame frameOut = mainFrame.createZoomedFrame(fi.getFilteredImage(mainFrame.getSelectedBufferedImage()), frameIn);
     	
     	if ( frameIn.getZoom() != 100 ) {
-        	//naredi nit, ki bo filtrirala originalmno sliko
-        	fi.createThread(frameIn.getOriginalImg(), frameOut);
+    		// Makes thread that waits for original image to be created.
+    		Thread t = new Thread(new WaitingThread(frameIn, frameOut, fi));
+            t.start();
         }
     }
+    
+    private static class WaitingThread implements Runnable {
+    	MyInternalFrame frameIn;
+    	MyInternalFrame frameOut;
+    	NoDialogFilter fi;
+	    public WaitingThread(MyInternalFrame frameIn, MyInternalFrame frameOut,
+				NoDialogFilter fi) {
+			this.frameIn = frameIn;
+			this.frameOut = frameOut;
+			this.fi = fi;
+		}
+
+		public void run() {
+    		while (frameIn.getOriginalImg() == null) {
+				try {
+					TimeUnit.MILLISECONDS.sleep(100);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+    		}
+    		// Makes thread that will filter the original image.
+        	fi.createThread(frameIn.getOriginalImg(), frameOut);
+	    }
+    }
+    
 }

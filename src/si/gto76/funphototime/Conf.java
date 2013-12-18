@@ -8,7 +8,7 @@ public class Conf {
 	public static final boolean NATIVE_LOOK_AND_FEEL = false;
 	public static final int MAIN_WINDOW_WIDTH = 800;
 	public static final int MAIN_WINDOW_HEIGHT = 550;
-	public static final Color BACKGROUND_COLOR = Color.WHITE;
+	public static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
 	// Icons
 	public static final String ICON_FILENAME_S = "/resources/icon-trans-16x16.png"; 
 	public static final String ICON_FILENAME_S_BLUE = "/resources/icon-blue-16x16.png"; // b8cfe5 is color of background

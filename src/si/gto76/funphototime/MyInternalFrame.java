@@ -28,6 +28,7 @@ public class MyInternalFrame extends JInternalFrame
 	private String fileName;
 	private int fileNameInstanceNo;
 	
+
 	Thread thread;
 	FunPhotoTimeFrame mainFrame;
 
@@ -94,6 +95,10 @@ public class MyInternalFrame extends JInternalFrame
 		return fileName;
     }
 	
+	public String getFileNameWithInstanceNo() {
+		return fileName+" #"+fileNameInstanceNo;
+	}
+	
 	public BufferedImage getImg() { //zoomed, displayed img
 		BufferedImage bf = (BufferedImage) icon.getImage();
     	return bf;
@@ -114,6 +119,8 @@ public class MyInternalFrame extends JInternalFrame
     public int getZoom() {
     	return zoom;
     }
+    
+
     
     /// ZOOM /////////////////////////////////////////////////
     public void zoom(int cent) {
