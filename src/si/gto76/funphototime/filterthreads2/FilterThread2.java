@@ -1,9 +1,6 @@
 package si.gto76.funphototime.filterthreads2;
 
-import java.awt.Cursor;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.TimeUnit;
-
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.Utility;
 

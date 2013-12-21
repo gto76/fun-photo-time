@@ -1,7 +1,10 @@
 package si.gto76.funphototime;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 
@@ -15,8 +18,6 @@ import javax.swing.event.InternalFrameListener;
 
 public class MyInternalFrame extends JInternalFrame 
 						implements InternalFrameListener /*, MouseMotionListener*/ {
-					        
-					        
 	
 	private static final long serialVersionUID = -1665181775406001910L;
 	private ImageIcon icon;
@@ -27,12 +28,11 @@ public class MyInternalFrame extends JInternalFrame
 	private int zoom = 100;
 	private String fileName;
 	private int fileNameInstanceNo;
-	
 
 	Thread thread;
 	FunPhotoTimeFrame mainFrame;
 
-	
+
 	/*
 	 * CONSTRUCTORS
 	 */

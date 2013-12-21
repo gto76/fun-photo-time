@@ -26,8 +26,6 @@ public class FilterDialogWithSliderDoubleListener implements ActionListener{
     		double values = dialog.getValues(); //right VALUE TYPE
     		MyInternalFrame frameOut = mainFrame.createZoomedFrame(dialog.getProcessedImage(), frameIn);
     		if ( frameIn.getZoom() != 100 ) { // NEW!!!
-    			// mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-    			// mainFrame.setCursor(Cursor.getDefaultCursor());
     			// Makes thread that waits for original image to be created.
         		Thread t = new Thread(new WaitingThread(frameIn, frameOut, fi, values));
                 t.start();
