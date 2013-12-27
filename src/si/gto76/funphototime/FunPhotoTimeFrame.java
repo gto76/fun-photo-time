@@ -34,6 +34,7 @@ import si.gto76.funphototime.actionlisteners.FilterWithouthDialogListener;
 import si.gto76.funphototime.actionlisteners.LoadListener;
 import si.gto76.funphototime.actionlisteners.OperationDialogListener;
 import si.gto76.funphototime.actionlisteners.SaveListener;
+import si.gto76.funphototime.actionlisteners.SpatialFilterWithouthDialogListener;
 import si.gto76.funphototime.actionlisteners.ZoomListener;
 import si.gto76.funphototime.dialogs.AboutDialog;
 import si.gto76.funphototime.dialogs.BitPlaneDialog;
@@ -205,23 +206,23 @@ public class FunPhotoTimeFrame extends JFrame
          */
 		//FILTER BLUR
         meni.menuFiltersBlur.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.BLUR, this)
+        	new SpatialFilterWithouthDialogListener(NoDialogFilter.BLUR, this)
         );
         //FILTER RELIEF
         meni.menuFiltersRelief.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.RELIEF, this)
+        	new SpatialFilterWithouthDialogListener(NoDialogFilter.RELIEF, this)
         );
         //FILTER SHARPEN
         meni.menuFiltersSharpen.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.SHARPEN, this) 
+        	new SpatialFilterWithouthDialogListener(NoDialogFilter.SHARPEN, this) 
         );
 		//FILTER EDGE DETECTION
         meni.menuFiltersEdgedetection.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.EDGE, this)
+        	new SpatialFilterWithouthDialogListener(NoDialogFilter.EDGE, this)
         );
         //FILTER MEDIAN
         meni.menuFiltersMedian.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.MEDIAN, this)
+        	new SpatialFilterWithouthDialogListener(NoDialogFilter.MEDIAN, this)
         );
         
         /*

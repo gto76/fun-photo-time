@@ -22,7 +22,8 @@ public class FilterWithouthDialogListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
     	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
     	//naredi nov frame ki zaenkrat vsebuje samo zumirano obdelano sliko brez originala
-    	MyInternalFrame frameOut = mainFrame.createZoomedFrame(fi.getFilteredImage(mainFrame.getSelectedBufferedImage()), frameIn);
+    	MyInternalFrame frameOut = mainFrame.createZoomedFrame(
+    			fi.getFilteredImage(mainFrame.getSelectedBufferedImage()), frameIn);
     	
     	if ( frameIn.getZoom() != 100 ) {
     		// Makes thread that waits for original image to be created.

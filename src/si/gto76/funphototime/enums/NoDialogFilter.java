@@ -10,11 +10,6 @@ import si.gto76.funphototime.filterthreads2.Greyscale1Thread2;
 import si.gto76.funphototime.filterthreads2.HistogramEqualizationThread2;
 import si.gto76.funphototime.filterthreads2.NegativeThread2;
 import si.gto76.funphototime.filterthreads2.ThresholdingThread2;
-import si.gto76.funphototime.filterthreads3.BlurThread3;
-import si.gto76.funphototime.filterthreads3.EdgeDetectionThread3;
-import si.gto76.funphototime.filterthreads3.MedianThread3;
-import si.gto76.funphototime.filterthreads3.ReliefThread3;
-import si.gto76.funphototime.filterthreads3.SharpenThread3;
 
 public enum NoDialogFilter {
 	NEGATIV,
@@ -67,7 +62,7 @@ public enum NoDialogFilter {
 	    	case GREYSCALE:
 	    		new Greyscale1Thread2(imgIn, frameOut);
 	    		break;
-	    	case BLUR:
+	    	/*case BLUR:
 	    		new BlurThread3(imgIn, frameOut);
 	    		break;
 	    	case RELIEF:
@@ -81,7 +76,7 @@ public enum NoDialogFilter {
 	    		break;
 	    	case MEDIAN:
 	    		new MedianThread3(imgIn, frameOut);
-	    		break;
+	    		break;*/
 	    	case HISTOGRAM_EQ:
 				double[] histogram = Utility.getHistogram(imgIn);
 				int[] mappingArray = Filters.calculateMappingArrayForEqualization(histogram);
