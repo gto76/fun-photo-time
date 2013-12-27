@@ -22,7 +22,7 @@ public class SaveListener implements ActionListener {
 	
 	private void saveFile(String formatName, File outputfile) {
 		try {
-        	ImageIO.write(frame.getSelectedBufferedImage(), formatName, outputfile);
+        	ImageIO.write(frame.getSelectedOriginalBufferedImage(), formatName, outputfile);
     	} catch (IOException f) {
     		JOptionPane.showMessageDialog(null, "SAVE ERROR!", "Error", JOptionPane.ERROR_MESSAGE);
     	}

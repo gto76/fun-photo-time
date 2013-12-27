@@ -2,10 +2,12 @@ package si.gto76.funphototime.actionlisteners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.FunPhotoTimeFrame;
+import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.dialogs.FilterDialogWithSliderDouble;
 import si.gto76.funphototime.enums.Filter;
 
@@ -48,15 +50,9 @@ public class FilterDialogWithSliderDoubleListener implements ActionListener{
 		}
 
 		public void run() {
-    		while (frameIn.getOriginalImg() == null) {
-				try {
-					TimeUnit.MILLISECONDS.sleep(100);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-    		}
+			BufferedImage imgIn = Utility.waitForOriginalImage(frameIn);
     		// Makes thread that will filter the original image.
-    		fi.createThread(frameIn.getOriginalImg(), values , frameOut);
+    		fi.createThread(imgIn, values , frameOut);
 	    }
     }
 	

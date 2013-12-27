@@ -5,8 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageTypeSpecifier;
+
+import si.gto76.funphototime.enums.NoDialogFilter;
 
 
 public class Utility {
@@ -124,6 +127,17 @@ public class Utility {
     			arr[i][j] = 0;
     		}
     	}
+    }
+    
+    public static BufferedImage waitForOriginalImage(MyInternalFrame frame) {
+		while (frame.getOriginalImg() == null) {
+			try {
+				TimeUnit.MILLISECONDS.sleep(Conf.ORIGINAL_IMAGE_WAITING_INTERVAL_MSEC);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+        return frame.getOriginalImg();
     }
     
 }

@@ -48,11 +48,6 @@ import si.gto76.funphototime.filterthreads2.ColorsThread2;
 import si.gto76.funphototime.filterthreads2.HistogramStretchingThread2;
 import si.gto76.funphototime.filterthreads2.ThresholdingThread2;
 
-
-/*
- * @author: Jure Sorn 
- * @version 1.00 08/02/21
- */
  
 public class FunPhotoTimeFrame extends JFrame 
 							implements ContainerListener, MouseWheelListener {
@@ -309,7 +304,7 @@ public class FunPhotoTimeFrame extends JFrame
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	//naredi sliko tega histograma
-                	double[] histogram = Utility.getHistogram(getSelectedOriginalBufferedImage());
+                	double[] histogram = Utility.getHistogram(getSelectedBufferedImage());
                 	BufferedImage hisImg = Utility.getHistogramImage(histogram);
                 	
                 	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
@@ -504,10 +499,11 @@ public class FunPhotoTimeFrame extends JFrame
 		return frame.getImg();
 	}
 	
-	private BufferedImage getSelectedOriginalBufferedImage() {
+	public BufferedImage getSelectedOriginalBufferedImage() {
     	//Vrne sliko, originalne velikosti  ki se nahaja v izbranem oknu
     	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
-		return frame.getOriginalImg();
+    	BufferedImage img = Utility.waitForOriginalImage(frame);
+		return img;
 	}
     
 	private void openTestImage() {
@@ -516,8 +512,8 @@ public class FunPhotoTimeFrame extends JFrame
         fc.setSelectedFile(new File(Conf.TEST_IMAGE_FILE_NAME));
     	try {
     		BufferedImage img = ImageIO.read(fc.getSelectedFile());
-    		MyInternalFrame frame1 =createFrame(img, fc.getSelectedFile().getName());
-            frame1.setSelected(true); //DOESENT WORK
+    		MyInternalFrame frame1 = createFrame(img, fc.getSelectedFile().getName());
+            frame1.setSelected(true); //DOESEN'T WORK
 		} catch (IOException f) {
 		}
     	catch (java.beans.PropertyVetoException e) {
