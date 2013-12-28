@@ -26,7 +26,6 @@ import si.gto76.funphototime.filterthreads.HistogramStretchingThread;
 	
 public class HistogramStretchingDialog extends JFrame 
 								implements ChangeListener  {
-	
 		
 	private static final long serialVersionUID = -2858551691574547798L;
 	protected BufferedImage imgIn, imgOut;
@@ -79,6 +78,7 @@ public class HistogramStretchingDialog extends JFrame
     	dlg.setVisible(true);
     	dlg.dispose();
     }
+    
     public int[] getValues() {
     	//Vrne vrednosti slajderjev
     	int[] value = new int[2];
@@ -151,31 +151,30 @@ public class HistogramStretchingDialog extends JFrame
 	}
 	
 	public void resetOriginalImage() {
-	    	//spremeni sliko iz izbranega okvirja v prvotno stanje
-	    	//ce sploh obstaja kaksna nit jo ustavi ali pocaka
-	    	if (filterThread != null) {
-	    		try {
-		    		//ce je bil izbran cancel avtomatsko prekine zadnjo nit,
-		    		//drugace (ce je bil OK) jo pocaka da konca svoje delo
-		    		//to verjetno niti ni nujno
-		    		if ( wasCanceled() ) 
-						filterThread.t.interrupt();
-					filterThread.t.join();
-				
-				} 
-				catch ( InterruptedException e ) {}
-			}
-			selectedFrame.setImg(imgIn);
-	    }
+    	//spremeni sliko iz izbranega okvirja v prvotno stanje
+    	//ce sploh obstaja kaksna nit jo ustavi ali pocaka
+    	if (filterThread != null) {
+    		try {
+	    		//ce je bil izbran cancel avtomatsko prekine zadnjo nit,
+	    		//drugace (ce je bil OK) jo pocaka da konca svoje delo
+	    		//to verjetno niti ni nujno
+	    		if ( wasCanceled() ) 
+					filterThread.t.interrupt();
+				filterThread.t.join();
+			} 
+    		catch ( InterruptedException e ) {}
+		}
+		selectedFrame.setImg(imgIn);
+	}
 		
 	public BufferedImage getProcessedImage() {
-			try {
-				if (filterThread != null) {
-					filterThread.t.join();
-				}
-			} 
-			catch ( InterruptedException e ) {}
-			return imgOut;
+		try {
+			if (filterThread != null) {
+				filterThread.t.join();
+			}
+		} 
+		catch ( InterruptedException e ) {}
+		return imgOut;
 	}
     
 }

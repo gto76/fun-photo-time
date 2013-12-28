@@ -10,9 +10,6 @@ import si.gto76.funphototime.filterthreads.FilterThread;
 public abstract class FilterDialog extends MyDialog
 								implements ChangeListener {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1168306069304323548L;
 	protected BufferedImage imgIn, imgOut;
 	protected MyInternalFrame selectedFrame;
@@ -22,6 +19,7 @@ public abstract class FilterDialog extends MyDialog
 		super(title);
 		init(selectedFrame);
 	}
+	
 	public FilterDialog( MyInternalFrame selectedFrame, String title, int orientation ) {
 		super(title, orientation);
 		init(selectedFrame);
@@ -31,6 +29,7 @@ public abstract class FilterDialog extends MyDialog
 		super(title, orientation, x, y);
 		init(selectedFrame);
 	}
+	
 	private void init(MyInternalFrame selectedFrame) {
 		this.selectedFrame = selectedFrame;
 		imgIn = selectedFrame.getImg();

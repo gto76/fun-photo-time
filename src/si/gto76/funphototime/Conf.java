@@ -3,7 +3,7 @@ package si.gto76.funphototime;
 import java.awt.Color;
 
 public class Conf {
-	public static final String VERSION = "0.9.2";
+	public static final String VERSION = "0.9.3";
 	// Main frame
 	public static final boolean NATIVE_LOOK_AND_FEEL = false;
 	public static final int MAIN_WINDOW_WIDTH = 800;

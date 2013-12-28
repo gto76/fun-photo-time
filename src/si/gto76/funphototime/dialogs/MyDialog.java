@@ -26,13 +26,16 @@ public abstract class MyDialog extends JFrame {
     public MyDialog(String title) {
     	init(title, BoxLayout.X_AXIS);
     }
+    
 	public MyDialog( String title, int orientation ) {
 		init(title, orientation);
     }
+	
 	public MyDialog( String title, int orientation, int x, int y ) {
 		init(title, orientation);
     	dlg.setSize(x, y);
     }
+	
 	private void init(String title, int orientation) {
 		p = new JPanel();
     	p.setLayout(new BoxLayout(p, orientation));

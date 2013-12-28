@@ -15,7 +15,6 @@ public abstract class FilterThread implements Runnable {
 	protected MyInternalFrame selectedFrame;
 	static int threadCount = 0;
 	
-	
 	FilterThread( BufferedImage imgIn, BufferedImage imgOut, MyInternalFrame selectedFrame) {
 		this.imgIn = imgIn;
 		this.imgOut = imgOut;
@@ -43,7 +42,6 @@ public abstract class FilterThread implements Runnable {
 			}
 			//ko (ce) se nit izvede do konca, osvezi internal frame
 			selectedFrame.repaint(100, 0, 0, 10000, 10000);
-			
 		}
 		catch ( InterruptedException e ) {
 			return;
@@ -51,5 +49,4 @@ public abstract class FilterThread implements Runnable {
 	}
 	
 	abstract int filtriraj(int rgb);
-
 }
