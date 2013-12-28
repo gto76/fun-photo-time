@@ -12,6 +12,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 
 import si.gto76.funphototime.MyInternalFrame;
+import si.gto76.funphototime.Utility;
 
 
 public abstract class OperationDialog extends MyDialog 
@@ -84,8 +85,8 @@ public abstract class OperationDialog extends MyDialog
     }
     
     public BufferedImage getProcessedOrigImage() {
-		imgIn1 = ((MyInternalFrame) combo1.getSelectedItem()).getOriginalImg();
-		imgIn2 = ((MyInternalFrame) combo2.getSelectedItem()).getOriginalImg();
+		imgIn1 = Utility.waitForOriginalImage((MyInternalFrame) combo1.getSelectedItem());
+		imgIn2 = Utility.waitForOriginalImage((MyInternalFrame) combo2.getSelectedItem());
 		imgOut = operation(imgIn1, imgIn2);
 		return imgOut;  	
     }
@@ -97,8 +98,20 @@ public abstract class OperationDialog extends MyDialog
     	return name;
     }
     
-    public int getZoom() {
-    	return ((MyInternalFrame) combo1.getSelectedItem()).getZoom();
+    public int getFirstZoom() {
+    	return getZoom(combo1);
+    }
+
+    public int getSecondZoom() {
+    	return getZoom(combo2);
+    }
+    
+    private int getZoom(JComboBox combo) {
+    	return ((MyInternalFrame) combo.getSelectedItem()).getZoom();
+    }
+    
+    public MyInternalFrame getFirstFrame() {
+    	return (MyInternalFrame) combo1.getSelectedItem();
     }
     
     abstract protected BufferedImage operation(BufferedImage imgIn1, BufferedImage imgIn2);
