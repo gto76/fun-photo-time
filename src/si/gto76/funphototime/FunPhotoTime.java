@@ -17,7 +17,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 public class FunPhotoTime {
-	static FunPhotoTimeFrame frame;
+	static public FunPhotoTimeFrame frame;
 
 	public static void main(String[] args) {
 		// Try setting native look and feel
@@ -33,7 +33,7 @@ public class FunPhotoTime {
         });
     }
     
-    private static void createAndShowGUI() {
+    public static void createAndShowGUI() {
     	// Create application frame.
     	JFrame.setDefaultLookAndFeelDecorated(true);
         /*final FunPhotoTimeFrame*/ frame = new FunPhotoTimeFrame();

@@ -16,7 +16,7 @@ public class Conf {
 	public static final String ICON_FILENAME_L = "/resources/icon-trans-64x64.png"; 
 	public static final String ICON_FILENAME_XL = "/resources/icon-trans-128x128.png"; 
 	// Test image
-	public static final boolean TEST_IMAGE = true;
+	public static final boolean TEST_IMAGE = false;
 	public static final String TEST_IMAGE_FILE_NAME = "/home/minerva/Pictures/foto/DSC_0020.JPG";
 	// Internal frame
 	public static final int SCROLL_PANE_SPEED = 14;
@@ -27,5 +27,6 @@ public class Conf {
 	// Dialogs
 	public static final int DIALOG_LOCATION_X = 200;
 	public static final int DIALOG_LOCATION_Y = 200;
+	
 	public static final long ORIGINAL_IMAGE_WAITING_INTERVAL_MSEC = 100;
 }
