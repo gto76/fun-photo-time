@@ -1,10 +1,7 @@
 package si.gto76.funphototime;
 
 import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 

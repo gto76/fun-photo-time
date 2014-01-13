@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import si.gto76.funphototime.Conf;
+import si.gto76.funphototime.FunPhotoTime;
 
 
 public abstract class MyDialog extends JFrame {
@@ -21,17 +21,18 @@ public abstract class MyDialog extends JFrame {
 	protected JPanel p;
 	protected JDialog dlg;
 	protected JOptionPane op;
-	static public Point location = new Point(Conf.DIALOG_LOCATION_X, Conf.DIALOG_LOCATION_Y);
+	static public Point location = new Point(FunPhotoTime.frame.getLocation().x+100,
+			FunPhotoTime.frame.getLocation().y+100);
 	
     public MyDialog(String title) {
     	init(title, BoxLayout.X_AXIS);
     }
     
-	public MyDialog( String title, int orientation ) {
+	public MyDialog(String title, int orientation) {
 		init(title, orientation);
     }
 	
-	public MyDialog( String title, int orientation, int x, int y ) {
+	public MyDialog(String title, int orientation, int x, int y) {
 		init(title, orientation);
     	dlg.setSize(x, y);
     }
@@ -79,6 +80,6 @@ public abstract class MyDialog extends JFrame {
 		else return false;
     }
     
-    abstract public BufferedImage getProcessedImage(); //NEW
+    abstract public BufferedImage getProcessedImage();
 
 }

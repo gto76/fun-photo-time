@@ -2,14 +2,10 @@ package si.gto76.funphototime.actionlisteners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.Operation;
 import si.gto76.funphototime.FunPhotoTimeFrame;
-import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.dialogs.OperationDialog;
-import si.gto76.funphototime.enums.NoDialogFilter;
 
 public class OperationDialogListener implements ActionListener {
 	FunPhotoTimeFrame mainFrame;

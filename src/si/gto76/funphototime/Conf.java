@@ -25,8 +25,8 @@ public class Conf {
 	// Histogram
 	public static final int HISTOGRAM_VERTICAL_ZOOM = 60;
 	// Dialogs
-	public static final int DIALOG_LOCATION_X = 200;
-	public static final int DIALOG_LOCATION_Y = 200;
+	//public static final int DIALOG_LOCATION_X = 200;
+	//public static final int DIALOG_LOCATION_Y = 200;
 	
 	public static final long ORIGINAL_IMAGE_WAITING_INTERVAL_MSEC = 100;
 }

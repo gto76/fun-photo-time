@@ -31,7 +31,6 @@ public class SaveListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
     	if ( frame.desktop.getSelectedFrame() == null ) 
     		return;
-		//JFileChooser fc = new JFileChooser();
 
 		JFileChooser fc = new JFileChooser() {
 			private static final long serialVersionUID = 291238218189760173L;
@@ -105,7 +104,6 @@ public class SaveListener implements ActionListener {
 								return;
 						}
 					}
-					
 					// SAVE (new file)
 					saveFile(formatName, outputfile);
 			    	
@@ -117,10 +115,7 @@ public class SaveListener implements ActionListener {
 					JOptionPane.showMessageDialog(null, errMessage, "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
 			}
-
-			
 		};
 		
 		String fileName = ((MyInternalFrame)frame.desktop.getSelectedFrame()).getFileName();

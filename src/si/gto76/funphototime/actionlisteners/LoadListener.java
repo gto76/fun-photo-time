@@ -38,8 +38,8 @@ public class LoadListener implements ActionListener {
     			}
 			} catch (IOException f) {
 			}
-			//lastPath = fc.getSelectedFile().getPath();
 			frame.lastPath = fc.getSelectedFile();
 	    }
 	}
+
 }

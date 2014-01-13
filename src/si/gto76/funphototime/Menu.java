@@ -76,9 +76,9 @@ class Menu {
         
         menuZoom.setText("Zoom");
         menuZoomOut.setText("Zoom Out");
-        menuZoomOut .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0));
+        menuZoomOut .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0));
         menuZoomIn.setText("Zoom In");
-        menuZoomIn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0));
+        menuZoomIn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0));
         menuZoomActualsize.setText("Actual Size");
         menuZoomActualsize.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0));
         menuZoomMagnificationSix.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_6, 0));
@@ -123,15 +123,15 @@ class Menu {
         menuFiltersMedian.setText("Median Noise Reduction");
         menuFiltersMedian.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         menuFiltersColors.setText("Color Adjustment...");
-        menuFiltersColors.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0));
+        menuFiltersColors.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0));
         
         menuLogicop.setText("Logic");
         menuLogicopNot.setText("Not");
-        menuLogicopNot.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CIRCUMFLEX, 0));
+        menuLogicopNot.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
         menuLogicopAnd.setText("And...");
-        menuLogicopAnd.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_AMPERSAND, 0));
+        menuLogicopAnd.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0));
         menuLogicopOr.setText("Or...");
-        menuLogicopOr.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DIVIDE, 0));
+        menuLogicopOr.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, 0));
         menuLogicopXor.setText("Xor...");
         menuLogicopXor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, 0));
         
@@ -141,9 +141,9 @@ class Menu {
         menuArithmeticopSubtraction.setText("Subtract...");
         menuArithmeticopSubtraction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, 0));
         menuArithmeticopMultiplication.setText("Multiply...");
-        menuArithmeticopMultiplication.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ASTERISK, 0));
+        menuArithmeticopMultiplication.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, 0));
         menuArithmeticopDivision.setText("Divide...");
-        menuArithmeticopDivision.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, 0));
+        menuArithmeticopDivision.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0));
         
         menuWindow.setText("Window");
         
@@ -154,6 +154,7 @@ class Menu {
 		
 		menuFile.add(menuFileOpen);
         menuFile.add(menuFileSaveas);
+        menuFile.addSeparator();
         menuFile.add(menuFileExit);
         menuBar.add(menuFile);
         
@@ -173,20 +174,22 @@ class Menu {
         menuFilters.add(menuFiltersBrightness1);
         menuFilters.add(menuFiltersContrast);
         menuFilters.add(menuFiltersGamma);
-        menuFilters.add(menuFiltersHistogrameq);
         menuFilters.add(menuFiltersHistogramst);
+        menuFilters.add(menuFiltersHistogrameq);
+        menuFilters.addSeparator();
         menuFilters.add(menuFiltersSaturation);
-        menuFilters.add(menuFiltersGreyscale);
+        menuFilters.add(menuFiltersColors);
+        //menuFilters.add(menuFiltersGreyscale);
         menuFilters.add(menuFiltersNegativ);
         menuFilters.add(menuFiltersThresholding);
-        menuFilters.add(menuFiltersSmartbin);
+        //menuFilters.add(menuFiltersSmartbin);
         menuFilters.add(menuFiltersBitplane);
+        menuFilters.addSeparator();
         menuFilters.add(menuFiltersBlur);
         menuFilters.add(menuFiltersSharpen);
         menuFilters.add(menuFiltersMedian);
         menuFilters.add(menuFiltersRelief);
         menuFilters.add(menuFiltersEdgedetection);
-        menuFilters.add(menuFiltersColors);
         menuBar.add(menuFilters);
         
         menuLogicop.add(menuLogicopNot);

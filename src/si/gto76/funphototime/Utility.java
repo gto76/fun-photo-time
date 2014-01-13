@@ -2,14 +2,13 @@ package si.gto76.funphototime;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageTypeSpecifier;
-
-import si.gto76.funphototime.enums.NoDialogFilter;
 
 
 public class Utility {
@@ -138,6 +137,13 @@ public class Utility {
 			}
 		}
         return frame.getOriginalImg();
+    }
+    
+    public static Point centerTheCenter(Point center, int width, int Height) {
+    	return new Point(
+    		center.x - width/2,
+    		center.y - width/2
+    	);    	
     }
     
 }

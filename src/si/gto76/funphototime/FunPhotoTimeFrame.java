@@ -3,6 +3,7 @@ package si.gto76.funphototime;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
+import javax.swing.JPopupMenu.Separator;
 import javax.swing.MenuElement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -452,16 +454,15 @@ public class FunPhotoTimeFrame extends JFrame
 		for ( int i = 0; i < meni.menuBar.getMenuCount() ; i++ ) {
 			component =	((JMenu) menuElement[i]).getMenuComponents();
 			for ( int j = 0; j < ((JMenu) menuElement[i]).getItemCount(); j++ ) {
-				//try {
-					//ce ni izbrane slike in ce meni ajtem potrebuje eno ali vec slik pol ga disejbla
-					if ( !isThereASelectedFrame && (((MyMenuInterface)component[j]).noOfOperands() > 0) ) {
-						component[j].setEnabled(false);
-					}
-					else {
-						component[j].setEnabled(true);
-					}
-				//} catch (java.lang.ClassCastException e) {}
-				//gleda za izjeme, ce je slucajno kaksen menu med meniji...
+				if (component[j] instanceof Separator)
+					continue;
+				//ce ni izbrane slike in ce meni ajtem potrebuje eno ali vec slik pol ga disejbla
+				if ( !isThereASelectedFrame && (((MyMenuInterface)component[j]).noOfOperands() > 0) ) {
+					component[j].setEnabled(false);
+				}
+				else {
+					component[j].setEnabled(true);
+				}
 			}
 		}
 	}
@@ -523,6 +524,14 @@ public class FunPhotoTimeFrame extends JFrame
 	
 	public void removeInternalFrameReference(JInternalFrame iFrame) {
 		vmu.removeViewMenuItem(this, iFrame);
+	}
+	
+	public Point getFrameCenter() {
+    	Point location = this.getLocation();
+    	return new Point(
+    			location.x + this.getWidth()/2,
+    			location.y + this.getHeight()/2
+    	);
 	}
 	
     protected void windowClosed() {

@@ -2,6 +2,7 @@ package si.gto76.funphototime.dialogs;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Point;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -15,11 +16,16 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import si.gto76.funphototime.Conf;
+import si.gto76.funphototime.FunPhotoTime;
+import si.gto76.funphototime.Utility;
 
 
 public class AboutDialog extends JFrame {
 
 	private static final long serialVersionUID = 4236082773760097536L;
+	static final int WIDTH = 240;
+	static final int HEIGHT = 105;
+	
 	protected JPanel p;
 	protected JDialog dlg;
 	protected JOptionPane op;
@@ -73,8 +79,11 @@ public class AboutDialog extends JFrame {
     	addLabelToPanel("<sornjure@hotmail.com>", p);
     	addLabelToPanel(" ", p);
     	//p.add(button);
+
     	
-    	dlg.setSize(240, 105);
+    	dlg.setSize(WIDTH, HEIGHT);
+    	Point location = Utility.centerTheCenter(FunPhotoTime.frame.getFrameCenter(), WIDTH, HEIGHT);
+    	dlg.setLocation(location);
     	dlg.pack();
     	dlg.setAlwaysOnTop(true);
     	dlg.setVisible(true);
