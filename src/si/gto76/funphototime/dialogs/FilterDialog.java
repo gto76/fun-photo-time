@@ -3,6 +3,7 @@ package si.gto76.funphototime.dialogs;
 import java.awt.image.BufferedImage;
 import javax.swing.event.ChangeListener;
 
+import si.gto76.funphototime.FunPhotoTimeFrame;
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.filterthreads.FilterThread;
@@ -33,7 +34,11 @@ public abstract class FilterDialog extends MyDialog
 	private void init(MyInternalFrame selectedFrame) {
 		this.selectedFrame = selectedFrame;
 		imgIn = selectedFrame.getImg();
-		imgOut = Utility.declareNewBufferedImageAndCopy(imgIn); //naredi kopijo
+		//try {
+			imgOut = Utility.declareNewBufferedImageAndCopy(imgIn); //naredi kopijo
+		//} catch (OutOfMemoryError g) {
+	    //	FunPhotoTimeFrame.outOfMemory();
+		//}
 		selectedFrame.setImg(imgOut); //na kero usmeri kazalec od frejma
 	}
     

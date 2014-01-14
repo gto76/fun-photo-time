@@ -21,17 +21,21 @@ public class SpatialFilterWithouthDialogListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
     	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
     	BufferedImage origImgIn = Utility.waitForOriginalImage(frameIn);
-    	BufferedImage origImgOut = fi.getFilteredImage(origImgIn);
-    	int zoom = frameIn.getZoom();
-    	
-    	if ( frameIn.getZoom() == 100 ) {
-    		mainFrame.createZoomedFrame(origImgOut, frameIn);
-    	}
-    	else {
-    		BufferedImage zoomedImgOut = Zoom.out(origImgOut, zoom);
-    		MyInternalFrame frameOut = mainFrame.createZoomedFrame(zoomedImgOut, frameIn);
-    		frameOut.setOriginalImg(origImgOut);
-    	}
+	    try { 
+	    	BufferedImage origImgOut = fi.getFilteredImage(origImgIn);
+	    	int zoom = frameIn.getZoom();
+	    	
+	    	if ( frameIn.getZoom() == 100 ) {
+	    		mainFrame.createZoomedFrame(origImgOut, frameIn);
+	    	}
+	    	else {
+	    		BufferedImage zoomedImgOut = Zoom.out(origImgOut, zoom);
+	    		MyInternalFrame frameOut = mainFrame.createZoomedFrame(zoomedImgOut, frameIn);
+	    		frameOut.setOriginalImg(origImgOut);
+	    	}
+    	} catch (OutOfMemoryError g) {
+	    	mainFrame.outOfMemory();
+		}
     }
     
 }

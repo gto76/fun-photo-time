@@ -25,6 +25,8 @@ public class MyInternalFrame extends JInternalFrame
 	private int zoom = 100;
 	private String fileName;
 	private int fileNameInstanceNo;
+	
+	public long sizeOfOriginalImage;
 
 	Thread thread;
 	FunPhotoTimeFrame mainFrame;
@@ -77,6 +79,9 @@ public class MyInternalFrame extends JInternalFrame
 	    
 	    pack();
 		addInternalFrameListener(this);
+		
+		sizeOfOriginalImage = getSizeOfOrigImage(imgIn);
+		FunPhotoTimeFrame.checkMemory(sizeOfOriginalImage);
 	}
 	
 	
@@ -84,6 +89,10 @@ public class MyInternalFrame extends JInternalFrame
 	 * FUNCTIONS
 	 */
 	
+	private long getSizeOfOrigImage(BufferedImage imgIn) {
+		return (long) ( imgIn.getHeight() * imgIn.getWidth() * Math.pow(1.0/(zoom/100.0), 2) * 3 );
+	}
+
 	public void anounceThread(Thread thread) {
 		this.thread = thread;
 	}

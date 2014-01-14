@@ -26,6 +26,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu.Separator;
 import javax.swing.MenuElement;
 import javax.swing.event.MenuEvent;
@@ -475,6 +476,11 @@ public class FunPhotoTimeFrame extends JFrame
 		//Create a new internal frame with zoomed image. Add original image later.
 		//also it inherits the titel
     	MyInternalFrame frame = new MyInternalFrame(this, img, frameIn);
+    	/* TODO: This way memory warning coud be realized:
+    	System.gc();
+    	System.out.println("Free memory (bytes): " + 
+    	        Runtime.getRuntime().freeMemory());
+    	*/
     	return internalFrameInit(frame);
     }
 	// Used when importing from file
@@ -536,5 +542,23 @@ public class FunPhotoTimeFrame extends JFrame
 	
     protected void windowClosed() {
     }
+
+	public static void outOfMemory() {
+		JOptionPane.showConfirmDialog(null, "Program ran out of memory!\n" +
+				"Please close some images, save your work and restart the program.", "", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE); 
+	}
+
+	public static void checkMemory(long sizeOfImage) {
+		System.gc();
+    	long freeMamory = Runtime.getRuntime().freeMemory();
+    	System.out.println("MEM: "+freeMamory);
+    	System.out.println("IMG: "+sizeOfImage);
+		if (sizeOfImage*2 > freeMamory) {
+			JOptionPane.showConfirmDialog(null, "Running low on memory!\n" +
+					"Please close some images.", "", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE); 
+		}
+	}
     
 }

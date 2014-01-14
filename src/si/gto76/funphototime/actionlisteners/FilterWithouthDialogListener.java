@@ -20,14 +20,18 @@ public class FilterWithouthDialogListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
     	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
     	//naredi nov frame ki zaenkrat vsebuje samo zumirano obdelano sliko brez originala
-    	MyInternalFrame frameOut = mainFrame.createZoomedFrame(
-    			fi.getFilteredImage(mainFrame.getSelectedBufferedImage()), frameIn);
-    	
-    	if ( frameIn.getZoom() != 100 ) {
-    		// Makes thread that waits for original image to be created.
-    		Thread t = new Thread(new WaitingThread(frameIn, frameOut, fi));
-            t.start();
-        }
+    	try {
+    		BufferedImage filteredImage = fi.getFilteredImage(mainFrame.getSelectedBufferedImage());
+    		MyInternalFrame frameOut = mainFrame.createZoomedFrame(filteredImage, frameIn);
+        	
+        	if ( frameIn.getZoom() != 100 ) {
+        		// Makes thread that waits for original image to be created.
+        		Thread t = new Thread(new WaitingThread(frameIn, frameOut, fi));
+                t.start();
+            }
+	    } catch (OutOfMemoryError g) {
+	    	mainFrame.outOfMemory();
+		}
     }
     
     private static class WaitingThread implements Runnable {

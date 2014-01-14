@@ -37,7 +37,9 @@ public class LoadListener implements ActionListener {
 					frame.createFrame(imgIn, fIn.getName());
     			}
 			} catch (IOException f) {
-			}
+	    	} catch (OutOfMemoryError g) {
+	    		frame.outOfMemory();
+	    	}
 			frame.lastPath = fc.getSelectedFile();
 	    }
 	}

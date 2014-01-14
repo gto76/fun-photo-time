@@ -28,7 +28,7 @@ public class FunPhotoTime {
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI();
+               	createAndShowGUI();
             }
         });
     }
@@ -36,7 +36,8 @@ public class FunPhotoTime {
     public static void createAndShowGUI() {
     	// Create application frame.
     	JFrame.setDefaultLookAndFeelDecorated(true);
-        /*final FunPhotoTimeFrame*/ frame = new FunPhotoTimeFrame();
+        /*final FunPhotoTimeFrame*/ 
+    	frame = new FunPhotoTimeFrame();
         // Show frame.
         frame.setSize(Conf.MAIN_WINDOW_WIDTH, Conf.MAIN_WINDOW_HEIGHT);
         // Set diferent icons, depending on main window focus.
