@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import si.gto76.funphototime.FunPhotoTime;
 
 
-public abstract class MyDialog extends JFrame {
+public abstract class MyDialog /*extends JFrame*/ {
 
 	private static final long serialVersionUID = 3084765862658349147L;
 	protected JPanel p;
@@ -45,9 +45,12 @@ public abstract class MyDialog extends JFrame {
     		JOptionPane.PLAIN_MESSAGE,
     		JOptionPane.OK_CANCEL_OPTION);
     	
-    	dlg = op.createDialog(this, title);
+    	dlg = op.createDialog(title); //(this, title);
     	dlg.setAlwaysOnTop(true);
     	dlg.setLocation(location);
+    	
+    	//dlg.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    	//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
 	protected void addComponent(JComponent jComp) {

@@ -24,7 +24,7 @@ import si.gto76.funphototime.filterthreads.FilterThread;
 import si.gto76.funphototime.filterthreads.HistogramStretchingThread;
 
 	
-public class HistogramStretchingDialog extends JFrame 
+public class HistogramStretchingDialog /*extends JFrame*/ 
 								implements ChangeListener  {
 		
 	private static final long serialVersionUID = -2858551691574547798L;
@@ -71,7 +71,7 @@ public class HistogramStretchingDialog extends JFrame
     		JOptionPane.PLAIN_MESSAGE,
     		JOptionPane.OK_CANCEL_OPTION);
     	
-    	dlg = op.createDialog(this, "Histogram");
+    	dlg = op.createDialog("Histogram");  //(this, "Histogram");
     	dlg.setSize(300, 264);
     	dlg.setLocation(MyDialog.location);
     	dlg.setAlwaysOnTop(true);

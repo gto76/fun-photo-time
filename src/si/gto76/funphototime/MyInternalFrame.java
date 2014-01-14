@@ -81,7 +81,7 @@ public class MyInternalFrame extends JInternalFrame
 	
 	
 	/*
-	 * ROUTINES
+	 * FUNCTIONS
 	 */
 	
 	public void anounceThread(Thread thread) {
@@ -250,6 +250,7 @@ public class MyInternalFrame extends JInternalFrame
 		}
 		//odstrani okno iz view menija
 		mainFrame.removeInternalFrameReference(this);
+		mainFrame.desktop.selectFrame(true); // Garbage collection hack.
 	}
 
     public void internalFrameOpened(InternalFrameEvent e) {
@@ -331,7 +332,6 @@ public class MyInternalFrame extends JInternalFrame
 		}
 		
 	}
-*/
-
+	*/
 	
 }
