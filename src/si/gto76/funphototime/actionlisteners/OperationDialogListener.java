@@ -17,9 +17,9 @@ public class OperationDialogListener implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-    	OperationDialog dialog = (OperationDialog) op.getDialog(mainFrame.desktop);
-    	if (!dialog.wasCanceled()) {
-    		try {
+		try {
+			OperationDialog dialog = (OperationDialog) op.getDialog(mainFrame.desktop);
+	    	if (!dialog.wasCanceled()) {
 	    		int firstZoom = dialog.getFirstZoom();
 	    		int secondZoom = dialog.getSecondZoom();
 	    		// If frames have different zoom, or one of them is actual size.
@@ -35,10 +35,10 @@ public class OperationDialogListener implements ActionListener {
 	    			Thread t = new Thread(new WaitingThread(frame, dialog));
 	                t.start();
 	    		}
-    		} catch (OutOfMemoryError g) {
-    	    	mainFrame.outOfMemory();
-    		}
-        }
+	        }
+		} catch (OutOfMemoryError g) {
+	    	mainFrame.outOfMemory();
+		}
     }
 	
     private static class WaitingThread implements Runnable {

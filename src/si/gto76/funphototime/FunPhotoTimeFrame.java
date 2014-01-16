@@ -57,10 +57,13 @@ public class FunPhotoTimeFrame extends JFrame
 							implements ContainerListener, MouseWheelListener {
 	
 	private static final long serialVersionUID = 5772778382924626863L;
-    public JDesktopPane desktop;
+    
+	public JDesktopPane desktop;
     private Menu meni;
     public ViewMenuUtil vmu = new ViewMenuUtil();
-    public File lastPath = null;
+    
+    public File lastPathLoad = null;
+    public File lastPathSave = null;
     
     static ArrayList<Image> iconsActive;
     static ArrayList<Image> iconsNotActive;
@@ -72,7 +75,8 @@ public class FunPhotoTimeFrame extends JFrame
     	super("Fun Photo Time");
         
         /*Inicializacije****************************************/
-        
+        findPicturesDirectory();
+    	
         // Internal frame 
         int inset = 50;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -157,39 +161,39 @@ public class FunPhotoTimeFrame extends JFrame
          */
         //ZOOM OUT
         meni.menuZoomOut.addActionListener (
-       		new ZoomListener(ZoomOperation.ZOOM_OUT, desktop)
+       		new ZoomListener(ZoomOperation.ZOOM_OUT, this)
         );
         //ZOOM IN
         meni.menuZoomIn.addActionListener (
-           	new ZoomListener(ZoomOperation.ZOOM_IN, desktop)
+           	new ZoomListener(ZoomOperation.ZOOM_IN, this)
         );
         //ZOOM 6%
         meni.menuZoomMagnificationSix.addActionListener (
-           	new ZoomListener(ZoomOperation.ZOOM_6, desktop)
+           	new ZoomListener(ZoomOperation.ZOOM_6, this)
         );
         //ZOOM 12%
         meni.menuZoomMagnificationTwelve.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_12, desktop)
+           		new ZoomListener(ZoomOperation.ZOOM_12, this)
         );
         //ZOOM 25%
         meni.menuZoomMagnificationTwentyfive.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_25, desktop)
+           		new ZoomListener(ZoomOperation.ZOOM_25, this)
         );
         //ZOOM 50%
         meni.menuZoomMagnificationFifty.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_50, desktop)
+           		new ZoomListener(ZoomOperation.ZOOM_50, this)
         );
         //ZOOM 66%
         meni.menuZoomMagnificationSixtysix.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_66, desktop)
+           		new ZoomListener(ZoomOperation.ZOOM_66, this)
         );
         //ZOOM 100%
         meni.menuZoomMagnificationHoundred.addActionListener (
-       		new ZoomListener(ZoomOperation.ZOOM_ACTUAL, desktop)
+       		new ZoomListener(ZoomOperation.ZOOM_ACTUAL, this)
         );
         //ZOOM ACTUAL SIZE
         meni.menuZoomActualsize.addActionListener (
-       		new ZoomListener(ZoomOperation.ZOOM_ACTUAL, desktop)
+       		new ZoomListener(ZoomOperation.ZOOM_ACTUAL, this)
         );
 
         /*
@@ -403,11 +407,27 @@ public class FunPhotoTimeFrame extends JFrame
                 }
             }
         );  
-        
+    	
         if (Conf.TEST_IMAGE) openTestImage();
     }
     
-    /*
+    private void findPicturesDirectory() {
+    	String home = System.getProperty("user.home");
+        String picturesDir = home + File.separator + "Pictures";
+        setLaodAndSavePaths(picturesDir);
+        picturesDir = home + File.separator + "My Pictures";
+        setLaodAndSavePaths(picturesDir);
+	}
+    
+    private void setLaodAndSavePaths(String picturesDirString) {
+    	File picturesDir = new File(picturesDirString);
+    	if (picturesDir.exists() && picturesDir.isDirectory()) {
+        	lastPathLoad = picturesDir;
+            lastPathSave = picturesDir;
+        }
+    }
+
+	/*
      * CONSTRUCTORS END.
      */
     
@@ -476,21 +496,17 @@ public class FunPhotoTimeFrame extends JFrame
 		//Create a new internal frame with zoomed image. Add original image later.
 		//also it inherits the titel
     	MyInternalFrame frame = new MyInternalFrame(this, img, frameIn);
-    	/* TODO: This way memory warning coud be realized:
-    	System.gc();
-    	System.out.println("Free memory (bytes): " + 
-    	        Runtime.getRuntime().freeMemory());
-    	*/
     	return internalFrameInit(frame);
     }
 	// Used when importing from file
     public MyInternalFrame createFrame(BufferedImage img, String title) {
-    	//Create a new internal frame with image and titel.
+    	//Create a new internal frame with image and title.
     	MyInternalFrame frame = new MyInternalFrame(this, img, title);
+    	setZoomToFitScreen(frame);
     	return internalFrameInit(frame);
     }
-    
-    private MyInternalFrame internalFrameInit(MyInternalFrame frame) {
+
+	private MyInternalFrame internalFrameInit(MyInternalFrame frame) {
         frame.setVisible(true); 
         desktop.add(frame);
         try {
@@ -499,9 +515,36 @@ public class FunPhotoTimeFrame extends JFrame
         vmu.createViewMenuItem(this, frame);
         return frame;
     }
-    //////////////////////////////////
+	
+    private void setZoomToFitScreen(MyInternalFrame internalFrame) {
+    	BufferedImage img = internalFrame.getOriginalImg();
+    	int imgWidth = img.getWidth();
+    	int imgHeight = img.getHeight();
+    	int mainFrameWidth = this.getWidth();
+    	int mainFrameHeight = this.getHeight();
+    	double imgRatio = (double)imgWidth / imgHeight;
+    	double frameRatio = (double)mainFrameWidth / mainFrameHeight;
+    	int zoom = 100;
+    	if (imgRatio > frameRatio) {
+    		zoom = findZoom(internalFrame.getOriginalImg().getWidth(), mainFrameWidth);
+    	} else {
+    		zoom = findZoom(internalFrame.getOriginalImg().getHeight(), mainFrameHeight);
+    	}
+    	internalFrame.zoom(zoom);
+	}
     
-    public BufferedImage getSelectedBufferedImage() {
+    private int findZoom(int internalFrameSize, int mainFrameSize) {
+		for (int zoom : Zoom.STEPS) {
+			if (internalFrameSize*(zoom/100.0) < mainFrameSize) {
+				return zoom;
+			}
+		}
+		return Zoom.STEPS[Zoom.STEPS.length-1];
+	}
+	
+    //////////////////////////////////
+
+	public BufferedImage getSelectedBufferedImage() {
     	//Vrne sliko, ki se nahaja v izbranem oknu
     	MyInternalFrame frame = (MyInternalFrame) desktop.getSelectedFrame();
 		return frame.getImg();
@@ -543,22 +586,23 @@ public class FunPhotoTimeFrame extends JFrame
     protected void windowClosed() {
     }
 
-	public static void outOfMemory() {
-		JOptionPane.showConfirmDialog(null, "Program ran out of memory!\n" +
+	public void outOfMemory() {
+		JOptionPane.showConfirmDialog(this, "Program ran out of memory!\n" +
 				"Please close some images, save your work and restart the program.", "", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE); 
 	}
 
-	public static void checkMemory(long sizeOfImage) {
+	public void checkMemory(long sizeOfImage) {
 		System.gc();
     	long freeMamory = Runtime.getRuntime().freeMemory();
     	System.out.println("MEM: "+freeMamory);
     	System.out.println("IMG: "+sizeOfImage);
 		if (sizeOfImage*2 > freeMamory) {
-			JOptionPane.showConfirmDialog(null, "Running low on memory!\n" +
+			JOptionPane.showConfirmDialog(this, "Running low on memory!\n" +
 					"Please close some images.", "", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE); 
 		}
 	}
-    
+	
+	
 }

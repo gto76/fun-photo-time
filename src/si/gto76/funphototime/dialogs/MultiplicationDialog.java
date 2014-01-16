@@ -9,11 +9,6 @@ import si.gto76.funphototime.Filters;
 
 public class MultiplicationDialog extends OperationDialog {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1525500480700724430L;
-
 	public MultiplicationDialog( JDesktopPane desktop ) {
 		super( desktop, "Multiplication", "  x  ");
 	}

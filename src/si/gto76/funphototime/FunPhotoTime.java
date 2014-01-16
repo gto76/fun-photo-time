@@ -72,7 +72,7 @@ public class FunPhotoTime {
     
     private static void confirmExit() {
     	String ObjButtons[] = { "Yes", "No" };
-		int PromptResult = JOptionPane.  showOptionDialog(null,
+		int PromptResult = JOptionPane.showOptionDialog(frame,
 				"Are you sure you want to exit?", "",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE, null, ObjButtons,

@@ -19,11 +19,10 @@ public class FilterDialogWithSliderDoubleListener implements ActionListener{
     }
 	
 	public void actionPerformed(ActionEvent e) {
-    	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
-    	FilterDialogWithSliderDouble dialog = fi.getDialog(frameIn);
-    	
-    	if (!dialog.wasCanceled()) {
-	    	try {
+		try {
+	    	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
+	    	FilterDialogWithSliderDouble dialog = fi.getDialog(frameIn);
+	    	if (!dialog.wasCanceled()) {
 	    		double values = dialog.getValues();
 	    		MyInternalFrame frameOut = mainFrame.createZoomedFrame(dialog.getProcessedImage(), frameIn);
 	    		if ( frameIn.getZoom() != 100 ) { // NEW!!!
@@ -31,11 +30,11 @@ public class FilterDialogWithSliderDoubleListener implements ActionListener{
 	        		Thread t = new Thread(new WaitingThread(frameIn, frameOut, fi, values));
 	                t.start();
 	    		}
-    		} catch (OutOfMemoryError g) {
-    	    	mainFrame.outOfMemory();
-    		}
-    	}
-    	dialog.resetOriginalImage();
+	    	}
+	    	dialog.resetOriginalImage();
+		} catch (OutOfMemoryError g) {
+	    	mainFrame.outOfMemory();
+		}
     }
 	
     private static class WaitingThread implements Runnable {

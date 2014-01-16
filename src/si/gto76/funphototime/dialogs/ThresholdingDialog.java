@@ -8,8 +8,6 @@ import si.gto76.funphototime.filterthreads.ThresholdingThread;
 
 public class ThresholdingDialog extends FilterDialogWithSlider  {
 
-	private static final long serialVersionUID = 259871197416707102L;
-
 	public ThresholdingDialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Threshold");
 	}

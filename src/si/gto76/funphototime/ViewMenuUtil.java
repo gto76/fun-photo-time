@@ -13,40 +13,26 @@ import javax.swing.JPopupMenu;
 import javax.swing.MenuElement;
 
 public class ViewMenuUtil implements ActionListener {
+	private static final String MENU_NAME = "Window";
 
-	public void createViewMenuItem(JFrame parent, JInternalFrame child) {
-		JMenuBar menuBar = parent.getJMenuBar();
-		MenuElement[] menuElements = menuBar.getSubElements();
-		for (MenuElement menuElement : menuElements) {
-			if (menuElement instanceof JMenu) {
-				JMenu menu = (JMenu) menuElement;
-				if ("Window".equalsIgnoreCase(menu.getText())) {
-					ViewMenuItem menuItem = new ViewMenuItem(child.getTitle(),
-							child);
-					menuItem.addActionListener(this);
-					menu.add(menuItem);
-				}
-			}
-		}
+	public void createViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
+		JMenu menu = getVievMenu(mainFrame);
+		if (menu == null) return;
+		ViewMenuItem menuItem = new ViewMenuItem(internalFrame.getTitle(), internalFrame);
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
 	}
 
-	public void removeViewMenuItem(JFrame parent, JInternalFrame child) {
-		JMenuBar menuBar = parent.getJMenuBar();
-		MenuElement[] menuElements = menuBar.getSubElements();
-		for (MenuElement menuElement : menuElements) {
-			if (menuElement instanceof JMenu) {
-				JMenu menu = (JMenu) menuElement;
-				if ("Window".equalsIgnoreCase(menu.getText())) {
-					for (MenuElement win : menu.getSubElements()) {
-						JPopupMenu w = (JPopupMenu) win;
-						for (MenuElement men : w.getSubElements()) {
-							ViewMenuItem a = (ViewMenuItem) men;
-							if (a.compareTo(child) == 0) {
-								w.remove(a);
-								return;
-							}
-						}
-					}
+	public void removeViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
+		JMenu menu = getVievMenu(mainFrame);
+		if (menu == null) return;
+		for (MenuElement menuItem : menu.getSubElements()) {
+			JPopupMenu popUp = (JPopupMenu) menuItem;
+			for (MenuElement subElement : popUp.getSubElements()) {
+				ViewMenuItem viewMenuItem = (ViewMenuItem) subElement;
+				if (viewMenuItem.compareTo(internalFrame) == 0) {
+					popUp.remove(viewMenuItem);
+					return;
 				}
 			}
 		}
@@ -54,23 +40,22 @@ public class ViewMenuUtil implements ActionListener {
 
 	class ViewMenuItem extends JMenuItem implements Comparable<JInternalFrame>,
 			MyMenuInterface {
-
 		private static final long serialVersionUID = 333892455020266595L;
-		private JInternalFrame childFrame;
+		private JInternalFrame internalFrame;
 
-		ViewMenuItem(String childName, JInternalFrame childFrame) {
-			super(childName);
-			this.childFrame = childFrame;
+		ViewMenuItem(String name, JInternalFrame internalFrame) {
+			super(name);
+			this.internalFrame = internalFrame;
 		}
 
-		public int compareTo(JInternalFrame o) {
-			if (childFrame.equals(o))
+		public int compareTo(JInternalFrame otherFrame) {
+			if (internalFrame.equals(otherFrame))
 				return 0;
 			else
 				return -1;
 		}
 
-		// Interface
+		// MyMenuInterface:
 		public int noOfOperands() {
 			return 0;
 		}
@@ -78,24 +63,26 @@ public class ViewMenuUtil implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		ViewMenuItem menuItem = (ViewMenuItem) e.getSource();
-		JPopupMenu popMenu = (JPopupMenu) menuItem.getParent();
-		JMenu viewMenu = (JMenu) popMenu.getInvoker();
-		if ("Window".equalsIgnoreCase(viewMenu.getText())) {
-			MenuElement[] menuElements = popMenu.getSubElements();
-			for (MenuElement menuElement : menuElements) {
-				if (menuElement instanceof JMenuItem) {
-					ViewMenuItem internalFrame = (ViewMenuItem) menuElement;
-					if (internalFrame.compareTo(menuItem.childFrame) == 0) {
-						try {
-							internalFrame.childFrame.setSelected(true);
-						} catch (PropertyVetoException e1) {
-							e1.printStackTrace();
-						}
-						;
-					}
+		try {
+			menuItem.internalFrame.setSelected(true);
+		} catch (PropertyVetoException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	private static JMenu getVievMenu(JFrame mainFrame) {
+		JMenuBar menuBar = mainFrame.getJMenuBar();
+		MenuElement[] menuElements = menuBar.getSubElements();
+		for (MenuElement menuElement : menuElements) {
+			if (menuElement instanceof JMenu) {
+				JMenu menu = (JMenu) menuElement;
+				String name = menu.getText();
+				if (name.equalsIgnoreCase(MENU_NAME)) {
+					return menu;				
 				}
 			}
 		}
+		return null;
 	}
 
 }

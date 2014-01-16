@@ -2,13 +2,21 @@ package si.gto76.funphototime;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
@@ -29,7 +37,7 @@ public class MyInternalFrame extends JInternalFrame
 	public long sizeOfOriginalImage;
 
 	Thread thread;
-	FunPhotoTimeFrame mainFrame;
+	public final FunPhotoTimeFrame mainFrame;
 
 
 	/*
@@ -39,6 +47,7 @@ public class MyInternalFrame extends JInternalFrame
 	// Used when importing from other frame
 	public MyInternalFrame(FunPhotoTimeFrame mainFrame, BufferedImage imgIn, MyInternalFrame frameIn) {
 		super("", true, true, true, true);
+		this.mainFrame = mainFrame;
 		this.setTitle(fileName);
 		//če ni frameIn zoom 100% zaenkrat ostane brez originalne slike
 		//(ker jo more en od FilterThreadov, ki teče v ozadju še narest)
@@ -53,6 +62,7 @@ public class MyInternalFrame extends JInternalFrame
 	// Used when importing from file
 	public MyInternalFrame(FunPhotoTimeFrame mainFrame, BufferedImage imgIn, String title) {
 		super("", true, true, true, true);
+		this.mainFrame = mainFrame;
 		originalImg = imgIn;
 		this.zoom = 100;
 	    this.fileName = title;
@@ -63,7 +73,6 @@ public class MyInternalFrame extends JInternalFrame
 	private void init(FunPhotoTimeFrame mainFrame, BufferedImage imgIn) {
 		fileNameInstanceNo = ++openFrameCount;
 		refreshTitle();
-		this.mainFrame = mainFrame;
 		
 	    icon = new ImageIcon((Image)imgIn, "description");
 	    JLabel label = new JLabel(icon);
@@ -81,7 +90,31 @@ public class MyInternalFrame extends JInternalFrame
 		addInternalFrameListener(this);
 		
 		sizeOfOriginalImage = getSizeOfOrigImage(imgIn);
-		FunPhotoTimeFrame.checkMemory(sizeOfOriginalImage);
+		mainFrame.checkMemory(sizeOfOriginalImage);
+		
+		/*
+		 * KEY SHORTCUTS
+		 */
+		// Get the KeyStroke for our hot key
+    	KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK, true);
+    	// Get the input map for our component
+    	// In this case we are interested in key strokes in the focussed window
+    	InputMap inputMap = this.getInputMap(JComponent.WHEN_FOCUSED);
+    	// Map the key stroke to our "action key" (see below)
+    	inputMap.put(key, "my_action");
+    	// Get the action map for our component
+    	ActionMap actionMap = this.getActionMap();
+    	// Add the required action listener to out action map
+    	actionMap.put("my_action", new AbstractAction() {
+			private static final long serialVersionUID = 4883602111122331080L;
+			public void actionPerformed(ActionEvent e) {
+            	try {
+					setClosed(true);
+				} catch (PropertyVetoException e1) {
+					e1.printStackTrace();
+				}
+            }
+    	});
 	}
 	
 	
@@ -258,7 +291,7 @@ public class MyInternalFrame extends JInternalFrame
 			}
 		}
 		//odstrani okno iz view menija
-		mainFrame.removeInternalFrameReference(this);
+		mainFrame.removeInternalFrameReference(this); 
 		mainFrame.desktop.selectFrame(true); // Garbage collection hack.
 	}
 

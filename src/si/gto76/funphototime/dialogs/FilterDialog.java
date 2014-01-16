@@ -3,7 +3,6 @@ package si.gto76.funphototime.dialogs;
 import java.awt.image.BufferedImage;
 import javax.swing.event.ChangeListener;
 
-import si.gto76.funphototime.FunPhotoTimeFrame;
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.filterthreads.FilterThread;
@@ -11,7 +10,6 @@ import si.gto76.funphototime.filterthreads.FilterThread;
 public abstract class FilterDialog extends MyDialog
 								implements ChangeListener {
 	
-	private static final long serialVersionUID = -1168306069304323548L;
 	protected BufferedImage imgIn, imgOut;
 	protected MyInternalFrame selectedFrame;
 	protected FilterThread filterThread;

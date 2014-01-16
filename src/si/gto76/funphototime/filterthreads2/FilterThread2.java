@@ -2,7 +2,6 @@ package si.gto76.funphototime.filterthreads2;
 
 import java.awt.image.BufferedImage;
 
-import si.gto76.funphototime.FunPhotoTimeFrame;
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.Utility;
 
@@ -16,16 +15,16 @@ public abstract class FilterThread2 implements Runnable {
 	
 	
 	FilterThread2( BufferedImage imgIn, MyInternalFrame selectedFrame) {
-		this.imgIn = imgIn;
 		try {
+			this.imgIn = imgIn;
 			this.imgOut = Utility.declareNewBufferedImage(imgIn);
+			this.selectedFrame = selectedFrame;
+			t = new Thread(this, "" + ++threadCount);
+			selectedFrame.anounceThread(t);
+			t.start();
 		} catch (OutOfMemoryError g) {
-	    	FunPhotoTimeFrame.outOfMemory();
+			selectedFrame.mainFrame.outOfMemory();
 		}
-		this.selectedFrame = selectedFrame;
-		t = new Thread(this, "" + ++threadCount);
-		selectedFrame.anounceThread(t);
-		t.start();
 	}
 	
 	public void run() {

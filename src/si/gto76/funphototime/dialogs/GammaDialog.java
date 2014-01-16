@@ -8,8 +8,6 @@ import si.gto76.funphototime.filterthreads.GammaThread;
 
 public class GammaDialog extends FilterDialogWithSliderDouble  {
 	
-	private static final long serialVersionUID = -1378859822513875867L;
-
 	public GammaDialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Gamma");
 	}

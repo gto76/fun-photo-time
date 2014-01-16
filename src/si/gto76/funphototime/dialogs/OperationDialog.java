@@ -18,7 +18,6 @@ import si.gto76.funphototime.Utility;
 public abstract class OperationDialog extends MyDialog 
 									implements ActionListener{
 	
-	private static final long serialVersionUID = 4986931956064747068L;
 	protected BufferedImage imgIn1, imgIn2, imgOut;
 	protected MyInternalFrame selectedFrame1, selectedFrame2;
 	protected JDesktopPane desktop;

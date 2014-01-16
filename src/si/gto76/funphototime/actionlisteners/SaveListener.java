@@ -23,6 +23,7 @@ public class SaveListener implements ActionListener {
 	private void saveFile(String formatName, File outputfile) {
 		try {
         	ImageIO.write(frame.getSelectedOriginalBufferedImage(), formatName, outputfile);
+        	frame.lastPathSave = outputfile;
     	} catch (IOException f) {
     		JOptionPane.showMessageDialog(null, "SAVE ERROR!", "Error", JOptionPane.ERROR_MESSAGE);
     	}
@@ -121,11 +122,13 @@ public class SaveListener implements ActionListener {
 		String fileName = ((MyInternalFrame)frame.desktop.getSelectedFrame()).getFileName();
 		// odstrani koncnico imenu
 		fileName = removeExtension(fileName);
-		if (frame.lastPath != null) {
-			File path = frame.lastPath.getParentFile();
+		if (frame.lastPathSave != null) {
+			File path = frame.lastPathSave.getParentFile();
 			fc.setSelectedFile(new File(path, fileName));
-		}
-		else {
+		} else if (frame.lastPathLoad != null) {
+			File path = frame.lastPathLoad.getParentFile();
+			fc.setSelectedFile(new File(path, fileName));
+		} else {
 			fc.setSelectedFile(new File(fileName));
 		}
 		fc.setDialogTitle("Save As");

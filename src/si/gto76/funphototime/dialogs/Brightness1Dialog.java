@@ -5,11 +5,8 @@ import javax.swing.event.ChangeEvent;
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.filterthreads.Brightness1Thread;
 
-
 public class Brightness1Dialog extends FilterDialogWithSliderDouble  {
 	
-	private static final long serialVersionUID = 7001399654400720115L;
-
 	public Brightness1Dialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Brightness");
 	}

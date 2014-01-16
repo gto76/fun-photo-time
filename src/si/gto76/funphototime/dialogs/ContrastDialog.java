@@ -8,8 +8,6 @@ import si.gto76.funphototime.filterthreads.ContrastThread;
 
 public class ContrastDialog extends FilterDialogWithSliderDouble  {
 	
-	private static final long serialVersionUID = 6828756153131963971L;
-
 	public ContrastDialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Contrast");
 	}

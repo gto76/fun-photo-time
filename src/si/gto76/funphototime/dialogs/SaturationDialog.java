@@ -8,8 +8,6 @@ import si.gto76.funphototime.filterthreads.SaturationThread;
 
 public class SaturationDialog extends FilterDialogWithSliderDouble {
 	
-	private static final long serialVersionUID = 1658711370471287133L;
-
 	public SaturationDialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Saturation");
 	}

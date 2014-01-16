@@ -20,28 +20,29 @@ public class LoadListener implements ActionListener {
 	}
 	
     public void actionPerformed(ActionEvent e) {
-    	JFileChooser fc = new JFileChooser();
-    	fc.setMultiSelectionEnabled(true);
-    	// adds file filters
-    	for (ExtensionFileFilter filter : ExtensionFileFilter.all) {
-			fc.addChoosableFileFilter(filter);
-		}
-    	if (frame.lastPath != null) {
-    		fc.setCurrentDirectory(frame.lastPath);
-    	}
-    	int returnVal = fc.showOpenDialog(frame);
-    	if (returnVal == JFileChooser.APPROVE_OPTION) {
-    		try {
-    			for (File fIn : fc.getSelectedFiles()) {
-    				BufferedImage imgIn = ImageIO.read(fIn);
-					frame.createFrame(imgIn, fIn.getName());
-    			}
-			} catch (IOException f) {
-	    	} catch (OutOfMemoryError g) {
-	    		frame.outOfMemory();
+    	try {
+	    	JFileChooser fc = new JFileChooser();
+	    	fc.setMultiSelectionEnabled(true);
+	    	// adds file filters
+	    	for (ExtensionFileFilter filter : ExtensionFileFilter.all) {
+				fc.addChoosableFileFilter(filter);
+			}
+	    	if (frame.lastPathLoad != null) {
+	    		fc.setCurrentDirectory(frame.lastPathLoad);
 	    	}
-			frame.lastPath = fc.getSelectedFile();
-	    }
+	    	int returnVal = fc.showOpenDialog(frame);
+	    	if (returnVal == JFileChooser.APPROVE_OPTION) {
+	    		try {
+	    			for (File fIn : fc.getSelectedFiles()) {
+	    				BufferedImage imgIn = ImageIO.read(fIn);
+						frame.createFrame(imgIn, fIn.getName());
+	    			}
+				} catch (IOException f) {}
+				frame.lastPathLoad = fc.getSelectedFile();
+		    }
+    	} catch (OutOfMemoryError g) {
+    		frame.outOfMemory();
+    	}
 	}
 
 }

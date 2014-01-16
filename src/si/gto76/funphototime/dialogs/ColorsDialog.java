@@ -8,10 +8,6 @@ import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.filterthreads.ColorsThread;
 
 public class ColorsDialog extends FilterDialog {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4759236677164906508L;
 	// R, G and B sliders
 	protected JSlider[] sld = new JSlider[3];
 	

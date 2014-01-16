@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +26,6 @@ import si.gto76.funphototime.filterthreads.HistogramStretchingThread;
 public class HistogramStretchingDialog /*extends JFrame*/ 
 								implements ChangeListener  {
 		
-	private static final long serialVersionUID = -2858551691574547798L;
 	protected BufferedImage imgIn, imgOut;
 	protected MyInternalFrame selectedFrame;
  	protected FilterThread filterThread;

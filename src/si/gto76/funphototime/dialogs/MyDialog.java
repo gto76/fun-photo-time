@@ -2,22 +2,26 @@ package si.gto76.funphototime.dialogs;
 
 import java.awt.Component;
 import java.awt.Point;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import si.gto76.funphototime.FunPhotoTime;
 
 
-public abstract class MyDialog /*extends JFrame*/ {
+public abstract class MyDialog {
 
-	private static final long serialVersionUID = 3084765862658349147L;
 	protected JPanel p;
 	protected JDialog dlg;
 	protected JOptionPane op;
@@ -45,13 +49,35 @@ public abstract class MyDialog /*extends JFrame*/ {
     		JOptionPane.PLAIN_MESSAGE,
     		JOptionPane.OK_CANCEL_OPTION);
     	
-    	dlg = op.createDialog(title); //(this, title);
+    	dlg = op.createDialog(title);
     	dlg.setAlwaysOnTop(true);
     	dlg.setLocation(location);
     	
     	//dlg.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     	//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	
+    	// PROTO
+        //Object name = escape.getValue(Action.NAME);  
+        //p.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), name);  
+        //p.getActionMap().put(name,escape);
 	}
+	
+	// PROTO
+	/*
+	private Action escape = new AbstractAction() {
+        { putValue(NAME, "escape"); }  
+        public void actionPerformed(ActionEvent e) {  
+            JComponent source = (JComponent)e.getSource();  
+            Window window = SwingUtilities.getWindowAncestor(source);  
+            window.dispose();  
+            //Dialog dialog = (Dialog)source.getFocusCycleRootAncestor();  
+            //dialog.dispose();  
+            //System.out.println("source = " + source.getClass().getName() + "\n" +  
+            //                   "source.focusCycleRootAncestor = " +  
+            //           source.getFocusCycleRootAncestor().getClass().getName());  
+        }  
+    };
+    */
 	
 	protected void addComponent(JComponent jComp) {
     	//s to metodo podrazred poda slajder ali kaksno drugo

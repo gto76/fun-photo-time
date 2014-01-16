@@ -12,7 +12,6 @@ import si.gto76.funphototime.filterthreads.BitPlaneThread;
 
 public class BitPlaneDialog extends FilterDialog  {
 	
-	private static final long serialVersionUID = 5942837537107901624L;
 	private JSpinner spinner;
 	
 	public BitPlaneDialog( MyInternalFrame selectedFrame ) {

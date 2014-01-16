@@ -16,11 +16,15 @@ public abstract class FilterThread implements Runnable {
 	static int threadCount = 0;
 	
 	FilterThread( BufferedImage imgIn, BufferedImage imgOut, MyInternalFrame selectedFrame) {
-		this.imgIn = imgIn;
-		this.imgOut = imgOut;
-		this.selectedFrame = selectedFrame;
-		t = new Thread(this, "" + ++threadCount);
-		t.start();
+		try {
+			this.imgIn = imgIn;
+			this.imgOut = imgOut;
+			this.selectedFrame = selectedFrame;
+			t = new Thread(this, "" + ++threadCount);
+			t.start();
+		} catch (OutOfMemoryError g) {
+			selectedFrame.mainFrame.outOfMemory();
+		}	
 	}
 	
 	public void run() {

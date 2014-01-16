@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 
 
 public class Zoom {
+	public static final int[] STEPS = {100, 66, 50, 25, 12, 6};
+	
 	public static BufferedImage out(BufferedImage img, int cent) {
 		int width = img.getWidth();
     	int height = img.getHeight();

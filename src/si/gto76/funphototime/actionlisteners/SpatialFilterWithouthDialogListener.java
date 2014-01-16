@@ -19,9 +19,10 @@ public class SpatialFilterWithouthDialogListener implements ActionListener{
     }
 	
     public void actionPerformed(ActionEvent e) {
-    	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
-    	BufferedImage origImgIn = Utility.waitForOriginalImage(frameIn);
-	    try { 
+    	try { 
+	    	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
+	    	BufferedImage origImgIn = Utility.waitForOriginalImage(frameIn);
+		    
 	    	BufferedImage origImgOut = fi.getFilteredImage(origImgIn);
 	    	int zoom = frameIn.getZoom();
 	    	
