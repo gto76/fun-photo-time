@@ -18,6 +18,12 @@ public class FilterWithouthDialogListener implements ActionListener{
     }
 	
     public void actionPerformed(ActionEvent e) {
+    	MyInternalFrame selectedFrame = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
+		if (!mainFrame.isThereEnoughMemoryFor(selectedFrame.getMemoryFootprint())) {
+			mainFrame.lowMemoryWarning();
+			return;
+		}
+		
     	try {
 	    	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
 	    	//naredi nov frame ki zaenkrat vsebuje samo zumirano obdelano sliko brez originala
@@ -31,7 +37,7 @@ public class FilterWithouthDialogListener implements ActionListener{
                 t.start();
             }
 	    } catch (OutOfMemoryError g) {
-	    	mainFrame.outOfMemory();
+	    	mainFrame.outOfMemoryMessage();
 		}
     }
     

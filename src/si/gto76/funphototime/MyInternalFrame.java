@@ -34,7 +34,7 @@ public class MyInternalFrame extends JInternalFrame
 	private String fileName;
 	private int fileNameInstanceNo;
 	
-	public long sizeOfOriginalImage;
+	//public long sizeOfOriginalImage;
 
 	Thread thread;
 	public final FunPhotoTimeFrame mainFrame;
@@ -88,10 +88,7 @@ public class MyInternalFrame extends JInternalFrame
 	    
 	    pack();
 		addInternalFrameListener(this);
-		
-		sizeOfOriginalImage = getSizeOfOrigImage(imgIn);
-		mainFrame.checkMemory(sizeOfOriginalImage);
-		
+
 		/*
 		 * KEY SHORTCUTS
 		 */
@@ -122,8 +119,16 @@ public class MyInternalFrame extends JInternalFrame
 	 * FUNCTIONS
 	 */
 	
-	private long getSizeOfOrigImage(BufferedImage imgIn) {
-		return (long) ( imgIn.getHeight() * imgIn.getWidth() * Math.pow(1.0/(zoom/100.0), 2) * 3 );
+	public long getOriginalImageMemoryFootprint() {
+		return (long) (Utility.getSizeOfImage(getImg()) * Utility.getSurfaceAreaFactorForZoom(zoom));
+	}
+
+	public long getMemoryFootprint() {  
+		long sum = Utility.getSizeOfImage(getImg());
+		if (zoom != 100) {
+			sum += sum * Utility.getSurfaceAreaFactorForZoom(zoom);
+		}
+		return sum;
 	}
 
 	public void anounceThread(Thread thread) {
@@ -158,8 +163,6 @@ public class MyInternalFrame extends JInternalFrame
     public int getZoom() {
     	return zoom;
     }
-    
-
     
     /// ZOOM /////////////////////////////////////////////////
     public void zoom(int cent) {
@@ -252,7 +255,6 @@ public class MyInternalFrame extends JInternalFrame
 	}
 	/////////////////////////////////////////////////
 	
-	
 	public void waitForThread() {
 		if ( thread != null ) {
 			//se sprehodimo skoz celo hierarhijo da prodemo do glavnega frejma
@@ -309,6 +311,7 @@ public class MyInternalFrame extends JInternalFrame
 
     public void internalFrameDeactivated(InternalFrameEvent e) {
 	}
+
 
     /*
      * MOUSE MOTION LISTENER

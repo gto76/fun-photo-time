@@ -34,6 +34,7 @@ public class LoadListener implements ActionListener {
 	    	if (returnVal == JFileChooser.APPROVE_OPTION) {
 	    		try {
 	    			for (File fIn : fc.getSelectedFiles()) {
+	    				// TODO memory footprint check
 	    				BufferedImage imgIn = ImageIO.read(fIn);
 						frame.createFrame(imgIn, fIn.getName());
 	    			}
@@ -41,7 +42,7 @@ public class LoadListener implements ActionListener {
 				frame.lastPathLoad = fc.getSelectedFile();
 		    }
     	} catch (OutOfMemoryError g) {
-    		frame.outOfMemory();
+    		frame.outOfMemoryMessage();
     	}
 	}
 

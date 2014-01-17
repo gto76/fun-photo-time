@@ -9,7 +9,7 @@ import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.dialogs.FilterDialogWithSliderDouble;
 import si.gto76.funphototime.enums.Filter;
 
-public class FilterDialogWithSliderDoubleListener implements ActionListener{
+public class FilterDialogWithSliderDoubleListener implements ActionListener {
 	FunPhotoTimeFrame mainFrame;
 	Filter fi;
 
@@ -19,6 +19,12 @@ public class FilterDialogWithSliderDoubleListener implements ActionListener{
     }
 	
 	public void actionPerformed(ActionEvent e) {
+		MyInternalFrame selectedFrame = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
+		if (!mainFrame.isThereEnoughMemoryFor(selectedFrame.getMemoryFootprint())) {
+			mainFrame.lowMemoryWarning();
+			return;
+		}
+
 		try {
 	    	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
 	    	FilterDialogWithSliderDouble dialog = fi.getDialog(frameIn);
@@ -33,7 +39,7 @@ public class FilterDialogWithSliderDoubleListener implements ActionListener{
 	    	}
 	    	dialog.resetOriginalImage();
 		} catch (OutOfMemoryError g) {
-	    	mainFrame.outOfMemory();
+	    	mainFrame.outOfMemoryMessage();
 		}
     }
 	

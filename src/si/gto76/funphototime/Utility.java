@@ -2,13 +2,17 @@ package si.gto76.funphototime;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageTypeSpecifier;
+import javax.swing.ImageIcon;
 
 
 public class Utility {
@@ -145,5 +149,17 @@ public class Utility {
     		center.y - width/2
     	);    	
     }
-    
+
+	public static long getSizeOfImage(BufferedImage imgIn) {
+		return (long) ( imgIn.getHeight() * imgIn.getWidth() * 3 );
+	}
+	
+	public static long getSizeOfImage(ImageIcon imgIn) {
+		return (long) ( imgIn.getIconHeight() * imgIn.getIconWidth() * 3 );
+	}
+	
+	public static double getSurfaceAreaFactorForZoom(int zoom) {
+		return Math.pow(1.0/(zoom/100.0), 2);
+	}
+	
 }

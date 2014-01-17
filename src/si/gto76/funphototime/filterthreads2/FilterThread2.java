@@ -23,7 +23,7 @@ public abstract class FilterThread2 implements Runnable {
 			selectedFrame.anounceThread(t);
 			t.start();
 		} catch (OutOfMemoryError g) {
-			selectedFrame.mainFrame.outOfMemory();
+			selectedFrame.mainFrame.outOfMemoryMessage();
 		}
 	}
 	

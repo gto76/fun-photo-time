@@ -19,6 +19,12 @@ public class SpatialFilterWithouthDialogListener implements ActionListener{
     }
 	
     public void actionPerformed(ActionEvent e) {
+    	MyInternalFrame selectedFrame = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
+		if (!mainFrame.isThereEnoughMemoryFor(selectedFrame.getMemoryFootprint())) {
+			mainFrame.lowMemoryWarning();
+			return;
+		}
+		
     	try { 
 	    	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
 	    	BufferedImage origImgIn = Utility.waitForOriginalImage(frameIn);
@@ -35,7 +41,7 @@ public class SpatialFilterWithouthDialogListener implements ActionListener{
 	    		frameOut.setOriginalImg(origImgOut);
 	    	}
     	} catch (OutOfMemoryError g) {
-	    	mainFrame.outOfMemory();
+	    	mainFrame.outOfMemoryMessage();
 		}
     }
     

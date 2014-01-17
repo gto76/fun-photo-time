@@ -67,6 +67,7 @@ public class FunPhotoTimeFrame extends JFrame
     
     static ArrayList<Image> iconsActive;
     static ArrayList<Image> iconsNotActive;
+    static long iconsSize;
     
     /*
      * The constructor.
@@ -112,7 +113,9 @@ public class FunPhotoTimeFrame extends JFrame
 			{add(iconImgS.getImage()); add(iconImgM.getImage()); add(iconImgL.getImage()); add(iconImgXL.getImage());}
     	};
         this.setIconImages(iconsActive);
-
+        iconsSize = Utility.getSizeOfImage(iconImgS) + Utility.getSizeOfImage(iconImgSBlue) + 
+        		Utility.getSizeOfImage(iconImgM) + Utility.getSizeOfImage(iconImgL) + 
+        		Utility.getSizeOfImage(iconImgXL);
         
         /*Action*Listeners***************************************/ 
         
@@ -586,22 +589,48 @@ public class FunPhotoTimeFrame extends JFrame
     protected void windowClosed() {
     }
 
-	public void outOfMemory() {
+    /*
+     * MEMORY
+     */
+    
+	public void outOfMemoryMessage() {
 		JOptionPane.showConfirmDialog(this, "Program ran out of memory!\n" +
 				"Please close some images, save your work and restart the program.", "", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE); 
 	}
-
-	public void checkMemory(long sizeOfImage) {
-		System.gc();
-    	long freeMamory = Runtime.getRuntime().freeMemory();
-    	System.out.println("MEM: "+freeMamory);
-    	System.out.println("IMG: "+sizeOfImage);
-		if (sizeOfImage*2 > freeMamory) {
-			JOptionPane.showConfirmDialog(this, "Running low on memory!\n" +
-					"Please close some images.", "", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE); 
+	
+	public void lowMemoryWarning() {
+		JOptionPane.showConfirmDialog(this, "Can not perform operation, running low on memory!\n" +
+				"Please close some images.", "", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public long getMemoryFootprint() {
+		long sum = iconsSize + Conf.MEMORY_SAFE_MARGIN;
+		for (JInternalFrame frame : desktop.getAllFrames()) {
+			MyInternalFrame myFrame = (MyInternalFrame) frame;
+			sum += myFrame.getMemoryFootprint();
 		}
+		return sum;
+	}
+	
+	private static final boolean DEBUG_MEMORY = true;
+	
+	public boolean isThereEnoughMemoryFor(long newMemorySize) {
+		long maxMemory = Runtime.getRuntime().maxMemory();
+		long usedMemory = getMemoryFootprint();
+		long neededMemory = usedMemory + newMemorySize*2; // *2 !!!
+		if (DEBUG_MEMORY) {
+			System.out.println("maxMemory: "+maxMemory);
+			System.out.println("usedMemory: "+usedMemory);
+			System.out.println("newMemorySize: "+newMemorySize);
+			System.out.println("neededMemory: "+neededMemory);
+			System.out.println();
+		}
+		if (neededMemory > maxMemory)
+			return false;
+		else
+			return true;
 	}
 	
 	

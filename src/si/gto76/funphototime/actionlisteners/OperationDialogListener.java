@@ -17,6 +17,13 @@ public class OperationDialogListener implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		// TODO Zoom problem
+		MyInternalFrame selectedFrame = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
+		if (!mainFrame.isThereEnoughMemoryFor(selectedFrame.getMemoryFootprint())) {
+			mainFrame.lowMemoryWarning();
+			return;
+		}
+		
 		try {
 			OperationDialog dialog = (OperationDialog) op.getDialog(mainFrame.desktop);
 	    	if (!dialog.wasCanceled()) {
@@ -31,13 +38,13 @@ public class OperationDialogListener implements ActionListener {
 	    		else {
 	    			MyInternalFrame frame = 
 	        				mainFrame.createZoomedFrame(dialog.getProcessedImage(), dialog.getFirstFrame());
-	    			//TODO waiting thread
+	    			// TODO waiting thread
 	    			Thread t = new Thread(new WaitingThread(frame, dialog));
 	                t.start();
 	    		}
 	        }
 		} catch (OutOfMemoryError g) {
-	    	mainFrame.outOfMemory();
+	    	mainFrame.outOfMemoryMessage();
 		}
     }
 	
