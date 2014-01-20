@@ -16,6 +16,9 @@ class Menu {
     MyMenuItem menuFileSaveas = new MyMenuItem(1);
     MyMenuItem menuFileExit = new MyMenuItem(0);
     
+    MyMenu menuEdit = new MyMenu(1);
+    MyMenuItem menuEditUndoCloseWindow = new MyMenuItem(1);
+    
     MyMenu menuZoom = new MyMenu(1);
     MyMenuItem menuZoomOut = new MyMenuItem(1);
     MyMenuItem menuZoomIn = new MyMenuItem(1);
@@ -74,9 +77,13 @@ class Menu {
         menuFileExit.setText("Exit");
         menuFileExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
         
+        menuEdit.setText("Edit");
+        menuEditUndoCloseWindow.setText("Undo Close Window");
+        menuEditUndoCloseWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
+        
         menuZoom.setText("Zoom");
         menuZoomOut.setText("Zoom Out");
-        menuZoomOut .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0));
+        menuZoomOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0));
         menuZoomIn.setText("Zoom In");
         menuZoomIn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0));
         menuZoomActualsize.setText("Actual Size");
@@ -157,6 +164,9 @@ class Menu {
         menuFile.addSeparator();
         menuFile.add(menuFileExit);
         menuBar.add(menuFile);
+        
+        menuEdit.add(menuEditUndoCloseWindow);
+        menuBar.add(menuEdit);
         
         menuZoomMagnification.add(menuZoomMagnificationSix);
 	    menuZoomMagnification.add(menuZoomMagnificationTwelve);

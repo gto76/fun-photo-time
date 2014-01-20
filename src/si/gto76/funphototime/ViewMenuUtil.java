@@ -1,15 +1,19 @@
 package si.gto76.funphototime;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.KeyStroke;
 import javax.swing.MenuElement;
 
 public class ViewMenuUtil implements ActionListener {
@@ -21,6 +25,7 @@ public class ViewMenuUtil implements ActionListener {
 		ViewMenuItem menuItem = new ViewMenuItem(internalFrame.getTitle(), internalFrame);
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
+		refreshMenuItems(mainFrame);
 	}
 
 	public void removeViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
@@ -32,9 +37,48 @@ public class ViewMenuUtil implements ActionListener {
 				ViewMenuItem viewMenuItem = (ViewMenuItem) subElement;
 				if (viewMenuItem.compareTo(internalFrame) == 0) {
 					popUp.remove(viewMenuItem);
+					refreshMenuItems(mainFrame);
 					return;
 				}
 			}
+		}
+	}
+	
+	public void refreshMenuItems(JFrame mainFrame) {
+		boolean first = true;
+		boolean next = false;
+		ViewMenuItem viewMenuItem = null;
+		ViewMenuItem lastMenuItem = null;
+		JMenu menu = getVievMenu(mainFrame);
+		if (menu == null) return;
+		for (MenuElement menuItem : menu.getSubElements()) {
+			JPopupMenu popUp = (JPopupMenu) menuItem;
+			for (MenuElement subElement : popUp.getSubElements()) {
+				lastMenuItem = viewMenuItem;
+				viewMenuItem = (ViewMenuItem) subElement;
+				viewMenuItem.setAccelerator(null);
+				
+				if (next) {
+					viewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
+					next = false;
+				}
+				
+				JDesktopPane desktop = ((FunPhotoTimeFrame) mainFrame).desktop; 
+				if (viewMenuItem.compareTo(desktop.getSelectedFrame()) == 0) {
+					//viewMenuItem.setText("> "+viewMenuItem.getText());
+					if (!first)
+						lastMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, ActionEvent.SHIFT_MASK));
+					next = true;
+				}
+				
+				if (first) {
+					viewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_HOME, 0));
+					first = false;
+				} 
+			}
+		}
+		if (!first) {
+			viewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_END, 0));
 		}
 	}
 

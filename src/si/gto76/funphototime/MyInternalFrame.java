@@ -307,6 +307,7 @@ public class MyInternalFrame extends JInternalFrame
 	}
 
     public void internalFrameActivated(InternalFrameEvent e) {
+    	mainFrame.vmu.refreshMenuItems(mainFrame);
 	}
 
     public void internalFrameDeactivated(InternalFrameEvent e) {
