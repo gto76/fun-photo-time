@@ -32,11 +32,7 @@ public abstract class FilterDialog extends MyDialog
 	private void init(MyInternalFrame selectedFrame) {
 		this.selectedFrame = selectedFrame;
 		imgIn = selectedFrame.getImg();
-		//try {
-			imgOut = Utility.declareNewBufferedImageAndCopy(imgIn); //naredi kopijo
-		//} catch (OutOfMemoryError g) {
-	    //	FunPhotoTimeFrame.outOfMemory();
-		//}
+		imgOut = Utility.declareNewBufferedImageAndCopy(imgIn); //naredi kopijo
 		selectedFrame.setImg(imgOut); //na kero usmeri kazalec od frejma
 	}
     

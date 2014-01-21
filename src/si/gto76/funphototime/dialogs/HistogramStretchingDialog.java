@@ -22,14 +22,9 @@ import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.filterthreads.FilterThread;
 import si.gto76.funphototime.filterthreads.HistogramStretchingThread;
 
-	// FIXME: extend FilterDialog or else cast exception!
-public class HistogramStretchingDialog 
+public class HistogramStretchingDialog extends FilterDialog
 								implements ChangeListener, FilterDialogThatReturnsInts  {
-		
-	protected BufferedImage imgIn, imgOut;
-	protected MyInternalFrame selectedFrame;
- 	protected FilterThread filterThread;
- 	 
+
     private BufferedImage histogramImg1, histogramImg2;
     private JPanel p;
     private ImageIcon icon;
@@ -40,11 +35,8 @@ public class HistogramStretchingDialog
     
     //TODO 2 Ce ga zaprem z x-om pride do napake
     public HistogramStretchingDialog( MyInternalFrame selectedFrame, BufferedImage histogramImg ) {
-    	this.selectedFrame = selectedFrame;
- 		imgIn = selectedFrame.getImg();
- 		imgOut = Utility.declareNewBufferedImageAndCopy(imgIn); //naredi kopijo
- 		selectedFrame.setImg(imgOut); //na kero usmeri kazalec od frejma
-    	 
+    	super(selectedFrame, "Histogram"); 
+    	
      	histogramImg1 = histogramImg;
         histogramImg2 = Utility.declareNewBufferedImageAndCopy(histogramImg1);
     	
@@ -135,45 +127,10 @@ public class HistogramStretchingDialog
     } 
     
 	protected void processPicture() {
-		//ko se slider premakne prvo pogleda ce ze obstaja
-		//kaksna nit in jo prekine
-		if ( filterThread != null ) {
-			filterThread.t.interrupt();
-			try {
-				filterThread.t.join();
-			}
-			catch ( InterruptedException f ) {}
-		}
+		stopActiveThread();
 		//nato naredi novo nit
 		filterThread = new HistogramStretchingThread(imgIn, imgOut, getInts(), selectedFrame);
 	}
-	
-	public void resetOriginalImage() {
-    	//spremeni sliko iz izbranega okvirja v prvotno stanje
-    	//ce sploh obstaja kaksna nit jo ustavi ali pocaka
-    	if (filterThread != null) {
-    		try {
-	    		//ce je bil izbran cancel avtomatsko prekine zadnjo nit,
-	    		//drugace (ce je bil OK) jo pocaka da konca svoje delo
-	    		//to verjetno niti ni nujno
-	    		if ( wasCanceled() ) 
-					filterThread.t.interrupt();
-				filterThread.t.join();
-			} 
-    		catch ( InterruptedException e ) {}
-		}
-		selectedFrame.setImg(imgIn);
-	}
-		
-	public BufferedImage getProcessedImage() {
-		try {
-			if (filterThread != null) {
-				filterThread.t.join();
-			}
-		} 
-		catch ( InterruptedException e ) {}
-		return imgOut;
-	}
-    
+
 }
                                    		
