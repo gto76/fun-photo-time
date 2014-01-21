@@ -14,10 +14,10 @@ public class SaturationDialog extends FilterDialogWithSliderDouble {
 	
 	public void stateChanged(ChangeEvent e)  {
 		stopActiveThread();
-		filterThread = new SaturationThread(imgIn, imgOut, getValues(), selectedFrame);
+		filterThread = new SaturationThread(imgIn, imgOut, getDouble(), selectedFrame);
 	}
     
-    public double getValues() {
+    public double getDouble() {
     	//from 0 to 400, 100 in the midle
     	//ko je value vecji od nic zacne return value trikrat hitrej narascat
     	int value = sld.getValue();

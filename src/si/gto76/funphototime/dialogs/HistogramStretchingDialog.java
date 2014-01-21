@@ -23,8 +23,8 @@ import si.gto76.funphototime.filterthreads.FilterThread;
 import si.gto76.funphototime.filterthreads.HistogramStretchingThread;
 
 	
-public class HistogramStretchingDialog /*extends JFrame*/ 
-								implements ChangeListener  {
+public class HistogramStretchingDialog 
+								implements ChangeListener, FilterDialogThatReturnsInts  {
 		
 	protected BufferedImage imgIn, imgOut;
 	protected MyInternalFrame selectedFrame;
@@ -77,7 +77,7 @@ public class HistogramStretchingDialog /*extends JFrame*/
     	dlg.dispose();
     }
     
-    public int[] getValues() {
+    public int[] getInts() {
     	//Vrne vrednosti slajderjev
     	int[] value = new int[2];
     	value[0] = sld1.getValue();
@@ -145,7 +145,7 @@ public class HistogramStretchingDialog /*extends JFrame*/
 			catch ( InterruptedException f ) {}
 		}
 		//nato naredi novo nit
-		filterThread = new HistogramStretchingThread(imgIn, imgOut, getValues(), selectedFrame);
+		filterThread = new HistogramStretchingThread(imgIn, imgOut, getInts(), selectedFrame);
 	}
 	
 	public void resetOriginalImage() {

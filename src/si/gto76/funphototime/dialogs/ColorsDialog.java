@@ -7,7 +7,8 @@ import javax.swing.event.ChangeEvent;
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.filterthreads.ColorsThread;
 
-public class ColorsDialog extends FilterDialog {
+public class ColorsDialog extends FilterDialog
+							implements FilterDialogThatReturnsInts {
 	// R, G and B sliders
 	protected JSlider[] sld = new JSlider[3];
 	
@@ -35,10 +36,10 @@ public class ColorsDialog extends FilterDialog {
 
 	protected void actionWhenStateChanged() {
 		stopActiveThread();
-		filterThread = new ColorsThread(imgIn, imgOut, getValues(), selectedFrame);
+		filterThread = new ColorsThread(imgIn, imgOut, getInts(), selectedFrame);
 	}
     
-    public int[] getValues() {
+    public int[] getInts() {
     	int[] values = new int[3];
     	for (int i = 0; i < 3; i++) {
     		values[i] = sld[i].getValue(); 

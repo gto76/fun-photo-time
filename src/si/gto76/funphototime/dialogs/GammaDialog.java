@@ -14,10 +14,10 @@ public class GammaDialog extends FilterDialogWithSliderDouble  {
 	
 	public void stateChanged(ChangeEvent e)  {
 		stopActiveThread();
-		filterThread = new GammaThread(imgIn, imgOut, getValues(), selectedFrame );
+		filterThread = new GammaThread(imgIn, imgOut, getDouble(), selectedFrame );
 	}
     
-    public double getValues() {
+    public double getDouble() {
     	//from 0 to 120
     	double value = (double)  (((((double)sld.getValue() - 60) / 100)+1)*60);
     	double retValue = calculateGamma(

@@ -6,24 +6,20 @@ import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.filterthreads.ThresholdingThread;
 
 
-public class ThresholdingDialog extends FilterDialogWithSlider  {
+public class ThresholdingDialog extends FilterDialogWithSliderDouble  {
 
 	public ThresholdingDialog( MyInternalFrame selectedFrame ) {
 		super(selectedFrame, "Threshold");
 	}
 	
 	public void stateChanged(ChangeEvent e)  {
-		actionWhenStateChanged();
-	}
-
-	protected void actionWhenStateChanged() {
 		stopActiveThread();
-		filterThread = new ThresholdingThread(imgIn, imgOut, getValues(), selectedFrame);
+		filterThread = new ThresholdingThread(imgIn, imgOut, getDouble(), selectedFrame);
 	}
     
-    public int getValues() {
+    public double getDouble() {
     	int value = sld.getValue();
-    	return  (value + 100) / 2;
+    	return (double) ((value + 100) / 2);
 	}
     
 }

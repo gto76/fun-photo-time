@@ -32,7 +32,8 @@ import javax.swing.MenuElement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import si.gto76.funphototime.actionlisteners.FilterDialogWithSliderDoubleListener;
+import si.gto76.funphototime.actionlisteners.FilterDialogReturningDoubleListener;
+import si.gto76.funphototime.actionlisteners.FilterDialogReturningIntsListener;
 import si.gto76.funphototime.actionlisteners.FilterWithouthDialogListener;
 import si.gto76.funphototime.actionlisteners.LoadListener;
 import si.gto76.funphototime.actionlisteners.OperationDialogListener;
@@ -45,6 +46,7 @@ import si.gto76.funphototime.dialogs.ColorsDialog;
 import si.gto76.funphototime.dialogs.HistogramStretchingDialog;
 import si.gto76.funphototime.dialogs.ThresholdingDialog;
 import si.gto76.funphototime.enums.Filter;
+import si.gto76.funphototime.enums.IntsFilter;
 import si.gto76.funphototime.enums.NoDialogFilter;
 import si.gto76.funphototime.enums.ZoomOperation;
 import si.gto76.funphototime.filterthreads2.BitPlaneThread2;
@@ -74,8 +76,6 @@ public class FunPhotoTimeFrame extends JFrame
      */  
     public FunPhotoTimeFrame() {
     	super("Fun Photo Time");
-        
-        /*Inicializacije****************************************/
         findPicturesDirectory();
     	
         // Internal frame 
@@ -90,7 +90,6 @@ public class FunPhotoTimeFrame extends JFrame
         
         //da obvesca o na novo odprtih in zaprtih internal frejmih
         desktop.addContainerListener(this);
-        //poslusa kolescek na miski za zoom in, out
         desktop.addMouseWheelListener(this);
         
         // Menus
@@ -117,9 +116,15 @@ public class FunPhotoTimeFrame extends JFrame
         		Utility.getSizeOfImage(iconImgM) + Utility.getSizeOfImage(iconImgL) + 
         		Utility.getSizeOfImage(iconImgXL);
         
-        /*Action*Listeners***************************************/ 
-        
-        MenuListener menuListener = new MenuListener() {
+        // Action Listeners
+        setActionListeners();
+
+        if (Conf.TEST_IMAGE) openTestImage();
+    }
+    
+    private void setActionListeners() {
+
+    	MenuListener menuListener = new MenuListener() {
         	//ko odpremo meni onemogoci tiste operacije,
         	//ki rabijo sliko, ce ni izbran noben okvir 
             public void menuSelected(MenuEvent e) {
@@ -252,103 +257,39 @@ public class FunPhotoTimeFrame extends JFrame
          */
         //FILTER CONTRAST
         meni.menuFiltersContrast.addActionListener (
-        	new FilterDialogWithSliderDoubleListener(Filter.CONTRAST, this)
+        	new FilterDialogReturningDoubleListener(Filter.CONTRAST, this)
         );
         //FILTER GAMMA
         meni.menuFiltersGamma.addActionListener (
-       		new FilterDialogWithSliderDoubleListener(Filter.GAMMA, this)
+       		new FilterDialogReturningDoubleListener(Filter.GAMMA, this)
         );
         //FILTER SATURATIOM
         meni.menuFiltersSaturation.addActionListener (
-       		new FilterDialogWithSliderDoubleListener(Filter.SATURATION, this)
+       		new FilterDialogReturningDoubleListener(Filter.SATURATION, this)
         );  
         //FILTER BRIGHTNESS
         meni.menuFiltersBrightness1.addActionListener (
-       		new FilterDialogWithSliderDoubleListener(Filter.BRIGHTNESS, this)
+       		new FilterDialogReturningDoubleListener(Filter.BRIGHTNESS, this)
         ); 
-        
-        /*
-         * FILTERS WITH ONE PARAMETER, INT
-         */
         //FILTER THRESHOLDING 
-        meni.menuFiltersThresholding.addActionListener
-        (
-			new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	ThresholdingDialog dialog = new ThresholdingDialog(frameIn);
-                	
-                	if (!dialog.wasCanceled()) {
-                		int values = dialog.getValues();
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		new ThresholdingThread2(frameIn.getOriginalImg(), values , frameOut);
-                	}
-                	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();
-                }
-            }
+        meni.menuFiltersThresholding.addActionListener (
+        	new FilterDialogReturningDoubleListener(Filter.THRESHOLDING, this)
         );
-
-        /*
-         * FILTERS WITH DIFFERENT INPUT
-         */
         //FILTER BIT-PLANE
         meni.menuFiltersBitplane.addActionListener (
-			 new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	BitPlaneDialog dialog = new BitPlaneDialog(frameIn);
-                	
-                	if (!dialog.wasCanceled()) {
-                		int values = dialog.getValues();
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		new BitPlaneThread2(frameIn.getOriginalImg(), values , frameOut);
-                	}
-                	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();
-                }
-            }
+        	new FilterDialogReturningDoubleListener(Filter.BIT_PLANE, this)
         ); 
         
+        /*
+         * FILTERS WITH MULTIPLE PARAMETERS, INT
+         */
 		//FILTER HISTOGRAM STRETCHING 
         meni.menuFiltersHistogramst.addActionListener (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	//naredi sliko tega histograma
-                	double[] histogram = Utility.getHistogram(getSelectedBufferedImage());
-                	BufferedImage hisImg = Utility.getHistogramImage(histogram);
-                	
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	//in jo poslje dialogu v katerem uporabnik doloci levo in desno mejo
-                	HistogramStretchingDialog dialog = new HistogramStretchingDialog(frameIn, hisImg);
-                	
-                	if (!dialog.wasCanceled()) {
-                		int values[] = dialog.getValues();
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		new HistogramStretchingThread2(frameIn.getOriginalImg(), values ,frameOut);
-                	}
-                	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();                	
-                }
-            }
+        	new FilterDialogReturningIntsListener(IntsFilter.HISTOGRAM_STRETCHING, this)	
         ); 
-        
         //FILTER COLOR BALANCE
         meni.menuFiltersColors.addActionListener (
-			new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	MyInternalFrame frameIn = (MyInternalFrame) desktop.getSelectedFrame();
-                	ColorsDialog dialog = new ColorsDialog(frameIn);
-                	
-                	if (!dialog.wasCanceled()) {
-                		int values[] = dialog.getValues();
-                		MyInternalFrame frameOut = createZoomedFrame(dialog.getProcessedImage(), frameIn);
-                		new ColorsThread2(frameIn.getOriginalImg(), values , frameOut);
-                	}
-                	//da prekopira nazaj prvotno sliko v izbrani frame
-                	dialog.resetOriginalImage();
-                }
-            }
+        	new FilterDialogReturningIntsListener(IntsFilter.COLOR_BALANCE, this)	
         );
         
         /*
@@ -411,10 +352,20 @@ public class FunPhotoTimeFrame extends JFrame
             }
         );  
     	
-        if (Conf.TEST_IMAGE) openTestImage();
-    }
+	}
+
+	/*
+     * CONSTRUCTORS END.
+     */
     
-    private void findPicturesDirectory() {
+    /* ***************************************************************/
+    /* ***************************************************************/
+    
+    /*
+     * ROUTINES & FUNCTIONS:
+     */
+
+	private void findPicturesDirectory() {
     	String home = System.getProperty("user.home");
         String picturesDir = home + File.separator + "Pictures";
         setLaodAndSavePaths(picturesDir);
@@ -429,18 +380,7 @@ public class FunPhotoTimeFrame extends JFrame
             lastPathSave = picturesDir;
         }
     }
-
-	/*
-     * CONSTRUCTORS END.
-     */
     
-    /* ***************************************************************/
-    /* ***************************************************************/
-    
-    /*
-     * ROUTINES & FUNCTIONS:
-     */
-
     //metoda, ki se sprozi ko container listener
 	//zazna da se je dodal novi internal frame v desktop
     public void componentAdded(ContainerEvent e) {
@@ -450,7 +390,6 @@ public class FunPhotoTimeFrame extends JFrame
 	public void componentRemoved(ContainerEvent e) {
 		//noOfFrames--;
 	}
-    
 	
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		//NE DELA - verjetno tudi ni zazeleno
@@ -466,11 +405,9 @@ public class FunPhotoTimeFrame extends JFrame
         */
     }
 	
-	
     private void disableOrEnableMenuItems() {
 		//ce ni nobenega izbranega frejma, onemogoci
 		//menije, ki potrebujejo sliko
-		
 		MenuElement[] menuElement = meni.menuBar.getSubElements();
 		Component[] component;
 		boolean isThereASelectedFrame =	!( desktop.getSelectedFrame() == null );
@@ -494,6 +431,7 @@ public class FunPhotoTimeFrame extends JFrame
     /*
      * INTERNAL FRAME CONSTRUCTION
      */
+    
     // Used when importing from other frame
     public MyInternalFrame createZoomedFrame(BufferedImage img, MyInternalFrame frameIn) {
 		//Create a new internal frame with zoomed image. Add original image later.
@@ -501,6 +439,7 @@ public class FunPhotoTimeFrame extends JFrame
     	MyInternalFrame frame = new MyInternalFrame(this, img, frameIn);
     	return internalFrameInit(frame);
     }
+    
 	// Used when importing from file
     public MyInternalFrame createFrame(BufferedImage img, String title) {
     	//Create a new internal frame with image and title.
@@ -592,7 +531,6 @@ public class FunPhotoTimeFrame extends JFrame
     /*
      * MEMORY
      */
-    
 	public void outOfMemoryMessage() {
 		JOptionPane.showConfirmDialog(this, "Program ran out of memory!\n" +
 				"Please close some images, save your work and restart the program.", "", 
@@ -633,5 +571,13 @@ public class FunPhotoTimeFrame extends JFrame
 			return true;
 	}
 	
+	public boolean isMemoryCritical() {
+    	MyInternalFrame selectedFrame = (MyInternalFrame) desktop.getSelectedFrame();
+		if (!isThereEnoughMemoryFor(selectedFrame.getMemoryFootprint())) {
+			lowMemoryWarning();
+			return true;
+		}
+		return false;
+	}
 	
 }

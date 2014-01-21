@@ -17,7 +17,7 @@ public class Conf {
 	public static final String ICON_FILENAME_XL = "/resources/icon-trans-128x128.png"; 
 	// Test image
 	public static final boolean TEST_IMAGE = true;
-	public static final String TEST_IMAGE_FILE_NAME = "/home/minerva/Pictures/foto/DSC_0020.JPG";
+	public static final String TEST_IMAGE_FILE_NAME = "/home/minerva/Pictures/Foto/Kuhna/DSC_0020.JPG";
 	// Internal frame
 	public static final int SCROLL_PANE_SPEED = 14;
 	public static final int X_OFFSET = 30;

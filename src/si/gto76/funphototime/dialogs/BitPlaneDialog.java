@@ -10,7 +10,8 @@ import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.filterthreads.BitPlaneThread;
 
 
-public class BitPlaneDialog extends FilterDialog  {
+public class BitPlaneDialog extends FilterDialog 
+							implements FilterDialogThatReturnsDouble {
 	
 	private JSpinner spinner;
 	
@@ -23,20 +24,15 @@ public class BitPlaneDialog extends FilterDialog  {
 		
 		spinner.addChangeListener(this);
 		addComponent(spinner);
-		
 	}
 	
 	public void stateChanged(ChangeEvent e)  {
-		/* OLD:
-		if ( filterThread != null ) {
-			filterThread.t.interrupt();
-		}*/
 		stopActiveThread();
-		filterThread = new BitPlaneThread(imgIn, imgOut, getValues(), selectedFrame);
+		filterThread = new BitPlaneThread(imgIn, imgOut, getDouble(), selectedFrame);
 	}
     
-    public int getValues() {
-    	return (Integer) spinner.getValue();
+    public double getDouble() {
+    	return ((Integer) spinner.getValue()).doubleValue();
     }
 
 }

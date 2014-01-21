@@ -13,10 +13,10 @@ public class Brightness1Dialog extends FilterDialogWithSliderDouble  {
 	
 	public void stateChanged(ChangeEvent e)  {
 		stopActiveThread();
-		filterThread = new Brightness1Thread(imgIn, imgOut, getValues(), selectedFrame);
+		filterThread = new Brightness1Thread(imgIn, imgOut, getDouble(), selectedFrame);
 	}
 
-    public double getValues() {
+    public double getDouble() {
     	//from 0 to 2.0
     	return (double) sld.getValue() / 100.0 + 1.0;
     }

@@ -18,11 +18,8 @@ public class OperationDialogListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		// TODO Zoom problem
-		MyInternalFrame selectedFrame = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
-		if (!mainFrame.isThereEnoughMemoryFor(selectedFrame.getMemoryFootprint())) {
-			mainFrame.lowMemoryWarning();
+		if (mainFrame.isMemoryCritical())
 			return;
-		}
 		
 		try {
 			OperationDialog dialog = (OperationDialog) op.getDialog(mainFrame.desktop);

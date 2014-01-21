@@ -19,11 +19,8 @@ public class SpatialFilterWithouthDialogListener implements ActionListener{
     }
 	
     public void actionPerformed(ActionEvent e) {
-    	MyInternalFrame selectedFrame = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();
-		if (!mainFrame.isThereEnoughMemoryFor(selectedFrame.getMemoryFootprint())) {
-			mainFrame.lowMemoryWarning();
+    	if (mainFrame.isMemoryCritical())
 			return;
-		}
 		
     	try { 
 	    	MyInternalFrame frameIn = (MyInternalFrame) mainFrame.desktop.getSelectedFrame();

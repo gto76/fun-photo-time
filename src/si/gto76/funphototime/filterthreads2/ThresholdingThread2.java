@@ -10,9 +10,9 @@ public class ThresholdingThread2 extends FilterThread2 {
 	
 	private int value;
 	
-	public ThresholdingThread2( BufferedImage imgIn, int value, MyInternalFrame selectedFrame ) {
+	public ThresholdingThread2( BufferedImage imgIn, double value, MyInternalFrame selectedFrame ) {
 		super(imgIn, selectedFrame);
-		this.value = value;
+		this.value = (int) value;
 	}
 		
 	protected int filtriraj(int rgb) {

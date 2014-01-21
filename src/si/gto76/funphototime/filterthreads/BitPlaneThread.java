@@ -10,9 +10,9 @@ public class BitPlaneThread extends FilterThread {
 	
 	private int value;
 	
-	public BitPlaneThread( BufferedImage imgIn, BufferedImage imgOut, int value, MyInternalFrame selectedFrame ) {
+	public BitPlaneThread( BufferedImage imgIn, BufferedImage imgOut, double value, MyInternalFrame selectedFrame ) {
 		super(imgIn, imgOut, selectedFrame);
-		this.value = value;
+		this.value = (int) value;
 	}
 		
 	protected int filtriraj(int rgb) {
