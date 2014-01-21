@@ -7,13 +7,13 @@ import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.FunPhotoTimeFrame;
 import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.Zoom;
-import si.gto76.funphototime.enums.NoDialogFilter;
+import si.gto76.funphototime.enums.ParameterlessFilter;
 
 public class SpatialFilterWithouthDialogListener implements ActionListener{
 	FunPhotoTimeFrame mainFrame;
-	NoDialogFilter fi;
+	ParameterlessFilter fi;
 
-	public SpatialFilterWithouthDialogListener(NoDialogFilter fi, FunPhotoTimeFrame mainFrame) {
+	public SpatialFilterWithouthDialogListener(ParameterlessFilter fi, FunPhotoTimeFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		this.fi = fi;
     }

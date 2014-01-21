@@ -32,9 +32,9 @@ import javax.swing.MenuElement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import si.gto76.funphototime.actionlisteners.FilterDialogReturningDoubleListener;
-import si.gto76.funphototime.actionlisteners.FilterDialogReturningIntsListener;
-import si.gto76.funphototime.actionlisteners.FilterWithouthDialogListener;
+import si.gto76.funphototime.actionlisteners.SingleParameterFilterListener;
+import si.gto76.funphototime.actionlisteners.MultipleParameterFilterListener;
+import si.gto76.funphototime.actionlisteners.ParameterlessFilterListener;
 import si.gto76.funphototime.actionlisteners.LoadListener;
 import si.gto76.funphototime.actionlisteners.OperationDialogListener;
 import si.gto76.funphototime.actionlisteners.SaveListener;
@@ -45,9 +45,9 @@ import si.gto76.funphototime.dialogs.BitPlaneDialog;
 import si.gto76.funphototime.dialogs.ColorsDialog;
 import si.gto76.funphototime.dialogs.HistogramStretchingDialog;
 import si.gto76.funphototime.dialogs.ThresholdingDialog;
-import si.gto76.funphototime.enums.Filter;
-import si.gto76.funphototime.enums.IntsFilter;
-import si.gto76.funphototime.enums.NoDialogFilter;
+import si.gto76.funphototime.enums.SingleParameterFilter;
+import si.gto76.funphototime.enums.MultipleParameterFilter;
+import si.gto76.funphototime.enums.ParameterlessFilter;
 import si.gto76.funphototime.enums.ZoomOperation;
 import si.gto76.funphototime.filterthreads2.BitPlaneThread2;
 import si.gto76.funphototime.filterthreads2.ColorsThread2;
@@ -72,7 +72,7 @@ public class FunPhotoTimeFrame extends JFrame
     static long iconsSize;
     
     /*
-     * The constructor.
+     * CONSTRUCTOR
      */  
     public FunPhotoTimeFrame() {
     	super("Fun Photo Time");
@@ -117,13 +117,6 @@ public class FunPhotoTimeFrame extends JFrame
         		Utility.getSizeOfImage(iconImgXL);
         
         // Action Listeners
-        setActionListeners();
-
-        if (Conf.TEST_IMAGE) openTestImage();
-    }
-    
-    private void setActionListeners() {
-
     	MenuListener menuListener = new MenuListener() {
         	//ko odpremo meni onemogoci tiste operacije,
         	//ki rabijo sliko, ce ni izbran noben okvir 
@@ -143,205 +136,8 @@ public class FunPhotoTimeFrame extends JFrame
         meni.menuLogicop.addMenuListener(menuListener);
         meni.menuArithmeticop.addMenuListener(menuListener);
        
-        /*
-         * FILE
-         */
-        //FILE OPEN
-        meni.menuFileOpen.addActionListener (
-    		new LoadListener(this)
-        ); 
-        //FILE SAVE
-        meni.menuFileSaveas.addActionListener (
-        	new SaveListener(this)
-        );
-        //FILE EXIT
-        meni.menuFileExit.addActionListener
-        (
-            new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    FunPhotoTime.onWindowClose(); 
-                }
-            }
-        ); 
-        
-        /*
-         * ZOOM
-         */
-        //ZOOM OUT
-        meni.menuZoomOut.addActionListener (
-       		new ZoomListener(ZoomOperation.ZOOM_OUT, this)
-        );
-        //ZOOM IN
-        meni.menuZoomIn.addActionListener (
-           	new ZoomListener(ZoomOperation.ZOOM_IN, this)
-        );
-        //ZOOM 6%
-        meni.menuZoomMagnificationSix.addActionListener (
-           	new ZoomListener(ZoomOperation.ZOOM_6, this)
-        );
-        //ZOOM 12%
-        meni.menuZoomMagnificationTwelve.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_12, this)
-        );
-        //ZOOM 25%
-        meni.menuZoomMagnificationTwentyfive.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_25, this)
-        );
-        //ZOOM 50%
-        meni.menuZoomMagnificationFifty.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_50, this)
-        );
-        //ZOOM 66%
-        meni.menuZoomMagnificationSixtysix.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_66, this)
-        );
-        //ZOOM 100%
-        meni.menuZoomMagnificationHoundred.addActionListener (
-       		new ZoomListener(ZoomOperation.ZOOM_ACTUAL, this)
-        );
-        //ZOOM ACTUAL SIZE
-        meni.menuZoomActualsize.addActionListener (
-       		new ZoomListener(ZoomOperation.ZOOM_ACTUAL, this)
-        );
-
-        /*
-         * FILTERS WITHOUTH PARAMETERS
-         */
-        //FILTER NEGATIV
-        meni.menuFiltersNegativ.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.NEGATIV, this)
-        );
-        //FILTER GREYSCALE
-        meni.menuFiltersGreyscale.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.GREYSCALE, this)
-        );  
-        
-        /*
-         * FILTERS WITHOUTH PARAMETERS, WITH MASKS
-         */
-		//FILTER BLUR
-        meni.menuFiltersBlur.addActionListener (
-        	new SpatialFilterWithouthDialogListener(NoDialogFilter.BLUR, this)
-        );
-        //FILTER RELIEF
-        meni.menuFiltersRelief.addActionListener (
-        	new SpatialFilterWithouthDialogListener(NoDialogFilter.RELIEF, this)
-        );
-        //FILTER SHARPEN
-        meni.menuFiltersSharpen.addActionListener (
-        	new SpatialFilterWithouthDialogListener(NoDialogFilter.SHARPEN, this) 
-        );
-		//FILTER EDGE DETECTION
-        meni.menuFiltersEdgedetection.addActionListener (
-        	new SpatialFilterWithouthDialogListener(NoDialogFilter.EDGE, this)
-        );
-        //FILTER MEDIAN
-        meni.menuFiltersMedian.addActionListener (
-        	new SpatialFilterWithouthDialogListener(NoDialogFilter.MEDIAN, this)
-        );
-        
-        /*
-         * FILTERS WITHOUTH PARAMETERS, SMART
-         */
-		//FILTER HISTOGRAM EQUALIZATION
-        meni.menuFiltersHistogrameq.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.HISTOGRAM_EQ, this)
-        );
-		//FILTER SMART BINARIZE
-        meni.menuFiltersSmartbin.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.SMART_BIN, this)
-        );
-        
-        /*
-         * FILTERS WITH ONE PARAMETER, DOUBLE
-         */
-        //FILTER CONTRAST
-        meni.menuFiltersContrast.addActionListener (
-        	new FilterDialogReturningDoubleListener(Filter.CONTRAST, this)
-        );
-        //FILTER GAMMA
-        meni.menuFiltersGamma.addActionListener (
-       		new FilterDialogReturningDoubleListener(Filter.GAMMA, this)
-        );
-        //FILTER SATURATIOM
-        meni.menuFiltersSaturation.addActionListener (
-       		new FilterDialogReturningDoubleListener(Filter.SATURATION, this)
-        );  
-        //FILTER BRIGHTNESS
-        meni.menuFiltersBrightness1.addActionListener (
-       		new FilterDialogReturningDoubleListener(Filter.BRIGHTNESS, this)
-        ); 
-        //FILTER THRESHOLDING 
-        meni.menuFiltersThresholding.addActionListener (
-        	new FilterDialogReturningDoubleListener(Filter.THRESHOLDING, this)
-        );
-        //FILTER BIT-PLANE
-        meni.menuFiltersBitplane.addActionListener (
-        	new FilterDialogReturningDoubleListener(Filter.BIT_PLANE, this)
-        ); 
-        
-        /*
-         * FILTERS WITH MULTIPLE PARAMETERS, INT
-         */
-		//FILTER HISTOGRAM STRETCHING 
-        meni.menuFiltersHistogramst.addActionListener (
-        	new FilterDialogReturningIntsListener(IntsFilter.HISTOGRAM_STRETCHING, this)	
-        ); 
-        //FILTER COLOR BALANCE
-        meni.menuFiltersColors.addActionListener (
-        	new FilterDialogReturningIntsListener(IntsFilter.COLOR_BALANCE, this)	
-        );
-        
-        /*
-         * LOGIC AND ARITHMETIC OPERATIONS
-         */
-        //LOGICOP NOT
-        meni.menuLogicopNot.addActionListener (
-        	new FilterWithouthDialogListener(NoDialogFilter.NEGATIV, this)
-        ); 
-        //LOGICOP AND
-        meni.menuLogicopAnd.addActionListener (
-        		new OperationDialogListener(Operation.AND, this)
-        ); 
-        //LOGICOP OR 
-        meni.menuLogicopOr.addActionListener (
-        		new OperationDialogListener(Operation.OR, this)
-        );
-        //LOGICOP XOR
-        meni.menuLogicopXor.addActionListener (
-        		new OperationDialogListener(Operation.XOR, this)
-        );
-        //ARITHMETICOP ADDITION
-        meni.menuArithmeticopAddition.addActionListener (      
-        	new OperationDialogListener(Operation.ADDITION, this)
-        );
-        //ARITHMETICOP SUBTRACTION
-        meni.menuArithmeticopSubtraction.addActionListener (
-        	new OperationDialogListener(Operation.SUBTRACTION, this)
-        );
-        //ARITHMETICOP MULTIPLICATION
-        meni.menuArithmeticopMultiplication.addActionListener (
-        		new OperationDialogListener(Operation.MULTIPLICATION, this)
-        );
-        //ARITHMETICOP DIVISION
-        meni.menuArithmeticopDivision.addActionListener (
-        		new OperationDialogListener(Operation.DIVISION, this)
-        );
-        
-        /*
-         * HELP ABOUT
-         */
-        meni.menuHelpAbout.addActionListener (
-			new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                	try {
-						new AboutDialog();
-					} catch (URISyntaxException e1) {
-						e1.printStackTrace();
-					}
-                }
-            }
-        );
+        ActionListeners.set(this, meni);
+        //setActionListeners();
         
         // Add window listener.
         this.addWindowListener (
@@ -350,12 +146,13 @@ public class FunPhotoTimeFrame extends JFrame
                     FunPhotoTimeFrame.this.windowClosed();
                 }
             }
-        );  
-    	
-	}
+        ); 
+
+        if (Conf.TEST_IMAGE) openTestImage();
+    }
 
 	/*
-     * CONSTRUCTORS END.
+     * CONSTRUCTOR END.
      */
     
     /* ***************************************************************/

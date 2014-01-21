@@ -6,13 +6,13 @@ import java.awt.image.BufferedImage;
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.FunPhotoTimeFrame;
 import si.gto76.funphototime.Utility;
-import si.gto76.funphototime.enums.NoDialogFilter;
+import si.gto76.funphototime.enums.ParameterlessFilter;
 
-public class FilterWithouthDialogListener implements ActionListener{
+public class ParameterlessFilterListener implements ActionListener{
 	FunPhotoTimeFrame mainFrame;
-	NoDialogFilter fi;
+	ParameterlessFilter fi;
 
-	public FilterWithouthDialogListener(NoDialogFilter fi, FunPhotoTimeFrame mainFrame) {
+	public ParameterlessFilterListener(ParameterlessFilter fi, FunPhotoTimeFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		this.fi = fi;
     }
@@ -41,9 +41,9 @@ public class FilterWithouthDialogListener implements ActionListener{
     private static class WaitingThread implements Runnable {
     	MyInternalFrame frameIn;
     	MyInternalFrame frameOut;
-    	NoDialogFilter fi;
+    	ParameterlessFilter fi;
 	    public WaitingThread(MyInternalFrame frameIn, MyInternalFrame frameOut,
-				NoDialogFilter fi) {
+				ParameterlessFilter fi) {
 			this.frameIn = frameIn;
 			this.frameOut = frameOut;
 			this.fi = fi;

@@ -22,7 +22,7 @@ import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.filterthreads.FilterThread;
 import si.gto76.funphototime.filterthreads.HistogramStretchingThread;
 
-	
+	// FIXME: extend FilterDialog or else cast exception!
 public class HistogramStretchingDialog 
 								implements ChangeListener, FilterDialogThatReturnsInts  {
 		
@@ -38,7 +38,7 @@ public class HistogramStretchingDialog
     private JOptionPane op;
     private JDialog dlg;
     
-    //TODO2 Ce ga zaprem z x-om pride do napake
+    //TODO 2 Ce ga zaprem z x-om pride do napake
     public HistogramStretchingDialog( MyInternalFrame selectedFrame, BufferedImage histogramImg ) {
     	this.selectedFrame = selectedFrame;
  		imgIn = selectedFrame.getImg();

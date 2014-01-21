@@ -24,7 +24,7 @@ import si.gto76.funphototime.filterthreads2.HistogramStretchingThread2;
 import si.gto76.funphototime.filterthreads2.SaturationThread2;
 import si.gto76.funphototime.filterthreads2.ThresholdingThread2;
 
-public enum IntsFilter {
+public enum MultipleParameterFilter {
 	HISTOGRAM_STRETCHING,
 	COLOR_BALANCE;
 

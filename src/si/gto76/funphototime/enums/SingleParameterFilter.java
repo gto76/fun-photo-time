@@ -18,7 +18,7 @@ import si.gto76.funphototime.filterthreads2.GammaThread2;
 import si.gto76.funphototime.filterthreads2.SaturationThread2;
 import si.gto76.funphototime.filterthreads2.ThresholdingThread2;
 
-public enum Filter {
+public enum SingleParameterFilter {
 	CONTRAST,
 	GAMMA,
 	SATURATION,
