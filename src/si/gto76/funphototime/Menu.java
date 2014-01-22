@@ -64,6 +64,8 @@ class Menu {
     MyMenuItem menuArithmeticopDivision = new MyMenuItem(1);
     
     MyMenu menuWindow = new MyMenu(1);
+    MyMenuItem menuWindowTileall = new MyMenuItem(1);
+    MyMenuItem menuWindowCloseall = new MyMenuItem(1);
     
     MyMenu menuHelp = new MyMenu(1);
     MyMenuItem menuHelpAbout = new MyMenuItem(0);
@@ -151,7 +153,9 @@ class Menu {
         menuArithmeticopMultiplication.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, 0));
         menuArithmeticopDivision.setText("Divide...");
         menuArithmeticopDivision.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0));
-        
+
+        menuWindowTileall.setText("Tile All");
+        menuWindowCloseall.setText("Close All");
         menuWindow.setText("Window");
         
         menuHelp.setText("Help");
@@ -213,7 +217,9 @@ class Menu {
         menuArithmeticop.add(menuArithmeticopMultiplication);
         menuArithmeticop.add(menuArithmeticopDivision);
         menuBar.add(menuArithmeticop);
-        
+
+        menuWindow.add(menuWindowTileall);
+        menuWindow.add(menuWindowCloseall);
         menuBar.add(menuWindow);
         
         menuHelp.add(menuHelpAbout);

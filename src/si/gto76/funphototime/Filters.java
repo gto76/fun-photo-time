@@ -1,5 +1,6 @@
 package si.gto76.funphototime;
 
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class Filters {
@@ -177,7 +178,8 @@ public class Filters {
 		rgb = setRed(rgb, (int) (getRed(rgb) * percent));
 		return rgb;
 	}
-
+	
+	
     /**
      * BRIGHTNESS 2
      */    
@@ -731,3 +733,4 @@ public class Filters {
 	}
     
 } 
+

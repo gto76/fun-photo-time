@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URISyntaxException;
 
+import javax.swing.JOptionPane;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
@@ -24,7 +25,7 @@ import si.gto76.funphototime.enums.SingleParameterFilter;
 import si.gto76.funphototime.enums.ZoomOperation;
 
 public class ActionListeners {
-	public static void set(FunPhotoTimeFrame frame, Menu meni) {
+	public static void set(final FunPhotoTimeFrame frame, Menu meni) {
 
 		
         /*
@@ -219,6 +220,25 @@ public class ActionListeners {
         		new OperationDialogListener(Operation.DIVISION, frame)
         );
         
+        /*
+         * WINDOW CLOSE ALL
+         */
+        meni.menuWindowCloseall.addActionListener (
+			new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	String ObjButtons[] = { "Yes", "No" };
+            		int PromptResult = JOptionPane.showOptionDialog(frame,
+            				"Are you sure you want to close all windows?", "",
+            				JOptionPane.DEFAULT_OPTION,
+            				JOptionPane.WARNING_MESSAGE, null, ObjButtons,
+            				ObjButtons[1]);
+            		if (PromptResult == JOptionPane.YES_OPTION) {
+            			frame.closeAllFrames();
+            			frame.vmu.refreshMenuItems(frame);
+            		}
+                }
+            }
+        );
         
         /*
          * HELP ABOUT

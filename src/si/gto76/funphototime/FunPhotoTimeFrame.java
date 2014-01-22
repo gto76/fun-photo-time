@@ -207,6 +207,7 @@ public class FunPhotoTimeFrame extends JFrame
 		//menije, ki potrebujejo sliko
 		MenuElement[] menuElement = meni.menuBar.getSubElements();
 		Component[] component;
+		//boolean isThereAnyFrame = (desktop.getAllFrames().length > 0); //TODONEW 
 		boolean isThereASelectedFrame =	!( desktop.getSelectedFrame() == null );
 		
 		for ( int i = 0; i < meni.menuBar.getMenuCount() ; i++ ) {
@@ -308,6 +309,14 @@ public class FunPhotoTimeFrame extends JFrame
 		}
     	catch (java.beans.PropertyVetoException e) {
     	}
+	}
+	
+	public void closeAllFrames() {
+		for (JInternalFrame iFrame : desktop.getAllFrames()) {
+			removeInternalFrameReference(iFrame);
+		}
+		desktop.removeAll();
+		//disableOrEnableMenuItems(); Doesent work becouse of select...
 	}
 	
 	public void removeInternalFrameReference(JInternalFrame iFrame) {
