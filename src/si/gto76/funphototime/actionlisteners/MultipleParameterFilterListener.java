@@ -1,16 +1,11 @@
 package si.gto76.funphototime.actionlisteners;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.FunPhotoTimeFrame;
-import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.dialogs.FilterDialog;
-import si.gto76.funphototime.dialogs.FilterDialogThatReturnsDouble;
 import si.gto76.funphototime.dialogs.FilterDialogThatReturnsInts;
-import si.gto76.funphototime.dialogs.FilterDialogWithSliderDouble;
-import si.gto76.funphototime.enums.SingleParameterFilter;
 import si.gto76.funphototime.enums.MultipleParameterFilter;
 
 public class MultipleParameterFilterListener extends AbstractParameterFilterListener

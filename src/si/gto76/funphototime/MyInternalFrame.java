@@ -1,6 +1,7 @@
 package si.gto76.funphototime;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
@@ -119,6 +120,21 @@ public class MyInternalFrame extends JInternalFrame
 	 * FUNCTIONS
 	 */
 	
+	public Dimension getOriginalImageSize() {
+		if (originalImg != null) {
+			return new Dimension(
+				originalImg.getWidth(), 
+				originalImg.getHeight()
+			);
+		}
+		BufferedImage img = getImg();
+		double lengthFactor = 100.0 / zoom;
+		return new Dimension(
+			(int) (img.getWidth() * lengthFactor), 
+			(int) (img.getHeight() * lengthFactor)
+		);
+	}
+	
 	public long getOriginalImageMemoryFootprint() {
 		return (long) (Utility.getSizeOfImage(getImg()) * Utility.getSurfaceAreaFactorForZoom(zoom));
 	}
@@ -165,7 +181,7 @@ public class MyInternalFrame extends JInternalFrame
     }
     
     /// ZOOM /////////////////////////////////////////////////
-    public void zoom(int cent) {
+    public void setZoom(int cent) {
     	waitForThread();
     	if ( originalImg != null && cent < 100 && cent > 0 && cent != zoom) {
     		zoom = cent;

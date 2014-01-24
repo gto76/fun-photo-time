@@ -1,5 +1,5 @@
 
-package si.gto76.funphototime;
+package si.gto76.funphototime.mymenu;
 
 
 public interface MyMenuInterface {

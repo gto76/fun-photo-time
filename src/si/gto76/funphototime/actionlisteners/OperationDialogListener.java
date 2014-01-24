@@ -3,9 +3,9 @@ package si.gto76.funphototime.actionlisteners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import si.gto76.funphototime.MyInternalFrame;
-import si.gto76.funphototime.Operation;
 import si.gto76.funphototime.FunPhotoTimeFrame;
 import si.gto76.funphototime.dialogs.OperationDialog;
+import si.gto76.funphototime.enums.Operation;
 
 public class OperationDialogListener implements ActionListener {
 	FunPhotoTimeFrame mainFrame;
@@ -30,7 +30,7 @@ public class OperationDialogListener implements ActionListener {
 	    		if ( (firstZoom != secondZoom) || (firstZoom == 100) || (secondZoom == 100) ) {
 	    			MyInternalFrame frame = 
 	        				mainFrame.createFrame(dialog.getProcessedOrigImage(), dialog.getName());
-	        		frame.zoom(firstZoom);
+	        		frame.setZoom(firstZoom);
 	    		}
 	    		else {
 	    			MyInternalFrame frame = 

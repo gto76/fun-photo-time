@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.MouseWheelEvent;
@@ -16,7 +14,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -32,27 +29,8 @@ import javax.swing.MenuElement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import si.gto76.funphototime.actionlisteners.SingleParameterFilterListener;
-import si.gto76.funphototime.actionlisteners.MultipleParameterFilterListener;
-import si.gto76.funphototime.actionlisteners.ParameterlessFilterListener;
-import si.gto76.funphototime.actionlisteners.LoadListener;
-import si.gto76.funphototime.actionlisteners.OperationDialogListener;
-import si.gto76.funphototime.actionlisteners.SaveListener;
-import si.gto76.funphototime.actionlisteners.SpatialFilterWithouthDialogListener;
-import si.gto76.funphototime.actionlisteners.ZoomListener;
-import si.gto76.funphototime.dialogs.AboutDialog;
-import si.gto76.funphototime.dialogs.BitPlaneDialog;
-import si.gto76.funphototime.dialogs.ColorsDialog;
-import si.gto76.funphototime.dialogs.HistogramStretchingDialog;
-import si.gto76.funphototime.dialogs.ThresholdingDialog;
-import si.gto76.funphototime.enums.SingleParameterFilter;
-import si.gto76.funphototime.enums.MultipleParameterFilter;
-import si.gto76.funphototime.enums.ParameterlessFilter;
-import si.gto76.funphototime.enums.ZoomOperation;
-import si.gto76.funphototime.filterthreads2.BitPlaneThread2;
-import si.gto76.funphototime.filterthreads2.ColorsThread2;
-import si.gto76.funphototime.filterthreads2.HistogramStretchingThread2;
-import si.gto76.funphototime.filterthreads2.ThresholdingThread2;
+import si.gto76.funphototime.mymenu.MyMenuInterface;
+import si.gto76.funphototime.mymenu.ViewMenuUtil;
 
  
 public class FunPhotoTimeFrame extends JFrame 
@@ -162,6 +140,9 @@ public class FunPhotoTimeFrame extends JFrame
      * ROUTINES & FUNCTIONS:
      */
 
+    protected void windowClosed() {
+    }
+    
 	private void findPicturesDirectory() {
     	String home = System.getProperty("user.home");
         String picturesDir = home + File.separator + "Pictures";
@@ -270,7 +251,7 @@ public class FunPhotoTimeFrame extends JFrame
     	} else {
     		zoom = findZoom(internalFrame.getOriginalImg().getHeight(), mainFrameHeight);
     	}
-    	internalFrame.zoom(zoom);
+    	internalFrame.setZoom(zoom);
 	}
     
     private int findZoom(int internalFrameSize, int mainFrameSize) {
@@ -331,8 +312,14 @@ public class FunPhotoTimeFrame extends JFrame
     	);
 	}
 	
-    protected void windowClosed() {
-    }
+	public MyInternalFrame[] getAllFrames() {
+		JInternalFrame[] jFrames = desktop.getAllFrames();
+		MyInternalFrame[] myFrames = new MyInternalFrame[jFrames.length];
+		for (int i = 0; i < jFrames.length; i++) {
+			myFrames[i] = (MyInternalFrame) jFrames[i];
+		}
+		return myFrames;
+	}
 
     /*
      * MEMORY
@@ -358,13 +345,11 @@ public class FunPhotoTimeFrame extends JFrame
 		return sum;
 	}
 	
-	private static final boolean DEBUG_MEMORY = true;
-	
 	public boolean isThereEnoughMemoryFor(long newMemorySize) {
 		long maxMemory = Runtime.getRuntime().maxMemory();
 		long usedMemory = getMemoryFootprint();
 		long neededMemory = usedMemory + newMemorySize*2; // *2 !!!
-		if (DEBUG_MEMORY) {
+		if (Conf.DEBUG_MEMORY) {
 			System.out.println("maxMemory: "+maxMemory);
 			System.out.println("usedMemory: "+usedMemory);
 			System.out.println("newMemorySize: "+newMemorySize);

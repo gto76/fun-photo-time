@@ -30,4 +30,6 @@ public class Conf {
 	
 	public static final long ORIGINAL_IMAGE_WAITING_INTERVAL_MSEC = 100;
 	public static final long MEMORY_SAFE_MARGIN = 5000000;
+	
+	public static final boolean DEBUG_MEMORY = true;
 }

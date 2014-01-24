@@ -7,7 +7,6 @@ import si.gto76.funphototime.dialogs.BitPlaneDialog;
 import si.gto76.funphototime.dialogs.Brightness1Dialog;
 import si.gto76.funphototime.dialogs.ContrastDialog;
 import si.gto76.funphototime.dialogs.FilterDialogThatReturnsDouble;
-import si.gto76.funphototime.dialogs.FilterDialogWithSliderDouble;
 import si.gto76.funphototime.dialogs.GammaDialog;
 import si.gto76.funphototime.dialogs.SaturationDialog;
 import si.gto76.funphototime.dialogs.ThresholdingDialog;

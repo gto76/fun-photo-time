@@ -4,25 +4,11 @@ import java.awt.image.BufferedImage;
 
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.Utility;
-import si.gto76.funphototime.dialogs.BitPlaneDialog;
-import si.gto76.funphototime.dialogs.Brightness1Dialog;
 import si.gto76.funphototime.dialogs.ColorsDialog;
-import si.gto76.funphototime.dialogs.ContrastDialog;
-import si.gto76.funphototime.dialogs.FilterDialogThatReturnsDouble;
 import si.gto76.funphototime.dialogs.FilterDialogThatReturnsInts;
-import si.gto76.funphototime.dialogs.FilterDialogWithSliderDouble;
-import si.gto76.funphototime.dialogs.GammaDialog;
 import si.gto76.funphototime.dialogs.HistogramStretchingDialog;
-import si.gto76.funphototime.dialogs.SaturationDialog;
-import si.gto76.funphototime.dialogs.ThresholdingDialog;
-import si.gto76.funphototime.filterthreads2.BitPlaneThread2;
-import si.gto76.funphototime.filterthreads2.Brightness1Thread2;
 import si.gto76.funphototime.filterthreads2.ColorsThread2;
-import si.gto76.funphototime.filterthreads2.ContrastThread2;
-import si.gto76.funphototime.filterthreads2.GammaThread2;
 import si.gto76.funphototime.filterthreads2.HistogramStretchingThread2;
-import si.gto76.funphototime.filterthreads2.SaturationThread2;
-import si.gto76.funphototime.filterthreads2.ThresholdingThread2;
 
 public enum MultipleParameterFilter {
 	HISTOGRAM_STRETCHING,

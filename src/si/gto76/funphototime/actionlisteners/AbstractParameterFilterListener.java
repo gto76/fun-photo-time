@@ -7,8 +7,6 @@ import si.gto76.funphototime.FunPhotoTimeFrame;
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.Utility;
 import si.gto76.funphototime.dialogs.FilterDialog;
-import si.gto76.funphototime.dialogs.FilterDialogThatReturnsInts;
-import si.gto76.funphototime.enums.MultipleParameterFilter;
 
 public abstract class AbstractParameterFilterListener {
 	FunPhotoTimeFrame mainFrame;

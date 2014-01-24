@@ -54,19 +54,19 @@ public enum ZoomOperation {
 	    		frame.zoomIn(10);
 	    		break;
 	    	case ZOOM_6:
-	    		frame.zoom(6);
+	    		frame.setZoom(6);
 	    		break;
 	    	case ZOOM_12:
-	    		frame.zoom(12);
+	    		frame.setZoom(12);
 	    		break;
 	    	case ZOOM_25:
-	    		frame.zoom(25);
+	    		frame.setZoom(25);
 	    		break;
 	    	case ZOOM_50:
-	    		frame.zoom(50);
+	    		frame.setZoom(50);
 	    		break;
 	    	case ZOOM_66:
-	    		frame.zoom(66);
+	    		frame.setZoom(66);
 	    		break;
 	    	case ZOOM_ACTUAL:
 	    		frame.actualSize();

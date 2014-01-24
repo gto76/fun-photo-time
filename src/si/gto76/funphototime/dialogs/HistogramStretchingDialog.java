@@ -19,7 +19,6 @@ import javax.swing.event.ChangeListener;
 
 import si.gto76.funphototime.MyInternalFrame;
 import si.gto76.funphototime.Utility;
-import si.gto76.funphototime.filterthreads.FilterThread;
 import si.gto76.funphototime.filterthreads.HistogramStretchingThread;
 
 public class HistogramStretchingDialog extends FilterDialog

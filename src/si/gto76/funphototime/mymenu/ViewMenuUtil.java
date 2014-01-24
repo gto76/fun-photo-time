@@ -1,6 +1,5 @@
-package si.gto76.funphototime;
+package si.gto76.funphototime.mymenu;
 
-import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,11 +12,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JPopupMenu.Separator;
 import javax.swing.KeyStroke;
 import javax.swing.MenuElement;
 
-import org.omg.CosNaming.IstringHelper;
+import si.gto76.funphototime.FunPhotoTimeFrame;
 
 public class ViewMenuUtil implements ActionListener {
 	private static final String MENU_NAME = "Window";
@@ -64,7 +62,7 @@ public class ViewMenuUtil implements ActionListener {
         menu.add(menuWindowCloseall);
 	}
 
-	void removeViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
+	public void removeViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
 		JMenu menu = getVievMenu(mainFrame);
 		if (menu == null) return;
 		for (MenuElement menuItem : menu.getSubElements()) {

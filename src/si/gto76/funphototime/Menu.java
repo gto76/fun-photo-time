@@ -6,6 +6,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 
+import si.gto76.funphototime.mymenu.MyMenu;
+import si.gto76.funphototime.mymenu.MyMenuItem;
+
 
 class Menu {
 	
@@ -125,8 +128,8 @@ class Menu {
         menuFiltersSharpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0));
         menuFiltersContrast.setText("Contrast...");
         menuFiltersContrast.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0));
-        menuFiltersSmartbin.setText("Smart Binarize");
-        menuFiltersSmartbin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0));
+        //menuFiltersSmartbin.setText("Smart Binarize");
+        //menuFiltersSmartbin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0));
         menuFiltersEdgedetection.setText("Edge Detection");
         menuFiltersEdgedetection.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0));
         menuFiltersMedian.setText("Median Noise Reduction");
@@ -155,6 +158,7 @@ class Menu {
         menuArithmeticopDivision.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0));
 
         menuWindowTileall.setText("Tile All");
+        menuWindowTileall.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0));
         menuWindowCloseall.setText("Close All");
         menuWindow.setText("Window");
         
@@ -220,6 +224,7 @@ class Menu {
 
         menuWindow.add(menuWindowTileall);
         menuWindow.add(menuWindowCloseall);
+        //menuFilters.addSeparator();
         menuBar.add(menuWindow);
         
         menuHelp.add(menuHelpAbout);

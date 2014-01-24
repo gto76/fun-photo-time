@@ -2,21 +2,14 @@ package si.gto76.funphototime.dialogs;
 
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-
 import si.gto76.funphototime.FunPhotoTime;
 
 

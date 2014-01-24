@@ -1,4 +1,4 @@
-package si.gto76.funphototime;
+package si.gto76.funphototime.enums;
 
 import javax.swing.JDesktopPane;
 

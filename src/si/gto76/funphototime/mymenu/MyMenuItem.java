@@ -1,9 +1,9 @@
-package si.gto76.funphototime;
+package si.gto76.funphototime.mymenu;
 
 import javax.swing.JMenuItem;
 
 
-class MyMenuItem extends JMenuItem
+public class MyMenuItem extends JMenuItem
 					implements MyMenuInterface {
 	
 	private static final long serialVersionUID = -3854336471073348117L;

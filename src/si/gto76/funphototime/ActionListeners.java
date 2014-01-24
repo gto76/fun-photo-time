@@ -2,14 +2,9 @@ package si.gto76.funphototime;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.net.URISyntaxException;
 
 import javax.swing.JOptionPane;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
-
 import si.gto76.funphototime.actionlisteners.SingleParameterFilterListener;
 import si.gto76.funphototime.actionlisteners.MultipleParameterFilterListener;
 import si.gto76.funphototime.actionlisteners.ParameterlessFilterListener;
@@ -17,9 +12,11 @@ import si.gto76.funphototime.actionlisteners.LoadListener;
 import si.gto76.funphototime.actionlisteners.OperationDialogListener;
 import si.gto76.funphototime.actionlisteners.SaveListener;
 import si.gto76.funphototime.actionlisteners.SpatialFilterWithouthDialogListener;
+import si.gto76.funphototime.actionlisteners.TileListener;
 import si.gto76.funphototime.actionlisteners.ZoomListener;
 import si.gto76.funphototime.dialogs.AboutDialog;
 import si.gto76.funphototime.enums.MultipleParameterFilter;
+import si.gto76.funphototime.enums.Operation;
 import si.gto76.funphototime.enums.ParameterlessFilter;
 import si.gto76.funphototime.enums.SingleParameterFilter;
 import si.gto76.funphototime.enums.ZoomOperation;
@@ -67,19 +64,19 @@ public class ActionListeners {
         );
         //ZOOM 12%
         meni.menuZoomMagnificationTwelve.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_12, frame)
+        	new ZoomListener(ZoomOperation.ZOOM_12, frame)
         );
         //ZOOM 25%
         meni.menuZoomMagnificationTwentyfive.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_25, frame)
+           	new ZoomListener(ZoomOperation.ZOOM_25, frame)
         );
         //ZOOM 50%
         meni.menuZoomMagnificationFifty.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_50, frame)
+           	new ZoomListener(ZoomOperation.ZOOM_50, frame)
         );
         //ZOOM 66%
         meni.menuZoomMagnificationSixtysix.addActionListener (
-           		new ZoomListener(ZoomOperation.ZOOM_66, frame)
+           	new ZoomListener(ZoomOperation.ZOOM_66, frame)
         );
         //ZOOM 100%
         meni.menuZoomMagnificationHoundred.addActionListener (
@@ -193,15 +190,15 @@ public class ActionListeners {
         ); 
         //LOGICOP AND
         meni.menuLogicopAnd.addActionListener (
-        		new OperationDialogListener(Operation.AND, frame)
+        	new OperationDialogListener(Operation.AND, frame)
         ); 
         //LOGICOP OR 
         meni.menuLogicopOr.addActionListener (
-        		new OperationDialogListener(Operation.OR, frame)
+        	new OperationDialogListener(Operation.OR, frame)
         );
         //LOGICOP XOR
         meni.menuLogicopXor.addActionListener (
-        		new OperationDialogListener(Operation.XOR, frame)
+        	new OperationDialogListener(Operation.XOR, frame)
         );
         //ARITHMETICOP ADDITION
         meni.menuArithmeticopAddition.addActionListener (      
@@ -213,16 +210,23 @@ public class ActionListeners {
         );
         //ARITHMETICOP MULTIPLICATION
         meni.menuArithmeticopMultiplication.addActionListener (
-        		new OperationDialogListener(Operation.MULTIPLICATION, frame)
+        	new OperationDialogListener(Operation.MULTIPLICATION, frame)
         );
         //ARITHMETICOP DIVISION
         meni.menuArithmeticopDivision.addActionListener (
-        		new OperationDialogListener(Operation.DIVISION, frame)
+        	new OperationDialogListener(Operation.DIVISION, frame)
         );
         
+        
         /*
-         * WINDOW CLOSE ALL
+         * WINDOW 
          */
+        // TILE ALL
+        meni.menuWindowTileall.addActionListener (
+        	new TileListener(frame)
+		);
+        
+        // CLOSE ALL
         meni.menuWindowCloseall.addActionListener (
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
