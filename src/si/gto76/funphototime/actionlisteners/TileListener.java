@@ -22,43 +22,41 @@ public class TileListener implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		MyInternalFrame[] frames = mainFrame.getAllFrames();
-		int noOfFrames = frames.length;
-		Dimension desktopSize = mainFrame.desktop.getSize();
-		
-		Point[] combos = getAllHorVerCombos(noOfFrames);
-		
-		Point maxCombo = null;
-		int maxComboSurface = 0;
-		int maxComboZoom = 100;
-		
-		for (Point combo : combos) {
-			//System.out.println("-------------------");
-			//System.out.println("Combo: " + combo);
-			Dimension cellSize = getCellSize(combo, desktopSize); 
-			int commonZoom = getCommonMaxZoom(frames, cellSize);
-			//System.out.println("commonZoom: " + commonZoom);
-			int comboSurface = getSurfaceSum(frames, commonZoom);
-			//System.out.println("comboSurface: " + comboSurface);
-			
-			if (comboSurface > maxComboSurface) {
-				maxCombo = combo;
-				maxComboSurface = comboSurface;
-				maxComboZoom = commonZoom;
-			}
-		}
-		/*
-		System.out.println("===============");
-		System.out.println("maxCombo: " + maxCombo);
-		System.out.println("maxComboSurface: " + maxComboSurface);
-		System.out.println("maxComboZoom: " + maxComboZoom);
-		System.out.println("===============");
-		*/	
-		tileFrames(mainFrame, maxCombo, maxComboZoom);
+		HorVerCombo maxCombo = getMaxCombo(mainFrame);
+		tileFrames(mainFrame, maxCombo.combo, maxCombo.zoom);
 	}
 	
 	////////////////////////
 
+	/*
+	 * GET BEST HORIZONTAL/VERTICAL COMBINATION
+	 */
+	public static HorVerCombo getMaxCombo(FunPhotoTimeFrame mainFrame) {
+		MyInternalFrame[] frames = mainFrame.getAllFrames();
+		Dimension desktopSize = mainFrame.desktop.getSize();
+		Point[] combos = getAllHorVerCombos(frames.length);
+		HorVerCombo maxCombo = new HorVerCombo(null, 0, 100);
+
+		for (Point combo : combos) {
+			Dimension cellSize = getCellSize(combo, desktopSize); 
+			int commonZoom = getCommonMaxZoom(frames, cellSize);
+			int comboSurface = getSurfaceSum(frames, commonZoom);
+			
+			if (comboSurface > maxCombo.surface) {
+				maxCombo = new HorVerCombo(combo, comboSurface, commonZoom);
+			}
+		}
+		return maxCombo;
+	}
+	
+	////////////////////////
+
+	/*
+	 * GET ALL HORIZONTAL/VERTICAL COMBINATIONS
+	 * 
+	 * Returns all combinations of columns/rows, that could potentialy maximize
+	 * sum of surfacess. For noOfFrames = 9 it returns: (1,9), (2,5), (3,3), (5,2), (9,1)  
+	 */
 	public static Point[] getAllHorVerCombos(int noOfFrames) {
 		List<Point> combos = new ArrayList<Point>();
 		int lastY = 0;
@@ -75,15 +73,14 @@ public class TileListener implements ActionListener {
 		return combos.toArray(new Point[0]);
 	}
 
-	public static Dimension getCellSize(Point combo, Dimension desktopSize) {
-		return new Dimension( 
-			desktopSize.width / combo.x, 
-			desktopSize.height / combo.y 
-		);
-	}
-	
 	/////////////////////
 	
+	/*
+	 * GET COMMON MAXIMUM ZOOM
+	 * 
+	 * Returns the zoom that maximizes the sum of surfaces of internal frames.
+	 * Zoom is restricted to values of Zoom.STEPS array. 
+	 */
 	public static int getCommonMaxZoom(MyInternalFrame[] frames, Dimension cellSize) {
 		for (int zoom : Zoom.STEPS) {
 			if (allFitInCell(frames, cellSize, zoom)) 
@@ -101,22 +98,25 @@ public class TileListener implements ActionListener {
 	}
 
 	public static boolean fitsInCell(MyInternalFrame frame, Dimension cellSize, int zoom) {
-		final int INTERNAL_FRAME_FRAME_WIDTH = 10;
-		final int INTERNAL_FRAME_FRAME_HEIGHT = 32;
-		
 		Dimension imageSize = frame.getOriginalImageSize();
 		imageSize.setSize(
 			imageSize.width * (zoom / 100.0), 
 			imageSize.height * (zoom / 100.0)
 		);
-		if (imageSize.width + INTERNAL_FRAME_FRAME_WIDTH > cellSize.width)
+		
+		if (imageSize.width + MyInternalFrame.BORDER_WIDTH > cellSize.width)
 			return false;
-		if (imageSize.height + INTERNAL_FRAME_FRAME_HEIGHT > cellSize.height)
+		if (imageSize.height + MyInternalFrame.BORDER_HEIGHT > cellSize.height)
 			return false;
 		
 		return true;
 	}
+	
+	/////////////////////
 
+	/*
+	 * GET SUM OF SURFACES
+	 */
 	public static int getSurfaceSum(MyInternalFrame[] frames, int zoom) {
 		int sum = 0;
 		for (MyInternalFrame frame : frames) {
@@ -131,7 +131,11 @@ public class TileListener implements ActionListener {
 	}
 
 	////////////////////////
+	////////////////////////
 
+	/*
+	 * TILE FRAMES
+	 */
 	private static void tileFrames(FunPhotoTimeFrame mainFrame, Point combo, int zoom) {
 		Dimension desktopSize = mainFrame.desktop.getSize();
 		int slotNo = 0;
@@ -144,9 +148,7 @@ public class TileListener implements ActionListener {
 		}
 	}
 
-	/*
-	 * Slots start from (0,0).
-	 */
+	// Slots start from (0,0).
 	private static Point getSlot(int width, int n) {
 		return new Point(n % width, n / width);
 	}
@@ -176,4 +178,28 @@ public class TileListener implements ActionListener {
 		);
 	}
 
+	////////////////////////
+	////////////////////////
+	
+	/*
+	 * COMMON
+	 */
+	
+	public static Dimension getCellSize(Point combo, Dimension desktopSize) {
+		return new Dimension( 
+			desktopSize.width / combo.x, 
+			desktopSize.height / combo.y 
+		);
+	}
+
+}
+
+class HorVerCombo {
+	public final Point combo;
+	public final int surface, zoom;
+	public HorVerCombo(Point combo, int surface, int zoom) {
+		this.combo = combo;
+		this.surface = surface;
+		this.zoom = zoom;
+	}
 }

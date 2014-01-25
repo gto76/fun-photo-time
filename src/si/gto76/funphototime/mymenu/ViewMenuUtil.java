@@ -21,54 +21,21 @@ public class ViewMenuUtil implements ActionListener {
 	private static final String MENU_NAME = "Window";
 
 	public void createViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
-		JMenu menu = getVievMenu(mainFrame);
-		//removeCloseAllElement(menu);		
+		JMenu menu = getViewMenu(mainFrame);
 		if (menu == null) return;
 		ViewMenuItem menuItem = new ViewMenuItem(internalFrame.getTitle(), internalFrame);
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		refreshMenuItems(mainFrame);
-		//addCloseAllElement(menu);
-	}
-
-	private void removeCloseAllElement(JMenu menu) {
-		MenuElement lastSubElement = null, beforeLast = null;
-		for (MenuElement menuItem : menu.getSubElements()) {
-			JPopupMenu popUp = (JPopupMenu) menuItem;
-			for (MenuElement subElement : popUp.getSubElements()) {
-				beforeLast = lastSubElement;
-				lastSubElement = subElement;
-				/*
-				if (subElement instanceof MyMenuItem) {
-					if (lastSubElement != null)
-						menu.remove((JMenuItem) lastSubElement);
-					menu.remove((JMenuItem) subElement);
-					return;
-				}
-				lastSubElement = subElement;
-				*/
-			}
-		}
-		if (beforeLast != null)
-			menu.remove((JMenuItem) beforeLast);
-		menu.remove((JMenuItem) lastSubElement);
-		return;
-	}
-	
-	private void addCloseAllElement(JMenu menu) {
-	    MyMenuItem menuWindowCloseall = new MyMenuItem(1);
-        menuWindowCloseall.setText("Close All");
-        menu.addSeparator();
-        menu.add(menuWindowCloseall);
 	}
 
 	public void removeViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
-		JMenu menu = getVievMenu(mainFrame);
+		JMenu menu = getViewMenu(mainFrame);
 		if (menu == null) return;
 		for (MenuElement menuItem : menu.getSubElements()) {
 			JPopupMenu popUp = (JPopupMenu) menuItem;
 			for (MenuElement subElement : popUp.getSubElements()) {
-				if (subElement instanceof MyMenuItem)
+				if (!(subElement instanceof ViewMenuItem) /*MyMenuItem*/)
 					continue;
 				ViewMenuItem viewMenuItem = (ViewMenuItem) subElement;
 				if (viewMenuItem.compareTo(internalFrame) == 0) {
@@ -85,7 +52,7 @@ public class ViewMenuUtil implements ActionListener {
 		boolean next = false;
 		ViewMenuItem viewMenuItem = null;
 		ViewMenuItem lastMenuItem = null;
-		JMenu menu = getVievMenu(mainFrame);
+		JMenu menu = getViewMenu(mainFrame);
 		if (menu == null) return;
 		for (MenuElement menuItem : menu.getSubElements()) {
 			JPopupMenu popUp = (JPopupMenu) menuItem;
@@ -119,6 +86,19 @@ public class ViewMenuUtil implements ActionListener {
 			viewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_END, 0));
 		}
 	}
+	
+	public void actionPerformed(ActionEvent e) {
+		ViewMenuItem menuItem = (ViewMenuItem) e.getSource();
+		try {
+			menuItem.internalFrame.setSelected(true);
+		} catch (PropertyVetoException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	/*
+	 * COMMON
+	 */
 
 	class ViewMenuItem extends JMenuItem implements Comparable<JInternalFrame>,
 			MyMenuInterface {
@@ -142,17 +122,8 @@ public class ViewMenuUtil implements ActionListener {
 			return 0;
 		}
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		ViewMenuItem menuItem = (ViewMenuItem) e.getSource();
-		try {
-			menuItem.internalFrame.setSelected(true);
-		} catch (PropertyVetoException e1) {
-			e1.printStackTrace();
-		}
-	}
 	
-	private static JMenu getVievMenu(JFrame mainFrame) {
+	private static JMenu getViewMenu(JFrame mainFrame) {
 		JMenuBar menuBar = mainFrame.getJMenuBar();
 		MenuElement[] menuElements = menuBar.getSubElements();
 		for (MenuElement menuElement : menuElements) {
@@ -166,5 +137,5 @@ public class ViewMenuUtil implements ActionListener {
 		}
 		return null;
 	}
-
+	
 }

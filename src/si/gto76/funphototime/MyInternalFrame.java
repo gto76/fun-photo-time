@@ -26,6 +26,13 @@ public class MyInternalFrame extends JInternalFrame
 						implements InternalFrameListener /*, MouseMotionListener*/ {
 	
 	private static final long serialVersionUID = -1665181775406001910L;
+	
+	// TODO: This is true for metal L&F, probably not for others,
+	// and will thus probably effect tile operation to overlap frames a little in other L&Fls.
+	// I guess java has those numbers somewhere, I just didn't realy look for them.
+	public static final int BORDER_WIDTH = 10;
+	public static final int BORDER_HEIGHT = 32;
+	
 	private ImageIcon icon;
 	private BufferedImage originalImg; //image that is not resized
 	

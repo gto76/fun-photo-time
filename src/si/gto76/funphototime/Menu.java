@@ -224,7 +224,7 @@ class Menu {
 
         menuWindow.add(menuWindowTileall);
         menuWindow.add(menuWindowCloseall);
-        //menuFilters.addSeparator();
+        menuWindow.addSeparator();
         menuBar.add(menuWindow);
         
         menuHelp.add(menuHelpAbout);
