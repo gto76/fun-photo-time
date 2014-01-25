@@ -17,19 +17,28 @@ import javax.swing.MenuElement;
 
 import si.gto76.funphototime.FunPhotoTimeFrame;
 
-public class ViewMenuUtil implements ActionListener {
+public class ViewMenuUtil {
 	private static final String MENU_NAME = "Window";
 
-	public void createViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
+	public static void createItem(JFrame mainFrame, JInternalFrame internalFrame) {
 		JMenu menu = getViewMenu(mainFrame);
 		if (menu == null) return;
 		ViewMenuItem menuItem = new ViewMenuItem(internalFrame.getTitle(), internalFrame);
-		menuItem.addActionListener(this);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewMenuItem menuItem = (ViewMenuItem) e.getSource();
+				try {
+					menuItem.internalFrame.setSelected(true);
+				} catch (PropertyVetoException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		menu.add(menuItem);
-		refreshMenuItems(mainFrame);
+		refreshItems(mainFrame);
 	}
 
-	public void removeViewMenuItem(JFrame mainFrame, JInternalFrame internalFrame) {
+	public static void removeItem(JFrame mainFrame, JInternalFrame internalFrame) {
 		JMenu menu = getViewMenu(mainFrame);
 		if (menu == null) return;
 		for (MenuElement menuItem : menu.getSubElements()) {
@@ -40,14 +49,14 @@ public class ViewMenuUtil implements ActionListener {
 				ViewMenuItem viewMenuItem = (ViewMenuItem) subElement;
 				if (viewMenuItem.compareTo(internalFrame) == 0) {
 					popUp.remove(viewMenuItem);
-					refreshMenuItems(mainFrame);
+					refreshItems(mainFrame);
 					return;
 				}
 			}
 		}
 	}
 	
-	public void refreshMenuItems(JFrame mainFrame) {
+	public static void refreshItems(JFrame mainFrame) {
 		boolean first = true;
 		boolean next = false;
 		ViewMenuItem viewMenuItem = null;
@@ -87,41 +96,9 @@ public class ViewMenuUtil implements ActionListener {
 		}
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		ViewMenuItem menuItem = (ViewMenuItem) e.getSource();
-		try {
-			menuItem.internalFrame.setSelected(true);
-		} catch (PropertyVetoException e1) {
-			e1.printStackTrace();
-		}
-	}
-	
 	/*
 	 * COMMON
 	 */
-
-	class ViewMenuItem extends JMenuItem implements Comparable<JInternalFrame>,
-			MyMenuInterface {
-		private static final long serialVersionUID = 333892455020266595L;
-		private JInternalFrame internalFrame;
-
-		ViewMenuItem(String name, JInternalFrame internalFrame) {
-			super(name);
-			this.internalFrame = internalFrame;
-		}
-
-		public int compareTo(JInternalFrame otherFrame) {
-			if (internalFrame.equals(otherFrame))
-				return 0;
-			else
-				return -1;
-		}
-
-		// MyMenuInterface:
-		public int noOfOperands() {
-			return 0;
-		}
-	}
 	
 	private static JMenu getViewMenu(JFrame mainFrame) {
 		JMenuBar menuBar = mainFrame.getJMenuBar();

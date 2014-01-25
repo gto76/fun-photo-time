@@ -23,7 +23,6 @@ import si.gto76.funphototime.enums.ZoomOperation;
 
 public class ActionListeners {
 	public static void set(final FunPhotoTimeFrame frame, Menu meni) {
-
 		
         /*
          * FILE
@@ -46,6 +45,19 @@ public class ActionListeners {
             }
         ); 
         
+        /*
+         * EDIT
+         */
+        // UNDO CLOSE WINDOW
+        meni.menuEditUndoCloseWindow.addActionListener(
+		new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (frame.lastClosedIntrnalFrame != null) {
+					frame.internalFrameInit(frame.lastClosedIntrnalFrame);
+					frame.lastClosedIntrnalFrame = null;
+				}
+			}
+		});
         
         /*
          * ZOOM
@@ -238,7 +250,7 @@ public class ActionListeners {
             				ObjButtons[1]);
             		if (PromptResult == JOptionPane.YES_OPTION) {
             			frame.closeAllFrames();
-            			frame.vmu.refreshMenuItems(frame);
+            			frame.vmu.refreshItems(frame);
             		}
                 }
             }

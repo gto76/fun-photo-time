@@ -307,7 +307,8 @@ public class MyInternalFrame extends JInternalFrame
 
     public void internalFrameClosed(InternalFrameEvent e) {
 		//prekine nit ko se zepre
-		if ( thread != null ) {
+		/*
+    	if ( thread != null ) {
 			thread.interrupt();
 			try {
 				thread.join();
@@ -315,6 +316,10 @@ public class MyInternalFrame extends JInternalFrame
 			catch ( InterruptedException f ) { 
 			}
 		}
+		*/
+    	
+    	mainFrame.lastClosedIntrnalFrame = this;
+    	
 		//odstrani okno iz view menija
 		mainFrame.removeInternalFrameReference(this); 
 		mainFrame.desktop.selectFrame(true); // Garbage collection hack.
@@ -330,7 +335,7 @@ public class MyInternalFrame extends JInternalFrame
 	}
 
     public void internalFrameActivated(InternalFrameEvent e) {
-    	mainFrame.vmu.refreshMenuItems(mainFrame);
+    	mainFrame.vmu.refreshItems(mainFrame);
 	}
 
     public void internalFrameDeactivated(InternalFrameEvent e) {

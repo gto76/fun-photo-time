@@ -20,7 +20,7 @@ class Menu {
     MyMenuItem menuFileExit = new MyMenuItem(0);
     
     MyMenu menuEdit = new MyMenu(1);
-    MyMenuItem menuEditUndoCloseWindow = new MyMenuItem(1);
+    MyMenuItem menuEditUndoCloseWindow = new MyMenuItem(0); // TODO needs own enable/disable system
     
     MyMenu menuZoom = new MyMenu(1);
     MyMenuItem menuZoomOut = new MyMenuItem(1);

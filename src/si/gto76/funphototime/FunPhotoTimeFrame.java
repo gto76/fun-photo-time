@@ -45,6 +45,8 @@ public class FunPhotoTimeFrame extends JFrame
     public File lastPathLoad = null;
     public File lastPathSave = null;
     
+    public MyInternalFrame lastClosedIntrnalFrame = null;
+    
     static ArrayList<Image> iconsActive;
     static ArrayList<Image> iconsNotActive;
     static long iconsSize;
@@ -227,13 +229,13 @@ public class FunPhotoTimeFrame extends JFrame
     	return internalFrameInit(frame);
     }
 
-	private MyInternalFrame internalFrameInit(MyInternalFrame frame) {
+	public MyInternalFrame internalFrameInit(MyInternalFrame frame) {
         frame.setVisible(true); 
         desktop.add(frame);
         try {
             frame.setSelected(true);
         } catch (java.beans.PropertyVetoException e) {}
-        vmu.createViewMenuItem(this, frame);
+        vmu.createItem(this, frame);
         return frame;
     }
 	
@@ -301,7 +303,7 @@ public class FunPhotoTimeFrame extends JFrame
 	}
 	
 	public void removeInternalFrameReference(JInternalFrame iFrame) {
-		vmu.removeViewMenuItem(this, iFrame);
+		vmu.removeItem(this, iFrame);
 	}
 	
 	public Point getFrameCenter() {
