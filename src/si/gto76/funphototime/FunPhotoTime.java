@@ -19,7 +19,7 @@ public class FunPhotoTime {
 			setNativeLookAndFeel();
 		}
 		Boolean check = LicenceUtil.check();
-		System.out.println("Check: " + check);
+		System.out.println("License check: " + check);
 		createAndShowGUI();
     }
 

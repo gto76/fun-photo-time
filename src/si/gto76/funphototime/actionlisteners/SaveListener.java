@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import si.gto76.funphototime.ExtensionFileFilter;
 import si.gto76.funphototime.FunPhotoTimeFrame;
+import si.gto76.funphototime.ImagePreviewPanel;
 import si.gto76.funphototime.MyInternalFrame;
 
 public class SaveListener implements ActionListener {
@@ -33,7 +34,7 @@ public class SaveListener implements ActionListener {
     	if ( frame.desktop.getSelectedFrame() == null ) 
     		return;
 
-		JFileChooser fc = new JFileChooser() {
+		JFileChooser chooser = new JFileChooser() {
 			private static final long serialVersionUID = 291238218189760173L;
 
 			@Override
@@ -119,27 +120,31 @@ public class SaveListener implements ActionListener {
 			}
 		};
 		
+    	ImagePreviewPanel preview = new ImagePreviewPanel();
+    	chooser.setAccessory(preview);
+    	chooser.addPropertyChangeListener(preview);
+		
 		String fileName = ((MyInternalFrame)frame.desktop.getSelectedFrame()).getFileName();
 		// odstrani koncnico imenu
 		fileName = removeExtension(fileName);
 		if (frame.lastPathSave != null) {
 			File path = frame.lastPathSave.getParentFile();
-			fc.setSelectedFile(new File(path, fileName));
+			chooser.setSelectedFile(new File(path, fileName));
 		} else if (frame.lastPathLoad != null) {
 			File path = frame.lastPathLoad.getParentFile();
-			fc.setSelectedFile(new File(path, fileName));
+			chooser.setSelectedFile(new File(path, fileName));
 		} else {
-			fc.setSelectedFile(new File(fileName));
+			chooser.setSelectedFile(new File(fileName));
 		}
-		fc.setDialogTitle("Save As");
+		chooser.setDialogTitle("Save As");
 
 		for (ExtensionFileFilter filter : ExtensionFileFilter.all) {
-			fc.addChoosableFileFilter(filter);
+			chooser.addChoosableFileFilter(filter);
 		}
-		fc.setFileFilter(ExtensionFileFilter.png);
+		chooser.setFileFilter(ExtensionFileFilter.png);
 		
 		// OPEN DIALOG
-    	fc.showSaveDialog(frame);
+    	chooser.showSaveDialog(frame);
     }
     
     private static String removeExtension(String fileName) {

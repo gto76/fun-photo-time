@@ -11,6 +11,7 @@ import javax.swing.JFileChooser;
 
 import si.gto76.funphototime.ExtensionFileFilter;
 import si.gto76.funphototime.FunPhotoTimeFrame;
+import si.gto76.funphototime.ImagePreviewPanel;
 
 public class LoadListener implements ActionListener {
 	
@@ -21,25 +22,30 @@ public class LoadListener implements ActionListener {
 	
     public void actionPerformed(ActionEvent e) {
     	try {
-	    	JFileChooser fc = new JFileChooser();
-	    	fc.setMultiSelectionEnabled(true);
+	    	JFileChooser chooser = new JFileChooser();
+	    	
+	    	ImagePreviewPanel preview = new ImagePreviewPanel();
+	    	chooser.setAccessory(preview);
+	    	chooser.addPropertyChangeListener(preview);
+	    	
+	    	chooser.setMultiSelectionEnabled(true);
 	    	// adds file filters
 	    	for (ExtensionFileFilter filter : ExtensionFileFilter.all) {
-				fc.addChoosableFileFilter(filter);
+				chooser.addChoosableFileFilter(filter);
 			}
 	    	if (frame.lastPathLoad != null) {
-	    		fc.setCurrentDirectory(frame.lastPathLoad);
+	    		chooser.setCurrentDirectory(frame.lastPathLoad);
 	    	}
-	    	int returnVal = fc.showOpenDialog(frame);
+	    	int returnVal = chooser.showOpenDialog(frame);
 	    	if (returnVal == JFileChooser.APPROVE_OPTION) {
 	    		try {
-	    			for (File fIn : fc.getSelectedFiles()) {
+	    			for (File fIn : chooser.getSelectedFiles()) {
 	    				// TODO memory footprint check
 	    				BufferedImage imgIn = ImageIO.read(fIn);
 						frame.createFrame(imgIn, fIn.getName());
 	    			}
 				} catch (IOException f) {}
-				frame.lastPathLoad = fc.getSelectedFile();
+				frame.lastPathLoad = chooser.getSelectedFile();
 		    }
     	} catch (OutOfMemoryError g) {
     		frame.outOfMemoryMessage();

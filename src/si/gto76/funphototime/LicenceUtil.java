@@ -12,6 +12,8 @@ public class LicenceUtil {
 
 	public static boolean check() {
 		Licence licence = readFile();
+		if (licence == null)
+			return false;
 		// Uses absolute value of hash, so licence key doesent need to be negative
 		if (Math.abs(licence.user.hashCode()) == Integer.valueOf(licence.hash))
 			return true;
@@ -23,7 +25,7 @@ public class LicenceUtil {
 		try {
 			fis = new FileInputStream("Licence.ffl");
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			return null;
 		}
 		if (fis == null)
 			return null;
