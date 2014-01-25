@@ -13,13 +13,15 @@ public class Test {
  	static BufferedImage img;
 	
  	public static void main(String[] args) {
-		openTestImage();
+ 		System.out.println("Jure Sorn".hashCode());
+ 		
+ 		/*openTestImage();
 		long startTime = System.nanoTime();
 		SpatialFilters.blur(img);
 		//SpatialFiltersNEW.blur(img);
 		long stopTime = System.nanoTime();
 		System.out.println((stopTime - startTime)/1000000000.0);
-	}
+*/	}
 	
 	private static void openTestImage() {
 		//Odpre testno sliko

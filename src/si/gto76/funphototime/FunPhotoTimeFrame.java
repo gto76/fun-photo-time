@@ -324,22 +324,13 @@ public class FunPhotoTimeFrame extends JFrame
 	}
 
     /*
-     * MEMORY
+     * MEMORY MONITORING
      */
-	public void outOfMemoryMessage() {
-		JOptionPane.showConfirmDialog(this, "Program ran out of memory!\n" +
-				"Please close some images, save your work and restart the program.", "", 
-				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE); 
-	}
-	
-	public void lowMemoryWarning() {
-		JOptionPane.showConfirmDialog(this, "Can not perform operation, running low on memory!\n" +
-				"Please close some images.", "", 
-				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-	}
 	
 	public long getMemoryFootprint() {
 		long sum = iconsSize + Conf.MEMORY_SAFE_MARGIN;
+		if (lastClosedIntrnalFrame != null)
+			sum += lastClosedIntrnalFrame.getMemoryFootprint();
 		for (JInternalFrame frame : desktop.getAllFrames()) {
 			MyInternalFrame myFrame = (MyInternalFrame) frame;
 			sum += myFrame.getMemoryFootprint();
@@ -367,10 +358,22 @@ public class FunPhotoTimeFrame extends JFrame
 	public boolean isMemoryCritical() {
     	MyInternalFrame selectedFrame = (MyInternalFrame) desktop.getSelectedFrame();
 		if (!isThereEnoughMemoryFor(selectedFrame.getMemoryFootprint())) {
-			lowMemoryWarning();
+			lowOnMemoryWarning();
 			return true;
 		}
 		return false;
 	}
+
+	public void outOfMemoryMessage() {
+		JOptionPane.showConfirmDialog(this, "Program ran out of memory!\n" +
+				"Please close some images, save your work and restart the program.", "", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE); 
+	}
 	
+	public void lowOnMemoryWarning() {
+		JOptionPane.showConfirmDialog(this, "Can not perform operation, running low on memory!\n" +
+				"Please close some images.", "", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+	}
+
 }

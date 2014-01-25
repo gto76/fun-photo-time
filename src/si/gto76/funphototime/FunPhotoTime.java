@@ -18,10 +18,12 @@ public class FunPhotoTime {
 		if (Conf.NATIVE_LOOK_AND_FEEL) {
 			setNativeLookAndFeel();
 		}
+		Boolean check = LicenceUtil.check();
+		System.out.println("Check: " + check);
 		createAndShowGUI();
     }
-    
-    public static void createAndShowGUI() {
+
+	public static void createAndShowGUI() {
     	JFrame.setDefaultLookAndFeelDecorated(true);
     	// Create application frame.
     	frame = new FunPhotoTimeFrame();

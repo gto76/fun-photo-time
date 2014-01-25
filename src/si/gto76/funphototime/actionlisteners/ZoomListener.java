@@ -24,7 +24,7 @@ public class ZoomListener implements ActionListener {
 			footprint = (long) (footprint / Utility.getSurfaceAreaFactorForZoom(zo.newZoom(selectedFrame)));
 		}
 		if (!mainFrame.isThereEnoughMemoryFor(footprint)) {
-			mainFrame.lowMemoryWarning();
+			mainFrame.lowOnMemoryWarning();
 			return;
 		}
 		
