@@ -288,7 +288,7 @@ public class ActionListeners {
 	
     private static int windowClosingDialog(String dialogMessage) {
         String ObjButtons[] = { "Yes", "No" };
-		return JOptionPane.showOptionDialog(frame,
+		return JOptionPane.showOptionDialog(null,
 				dialogMessage , "",
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE, null, ObjButtons,

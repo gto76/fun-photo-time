@@ -21,7 +21,8 @@ public abstract class OperationDialog extends MyDialog
 	protected BufferedImage imgIn1, imgIn2, imgOut;
 	protected MyInternalFrame selectedFrame1, selectedFrame2;
 	protected JDesktopPane desktop;
-	protected JComboBox combo1, combo2;
+	protected JComboBox<JInternalFrame> combo1;
+    protected JComboBox<JInternalFrame> combo2;
 	
 	public OperationDialog( JDesktopPane desktop, String title, String symbol ) {
 		super(title);
@@ -30,8 +31,8 @@ public abstract class OperationDialog extends MyDialog
 		JInternalFrame[] allFrames = desktop.getAllFrames();
 		
 		//potem jih dodeli vsakmu komboboksu
-		combo1 = new JComboBox(allFrames);
-		combo2 = new JComboBox(allFrames);
+		combo1 = new JComboBox<JInternalFrame>(allFrames);
+		combo2 = new JComboBox<JInternalFrame>(allFrames);
 		
 		//if more than one frame exist
 		if (allFrames.length > 1) {
@@ -105,7 +106,7 @@ public abstract class OperationDialog extends MyDialog
     	return getZoom(combo2);
     }
     
-    private int getZoom(JComboBox combo) {
+    private int getZoom(JComboBox<JInternalFrame> combo) {
     	return ((MyInternalFrame) combo.getSelectedItem()).getZoom();
     }
     

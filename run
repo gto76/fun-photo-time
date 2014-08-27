@@ -1,0 +1,20 @@
+mainClass='si.gto76.funphototime.FunPhotoTime' 
+appName='fun-photo-time'
+scriptName=`basename $0`
+
+echo "$scriptName: GETTING VERSION NUMBER..."
+git describe > version
+if [ $? -eq 0 ]; then
+	appName="$appName"-`git describe | sed -r 's/^[^0-9]([0-9\.]*).*$/\1/'`
+fi
+
+echo "$scriptName: COMPILING..." &&\
+mkdir -p target/main &&\
+javac -d target/main `find src/main -name *.java` &&\
+cd target &&\
+echo "$scriptName: PACKAGING IN JAR..." &&\
+jar cvfe "$appName.jar" "$mainClass" -C .. version -C ../src/main resources -C main . &> /dev/null  &&\
+echo "$scriptName: EXECUTING JAR..." &&\
+java -jar "$appName.jar" 
+
+rm ../version
