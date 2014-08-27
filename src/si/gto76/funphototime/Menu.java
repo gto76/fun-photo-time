@@ -69,6 +69,7 @@ class Menu {
     MyMenu menuWindow = new MyMenu(1);
     MyMenuItem menuWindowTileall = new MyMenuItem(1);
     MyMenuItem menuWindowCloseall = new MyMenuItem(1);
+    MyMenuItem menuWindowCloseallbutselected = new MyMenuItem(1);
     
     MyMenu menuHelp = new MyMenu(1);
     MyMenuItem menuHelpAbout = new MyMenuItem(0);
@@ -160,6 +161,7 @@ class Menu {
         menuWindowTileall.setText("Tile All");
         menuWindowTileall.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0));
         menuWindowCloseall.setText("Close All");
+        menuWindowCloseallbutselected.setText("Close Other");
         menuWindow.setText("Window");
         
         menuHelp.setText("Help");
@@ -224,6 +226,7 @@ class Menu {
 
         menuWindow.add(menuWindowTileall);
         menuWindow.add(menuWindowCloseall);
+        menuWindow.add(menuWindowCloseallbutselected);
         menuWindow.addSeparator();
         menuBar.add(menuWindow);
         

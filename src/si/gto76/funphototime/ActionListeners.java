@@ -20,6 +20,7 @@ import si.gto76.funphototime.enums.Operation;
 import si.gto76.funphototime.enums.ParameterlessFilter;
 import si.gto76.funphototime.enums.SingleParameterFilter;
 import si.gto76.funphototime.enums.ZoomOperation;
+import si.gto76.funphototime.mymenu.ViewMenuUtil;
 
 public class ActionListeners {
 	public static void set(final FunPhotoTimeFrame frame, Menu meni) {
@@ -238,19 +239,27 @@ public class ActionListeners {
         	new TileListener(frame)
 		);
         
+     // CLOSE ALL
+        meni.menuWindowCloseall.addActionListener (
+			new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	int PromptResult = windowClosingDialog("Are you sure you want to close all windows?");
+            		if (PromptResult == JOptionPane.YES_OPTION) {
+            			frame.closeAllFrames();
+            			ViewMenuUtil.refreshItems(frame);
+            		}
+                }
+            }
+        );
+        
         // CLOSE ALL
         meni.menuWindowCloseall.addActionListener (
 			new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	String ObjButtons[] = { "Yes", "No" };
-            		int PromptResult = JOptionPane.showOptionDialog(frame,
-            				"Are you sure you want to close all windows?", "",
-            				JOptionPane.DEFAULT_OPTION,
-            				JOptionPane.WARNING_MESSAGE, null, ObjButtons,
-            				ObjButtons[1]);
+                	int PromptResult = windowClosingDialog("Are you sure you want to close all but selected window?");
             		if (PromptResult == JOptionPane.YES_OPTION) {
-            			frame.closeAllFrames();
-            			frame.vmu.refreshItems(frame);
+            			frame.closeAllFrames(); //TODO
+            			ViewMenuUtil.refreshItems(frame);
             		}
                 }
             }
@@ -272,4 +281,18 @@ public class ActionListeners {
         );
     	
 	}
+
+	/*
+	 * COMMON
+	 */
+	
+    private static int windowClosingDialog(String dialogMessage) {
+        String ObjButtons[] = { "Yes", "No" };
+		return JOptionPane.showOptionDialog(frame,
+				dialogMessage , "",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.WARNING_MESSAGE, null, ObjButtons,
+				ObjButtons[1]);
+    }
+    
 }
