@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -e
 
 mainClass='si.gto76.funphototime.FunPhotoTime' 
