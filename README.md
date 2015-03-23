@@ -13,15 +13,18 @@ Image filtering fun for everyone!
 * 'Tile all' command that nicely tiles all frames inside main frame
 * Single key shortcuts for all commands
 
-### How To Run:
-#### UNIX
-```
+
+How To Run
+----------
+
+### Windows
+1. [Download ZIP] (https://github.com/gto76/fun-photo-time/archive/master.zip)
+2. Extract it
+3. Double click on run.bat
+
+### UNIX
+```bash
 git clone https://github.com/gto76/fun-photo-time.git
 cd fun-photo-time
 ./run
 ```
-
-#### Windows
-1. [Download ZIP] (https://github.com/gto76/fun-photo-time/archive/master.zip)
-2. Extract it
-3. Double click on run.bat
