@@ -14,8 +14,8 @@ Image filtering fun for everyone!
 * Single key shortcuts for all commands
 
 
-How To Run
-----------
+How To Run on…
+--------------
 
 ### Windows
 1. [Download ZIP] (https://github.com/gto76/fun-photo-time/archive/master.zip)
