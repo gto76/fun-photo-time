@@ -24,10 +24,10 @@ Features
 --------
 * Written in Java.
 * Uses Swing for GUI.
-* A lot of filters
+* A lot of filters.
 * Arithmetic and logic operations between images (add, subtract, and, or...)
 * No undo! Every operation opens new frame with processed image.
-* _Tile all_ command that nicely tiles all frames inside main frame
-* Single key shortcuts for all commands
+* _Tile all_ command that nicely tiles all frames inside main frame.
+* Single key shortcuts for all commands.
 
 
