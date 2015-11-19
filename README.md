@@ -15,9 +15,9 @@ How To Run on…
 
 ### UNIX
 ```
-git clone https://github.com/gto76/fun-photo-time.git
-cd fun-photo-time
-./run
+$ git clone https://github.com/gto76/fun-photo-time.git
+$ cd fun-photo-time
+$ ./run
 ```
 
 Features
