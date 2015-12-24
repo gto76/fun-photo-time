@@ -1,7 +1,7 @@
 Fun Photo Time
 ==============
 
-Image filtering fun for everyone!
+#### Image filtering fun for everyone!
 
 ![screenshot](/doc/screenshot-01.png)
 
