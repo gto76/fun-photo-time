@@ -9,7 +9,7 @@ How To Run on…
 --------------
 
 ### Windows
-1. [Download ZIP] (https://github.com/gto76/fun-photo-time/archive/master.zip)
+1. [Download ZIP](https://github.com/gto76/fun-photo-time/archive/master.zip)
 2. Extract it
 3. Double click run.bat
 
